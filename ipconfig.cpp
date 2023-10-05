@@ -625,17 +625,17 @@ void add ( char *prefix , int32_t num ) {
 
 	// make the hostname
 	char buf[64];
-	sprintf ( buf , "%s%"INT32"" , prefix , num );
+	sprintf ( buf , "%s%" INT32 "" , prefix , num );
 	// get ip
 	char *ips = getIp ( buf ) ;
 	// make another buf
 	char buf2[128];
 	// store that
-	sprintf ( buf2 , "10.5.%s %s%"INT32"" , ips , prefix , num );
+	sprintf ( buf2 , "10.5.%s %s%" INT32 "" , ips , prefix , num );
 	// add it
 	add ( buf2 );
 	// store the eth1 too
-	sprintf ( buf2 , "10.6.%s %si%"INT32"" , ips , prefix , num );
+	sprintf ( buf2 , "10.6.%s %si%" INT32 "" , ips , prefix , num );
 	// add it
 	add ( buf2 );
 }	
@@ -807,6 +807,6 @@ char *getIp ( char *name ) {
 		exit(-1);
 	}
 	static char s_buf[200];
-	sprintf ( s_buf ,"%"INT32".%"INT32"",big,10+num);
+	sprintf ( s_buf ,"%" INT32 ".%" INT32 "",big,10+num);
 	return s_buf;
 }

@@ -77,10 +77,10 @@ int main ( int argc , char *argv[] ) {
 	// set content length
 	int32_t clen = size - gbstrlen(mime);
 	char ttt[16];
-	sprintf ( ttt , "%07"INT32"", clen );
-	fprintf(stderr,"clen=%"INT32"\n",clen);
-	fprintf(stderr,"lastchar=%"INT32"\n",(int32_t)buf[size-1]);
-	fprintf(stderr,"lastchar-1=%"INT32"\n",(int32_t)buf[size-2]);
+	sprintf ( ttt , "%07" INT32 "", clen );
+	fprintf(stderr,"clen=%" INT32 "\n",clen);
+	fprintf(stderr,"lastchar=%" INT32 "\n",(int32_t)buf[size-1]);
+	fprintf(stderr,"lastchar-1=%" INT32 "\n",(int32_t)buf[size-2]);
 	char *cptr = strstr ( buf , "Content-Length: ");
 	if ( ! cptr ) { fprintf(stderr,"cptr NULL\n"); return -1; }
 	cptr += 16; // point to it
@@ -91,7 +91,7 @@ int main ( int argc , char *argv[] ) {
 	*xx = '\0';
 	fprintf(stderr,"mime=%s",buf);
 	*xx = c;
-	fprintf(stderr,"\nsending %"INT32" bytes\n",size);
+	fprintf(stderr,"\nsending %" INT32 " bytes\n",size);
 	// now inject it
 	int32_t sent = 0;
  loop:
@@ -99,13 +99,13 @@ int main ( int argc , char *argv[] ) {
 	fprintf(stderr,"n=%i\n",n);
 	if ( n == 0 && sent != size ) goto loop;
 	if ( n > 0 ) { 
-		fprintf(stderr,"did %"INT32"\n",n);
+		fprintf(stderr,"did %" INT32 "\n",n);
 		sent += n; 
 		goto loop; 
 	}
 	//if ( n == -1 && errno == EAGAIN ) goto loop;
 	if ( sent != size ) {
-		fprintf(stderr,"only sent %i bytes of %"INT32"\n",sent,size);
+		fprintf(stderr,"only sent %i bytes of %" INT32 "\n",sent,size);
 		fprintf(stderr,"err=%s\n",strerror(errno));
 		return -1;
 	}

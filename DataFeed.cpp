@@ -120,7 +120,7 @@ void DataFeed::parse ( char *dataFeedPage,
 			currLevelCost++;
 		}
 		else
-			log(LOG_INFO, "datafeed: Invalid Meta Tag Parsed [%"INT32"]:"
+			log(LOG_INFO, "datafeed: Invalid Meta Tag Parsed [%" INT32 "]:"
 			    " %s", tagLen, tag);
 	}
 }
@@ -128,12 +128,12 @@ void DataFeed::parse ( char *dataFeedPage,
 int32_t DataFeed::buildPage ( char *page ) {
 	// fill the page buffer with the data feed page
 	char *p = page;
-	p += sprintf(p, "<meta name=customerid content=\"%"INT64"\">\n"
+	p += sprintf(p, "<meta name=customerid content=\"%" INT64 "\">\n"
 			"<meta name=datafeedurl content=\"%s\">\n"
 			"<meta name=passcode content=\"%s\">\n"
 			"<meta name=status content=\"%d\">\n"
 			"<meta name=locked content=\"%d\">\n"
-			"<meta name=dfcreationtime content=\"%"INT32"\">\n",
+			"<meta name=dfcreationtime content=\"%" INT32 "\">\n",
 			m_customerId,
 			m_url,
 			m_passcode,
@@ -141,36 +141,36 @@ int32_t DataFeed::buildPage ( char *page ) {
 			m_isLocked,
 			m_creationTime );
 	// write the pricetable
-	p += sprintf(p, "<meta name=numtiers content=\"%"INT32"\">\n"
-			"<meta name=numresultlevels content=\"%"INT32"\">\n"
-			"<meta name=monthlyfee content=\"%"INT32"\">\n",
+	p += sprintf(p, "<meta name=numtiers content=\"%" INT32 "\">\n"
+			"<meta name=numresultlevels content=\"%" INT32 "\">\n"
+			"<meta name=monthlyfee content=\"%" INT32 "\">\n",
 			m_priceTable.m_numTiers,
 			m_priceTable.m_numResultLevels,
 			m_priceTable.m_monthlyFee );
 	// write the tiers
 	for (int32_t i = 0; i < m_priceTable.m_numTiers; i++)
-		p += sprintf(p, "<meta name=tiermax content=\"%"UINT32"\">\n",
+		p += sprintf(p, "<meta name=tiermax content=\"%"U INT32 "\">\n",
 				m_priceTable.m_tierMax[i] );
 	// write the result levels
 	for (int32_t i = 0; i < m_priceTable.m_numResultLevels; i++)
-		p += sprintf(p, "<meta name=resultlevel content=\"%"UINT32"\">\n",
+		p += sprintf(p, "<meta name=resultlevel content=\"%"U INT32 "\">\n",
 				m_priceTable.m_resultLevels[i] );
 	// write the costs
 	int32_t numCosts = m_priceTable.m_numTiers * m_priceTable.m_numResultLevels * 2;
 	for (int32_t i = 0; i < numCosts; i++)
-		p += sprintf(p, "<meta name=levelcost content=\"%"UINT32"\">\n",
+		p += sprintf(p, "<meta name=levelcost content=\"%"U INT32 "\">\n",
 				m_priceTable.m_levelCosts[i] );
 	// return the length
 	return (p - page);
 }
 
 void DataFeed::buildPage ( SafeBuf *sb ) {
-	sb->safePrintf("<meta name=customerid content=\"%"INT64"\">\n"
+	sb->safePrintf("<meta name=customerid content=\"%" INT64 "\">\n"
 		       "<meta name=datafeedurl content=\"%s\">\n"
 		       "<meta name=passcode content=\"%s\">\n"
 		       "<meta name=status content=\"%d\">\n"
 		       "<meta name=locked content=\"%d\">\n"
-		       "<meta name=dfcreationtime content=\"%"INT32"\">\n",
+		       "<meta name=dfcreationtime content=\"%" INT32 "\">\n",
 		       m_customerId,
 		       m_url,
 		       m_passcode,
@@ -178,23 +178,23 @@ void DataFeed::buildPage ( SafeBuf *sb ) {
 		       m_isLocked,
 		       m_creationTime );
 	// write the pricetable
-	sb->safePrintf("<meta name=numtiers content=\"%"INT32"\">\n"
-		       "<meta name=numresultlevels content=\"%"INT32"\">\n"
-		       "<meta name=monthlyfee content=\"%"INT32"\">\n",
+	sb->safePrintf("<meta name=numtiers content=\"%" INT32 "\">\n"
+		       "<meta name=numresultlevels content=\"%" INT32 "\">\n"
+		       "<meta name=monthlyfee content=\"%" INT32 "\">\n",
 		       m_priceTable.m_numTiers,
 		       m_priceTable.m_numResultLevels,
 		       m_priceTable.m_monthlyFee );
 	// write the tiers
 	for (int32_t i = 0; i < m_priceTable.m_numTiers; i++)
-		sb->safePrintf("<meta name=tiermax content=\"%"UINT32"\">\n",
+		sb->safePrintf("<meta name=tiermax content=\"%"U INT32 "\">\n",
 			       m_priceTable.m_tierMax[i] );
 	// write the result levels
 	for (int32_t i = 0; i < m_priceTable.m_numResultLevels; i++)
-		sb->safePrintf("<meta name=resultlevel content=\"%"UINT32"\">\n",
+		sb->safePrintf("<meta name=resultlevel content=\"%"U INT32 "\">\n",
 			       m_priceTable.m_resultLevels[i] );
 	// write the costs
 	int32_t numCosts = m_priceTable.m_numTiers*m_priceTable.m_numResultLevels*2;
 	for (int32_t i = 0; i < numCosts; i++)
-		sb->safePrintf("<meta name=levelcost content=\"%"UINT32"\">\n",
+		sb->safePrintf("<meta name=levelcost content=\"%"U INT32 "\">\n",
 			       m_priceTable.m_levelCosts[i] );
 }

@@ -426,11 +426,11 @@ void sleepWrapper ( int fd , void *state ) {
 	// if ok, loop back
 	if ( status ) { 
 		if ( ! g_isFlurbit )
-			fprintf(stderr,"monitor: %s got page ok in %"INT64" ms "
+			fprintf(stderr,"monitor: %s got page ok in %" INT64 " ms "
 				"(%s)\n",
 				s,took,g_queries[old]);
 		else
-			fprintf(stderr,"monitor: %s got page ok in %"INT64" ms "
+			fprintf(stderr,"monitor: %s got page ok in %" INT64 " ms "
 				"(flurbit.com/Albuquerque/NM)\n",
 				s,took);
 		s_count = 0; 
@@ -441,11 +441,11 @@ void sleepWrapper ( int fd , void *state ) {
 
 	if ( strlen(s_errbuf) > 20000 ) s_errbuf[20000] = '\0';
 	// make a pretty error msg
-	sprintf ( buf , "monitor %s:%"INT32": %s %s\n" , g_host,g_port,s,s_errbuf );
+	sprintf ( buf , "monitor %s:%" INT32 ": %s %s\n" , g_host,g_port,s,s_errbuf );
 	// log to console
 	//fprintf ( stderr , buf );
 	// there might %'s in the s_errbuf so do this!!
-	fprintf ( stderr , "monitor %s:%"INT32": %s %s\n" , g_host,g_port,s,s_errbuf );
+	fprintf ( stderr , "monitor %s:%" INT32 ": %s %s\n" , g_host,g_port,s,s_errbuf );
 
 	// count the error
 	s_count++;
@@ -568,7 +568,7 @@ bool getPage ( char *host , uint16_t port , char *path ) {
 	// . must have read something, at least this for the 'test' query!!!
 	// . no results page is only 
 	if ( sbuf.length() < 3*1024 ) {
-		sprintf ( s_errbuf ,"read: only read %"INT32" bytes for %s. "
+		sprintf ( s_errbuf ,"read: only read %" INT32 " bytes for %s. "
 			  "readbuf=%s" , sbuf.length()-1, 
 			  g_queries[g_qn],
 			  sbuf.getBufStart());
@@ -611,7 +611,7 @@ bool getPage ( char *host , uint16_t port , char *path ) {
 		//if ( slen > 30000 ) pbuf[30000] = '\0';
 		if ( slen > 1000 ) pbuf[1000] = '\0';
 		snprintf(s_errbuf,45000,
-			 "read: bad search results (len=%"INT32") for %s "
+			 "read: bad search results (len=%" INT32 ") for %s "
 			"readbuf="
 			 //"????"
 			 "%s"
@@ -660,11 +660,11 @@ int connectSock ( char *host , uint16_t port ) {
 	*/
 	pid_t pid = getpid();
 	char cmd[256];
-	sprintf(cmd,"/usr/bin/dig +int16_t  %s | tail -1 > /tmp/ip.%"UINT32"",
+	sprintf(cmd,"/usr/bin/dig +int16_t  %s | tail -1 > /tmp/ip.%"U INT32 "",
 		host,(int32_t)pid);
 	system ( cmd );
 	char filename[256];
-	sprintf(filename,"/tmp/ip.%"UINT32"",(int32_t)pid);
+	sprintf(filename,"/tmp/ip.%"U INT32 "",(int32_t)pid);
 	FILE *fd = fopen( filename,"r");
 	char ipstring[256];
 	fscanf(fd,"%s",ipstring);

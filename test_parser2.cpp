@@ -28,7 +28,7 @@ int main(int argc, char **argv){
 	if (argc == 3) {
 		numTests = atol(argv[2]);
 	}
-	printf("Running %"INT32" tests\n", numTests);
+	printf("Running %" INT32 " tests\n", numTests);
 
 	// Get File size
 	size_t file_size;
@@ -69,8 +69,8 @@ int main(int argc, char **argv){
 	gettimeofday(&tv2, &tz2);
 	printf("Done\n");
         int32_t elapsed = elapsed_usec(&tv1, &tv2);
-	printf("%"INT32" total chars, %"INT32" usec, %"INT32" char/usec "
-	       "(%"INT32" alnum, %"INT32" punct)\n", 
+	printf("%" INT32 " total chars, %" INT32 " usec, %" INT32 " char/usec "
+	       "(%" INT32 " alnum, %" INT32 " punct)\n", 
 	       totalCount, elapsed, totalCount/elapsed,alnumCount, punctCount);
 
 	printf("\nParsing with utf8Decode\n");
@@ -94,8 +94,8 @@ int main(int argc, char **argv){
 	gettimeofday(&tv2, &tz2);
 	elapsed = elapsed_usec(&tv1, &tv2);
 	printf("Done\n");
-	printf("%"INT32" total chars, %"INT32" usec, %"INT32" char/usec "
-	       "(%"INT32" alnum, %"INT32" punct)\n", 
+	printf("%" INT32 " total chars, %" INT32 " usec, %" INT32 " char/usec "
+	       "(%" INT32 " alnum, %" INT32 " punct)\n", 
 	       totalCount, elapsed, totalCount/elapsed,alnumCount, punctCount);
 }
 int32_t elapsed_usec(const timeval* tv1, const timeval *tv2)

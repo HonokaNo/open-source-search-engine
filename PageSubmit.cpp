@@ -343,7 +343,7 @@ void gotTagRec24 ( void *state ) {
 	sb->urlEncode ( query );
 	sb->safePrintf("&wherebox=");
 	sb->urlEncode ( location );
-	sb->safePrintf("&radius=%"INT32"\">",radius);
+	sb->safePrintf("&radius=%" INT32 "\">",radius);
 
 	sb->safePrintf("</iframe>");
 
@@ -366,9 +366,9 @@ void gotTagRec24 ( void *state ) {
 		       //   request form titan to gk144 though.
 		       "src=\"http://10.5.1.203:8000/?form=1&"
 		       "showform=1&"
-		       "formdocid=%"INT64"&"
-		       "formeventid=%"INT32"&"
-		       "formclockset=%"UINT32"&"
+		       "formdocid=%" INT64 "&"
+		       "formeventid=%" INT32 "&"
+		       "formclockset=%"U INT32 "&"
 		       "formurl="
 		       , st->m_formDocId
 		       , st->m_formEventId
@@ -876,14 +876,14 @@ void processLoop24 ( void *state ) {
 		}
 			
 		if ( flags == FI_DATE_START ) {
-			vbuf.safePrintf("%s %"INT32""
+			vbuf.safePrintf("%s %" INT32 ""
 					, getMonthName(er.m_month1)
 					, (int32_t)er.m_dayNum1
 					);
 		}
 
 		if ( flags == FI_DATE_END ) {
-			vbuf.safePrintf("%s %"INT32""
+			vbuf.safePrintf("%s %" INT32 ""
 					, getMonthName(er.m_month2)
 					, (int32_t)er.m_dayNum2
 					);
@@ -894,7 +894,7 @@ void processLoop24 ( void *state ) {
 			int32_t h = er.m_hour1;
 			if ( h == 12 ) ampm = "pm";
 			if ( h > 12 ) { ampm = "pm"; h -= 12; }
-			vbuf.safePrintf("%"INT32":%02"INT32" %s"
+			vbuf.safePrintf("%" INT32 ":%02" INT32 " %s"
 					, (int32_t)h
 					, (int32_t)er.m_min1
 					, ampm
@@ -906,7 +906,7 @@ void processLoop24 ( void *state ) {
 			int32_t h = er.m_hour2;
 			if ( h == 12 ) ampm = "pm";
 			if ( h > 12 ) { ampm = "pm"; h -= 12; }
-			vbuf.safePrintf("%"INT32":%02"INT32" %s"
+			vbuf.safePrintf("%" INT32 ":%02" INT32 " %s"
 					, (int32_t)h
 					, (int32_t)er.m_min2
 					, ampm
@@ -915,8 +915,8 @@ void processLoop24 ( void *state ) {
 
 		if ( flags == FI_URL ) {
 			// make event guru url
-			vbuf.safePrintf("http://www.eventguru.com/?id=%"UINT64"."
-					"%"UINT64"" 
+			vbuf.safePrintf("http://www.eventguru.com/?id=%" UINT64 "."
+					"%" UINT64 "" 
 					, mr->m_docId
 					, mr->m_eventHash64
 					);
@@ -1191,7 +1191,7 @@ void gotImage ( void *state , TcpSocket *socket ) {
 		SafeBuf imgBuf;
 		imgBuf.safeMemcpy ( hm.getContent() , hm.getContentLen() );
 		char fn[128];
-		sprintf(fn,"/tmp/tmpimg%"UINT32"",getTimeLocal());
+		sprintf(fn,"/tmp/tmpimg%"U INT32 "",getTimeLocal());
 		imgBuf.save ( "" , fn );
 		// convert it
 		char cmd[512];
@@ -1206,7 +1206,7 @@ void gotImage ( void *state , TcpSocket *socket ) {
 		// load it (tmp/tmpimgxxxxxx4.png)
 		imgBuf.purge();
 		char fn2[128];
-		sprintf(fn2,"/tmp/tmpimg%"UINT32"-4.png",getTimeLocal());
+		sprintf(fn2,"/tmp/tmpimg%"U INT32 "-4.png",getTimeLocal());
 		imgBuf.load ( "" , fn2 );
 		// now insert that into the http reply
 		char *insertionPoint = strstr(rb->getBufStart(),"filename=\"");
@@ -1222,7 +1222,7 @@ void gotImage ( void *state , TcpSocket *socket ) {
 		imgData += 4;
 		int32_t dataPos = imgData - rb->getBufStart();
 		// note it
-		log("submit: inserting image of %"INT32" bytes",imgBuf.length());
+		log("submit: inserting image of %" INT32 " bytes",imgBuf.length());
 		// then the image content
 		rb->insert2 ( imgBuf.getBufStart() , imgBuf.length(),dataPos );
 	}
@@ -1456,7 +1456,7 @@ void adjustContentLength ( SafeBuf *rb ) {
 
 	// write that out
 	char format[64];
-	sprintf(format,"%%0%"INT32"li",nd);
+	sprintf(format,"%%0%" INT32 "li",nd);
 	char ttt[32];
 	int32_t toPrint = sprintf(ttt,format,clen);
 	// just copy it over, padded with zeroes

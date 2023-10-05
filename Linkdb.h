@@ -749,10 +749,12 @@ class LinkInfo {
 	//int32_t   getNumTotalInlinks   ( ) { 
 	//	if ( this == NULL ) return 0; return m_numTotalInlinks; };
 	int32_t   getNumLinkTexts ( ) { 
-		if ( this == NULL ) return 0; return m_numStoredInlinks; };
+		return m_numStoredInlinks;
+	};
 
 	int32_t   getNumGoodInlinks   ( ) { 
-		if ( this == NULL ) return 0; return m_numGoodInlinks; };
+		return m_numGoodInlinks;
+	};
 
 	// how many of the inlinks are from the same ip top?
 	//int32_t   getNumInternalInlinks( ) { 

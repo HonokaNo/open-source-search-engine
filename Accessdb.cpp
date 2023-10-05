@@ -128,7 +128,7 @@ bool Accessdb::addAccess ( HttpRequest *hr , int32_t ip ) {
 	m_arec[1].m_key128 = g_accessdb.makeKey2(now,widgetId64);
 	m_arec[1].m_ip     = ip;
 	m_arec[1].m_fbId   = fbId;
-	//log("msg4: timestamp = %"UINT64"",now);
+	//log("msg4: timestamp = %" UINT64 "",now);
 	// this has like a 1 second delay before it flushes so you might
 	// not see you current access until that passes
 	if ( ! m_msg4InUse &&
@@ -456,7 +456,7 @@ void gotMulticastReplyWrapperaa ( void *state , void *state2 ) {
 		      "<font color=black>"
 		      "<b>"
 		      "Displaying traffic data for the widget of id "
-		      "<a href=http://www.facebook.com/%"UINT64">%"UINT64"</a>"
+		      "<a href=http://www.facebook.com/%" UINT64 ">%" UINT64 "</a>"
 		      "</b>"
 		      "</font>"
 		      "</center>"
@@ -481,11 +481,11 @@ void gotMulticastReplyWrapperaa ( void *state , void *state2 ) {
 		      "<td>%s</td></tr>"
 		      "<tr><td>Your Facebook ID</td>"
 		      "<td>"
-		      "<a href=\"http://www.facebook.com/%"INT64"\">%"INT64"</a>"
+		      "<a href=\"http://www.facebook.com/%" INT64 "\">%" INT64 "</a>"
 		      "</td></tr>"
 		      "<tr><td>Your Widget ID</td>"
 		      "<td>"
-		      "<a href=\"http://www.facebook.com/%"INT64"\">%"INT64"</a>"
+		      "<a href=\"http://www.facebook.com/%" INT64 "\">%" INT64 "</a>"
 		      "</td></tr>"
 		      "</table><br>"
 		      ,st->m_msgfb.m_fbrecPtr->ptr_name
@@ -534,9 +534,9 @@ void gotMulticastReplyWrapperaa ( void *state , void *state2 ) {
 			      "<td><nobr>%s</nobr></td>"
 			      "<td>%s</td>"
 			      "<td>%s</td>"
-			      "<td><a href=http://www.facebook.com/%"UINT64">"
-			      "%"UINT64"</a></td>"
-			      "<td>%"UINT64"</td>"
+			      "<td><a href=http://www.facebook.com/%" UINT64 ">"
+			      "%" UINT64 "</a></td>"
+			      "<td>%" UINT64 "</td>"
 			      "<td>$%.02f</td>"
 			      "</tr>"
 			      ,time // fbrec->m_firstFacebookLogin
@@ -617,7 +617,7 @@ void gotMulticastReplyWrapperaa ( void *state , void *state2 ) {
 		char time[256];
 		strftime ( time , 256 , "%b %e %T %Y", timeStruct );
 		sb.safePrintf("<tr>"
-			      //"<td>%"UINT64"</td>"
+			      //"<td>%" UINT64 "</td>"
 			      "<td><nobr>%s</nobr></td>"
 			      "<td>%s</td>"
 			      "<td>"
@@ -626,16 +626,16 @@ void gotMulticastReplyWrapperaa ( void *state , void *state2 ) {
 			      );
 		if ( ar->m_fbId )
 			sb.safePrintf("<a href=http://www.facebook."
-				      "com/%"UINT64">%"UINT64""
+				      "com/%" UINT64 ">%" UINT64 ""
 				      "</a>"
 				      , ar->m_fbId
 				      , ar->m_fbId
 				      );
 		else
-			sb.safePrintf("%"UINT64"" , ar->m_fbId );
+			sb.safePrintf("%" UINT64 "" , ar->m_fbId );
 
 		sb.safePrintf ( "</td>"
-				"<td>%"UINT64"</td>"
+				"<td>%" UINT64 "</td>"
 				"</tr>"
 				, widgetId
 				);
@@ -656,7 +656,7 @@ void gotMulticastReplyWrapperaa ( void *state , void *state2 ) {
 	// otherwise the login doesn't "stick"
 	SafeBuf cb;
 	if ( st->m_msgfb.m_fbId )
-		cb.safePrintf("Set-Cookie: fbid=%"UINT64";\r\n",
+		cb.safePrintf("Set-Cookie: fbid=%" UINT64 ";\r\n",
 			      st->m_msgfb.m_fbId);
 	char *cookiePtr = NULL;
 	if ( cb.length() ) cookiePtr = cb.getBufStart();
@@ -1051,15 +1051,15 @@ bool printCalendar ( SafeBuf &sb ,
 		      //"<font size=-2>"
 		      //"<a "
 		      //"style=\"color:black\" "
-		      //"href=/traffic?displayyear=%"INT32"&displaymonth=%"INT32">%s</a>"
+		      //"href=/traffic?displayyear=%" INT32 "&displaymonth=%" INT32 ">%s</a>"
 		      //"</font>"
 		      "</td>"
-		      "<td colspan=5><center>%s %"INT32"</center></td>"
+		      "<td colspan=5><center>%s %" INT32 "</center></td>"
 		      "<td>"
 		      //"<font size=-2>"
 		      //"<a "
 		      //"style=\"color:black\" "
-		      //"href=/traffic?displayyear=%"INT32"&displaymonth=%"INT32">%s</a>"
+		      //"href=/traffic?displayyear=%" INT32 "&displaymonth=%" INT32 ">%s</a>"
 		      //"</font>"
 		      "</td>"
 		      "</tr>\n"
@@ -1124,11 +1124,11 @@ bool printCalendar ( SafeBuf &sb ,
 				      // set hidden tag clockset val
 				      // set all to gray if not yellow
 				      // set clicked to red if not yellow
-				      "top.window.href='/traffic?sd=%"UINT32"';\">"
+				      "top.window.href='/traffic?sd=%"U INT32 "';\">"
 				      , startDate + (count-1)*86400
 				      );
 			*/
-			sb.safePrintf("><a href=/account.html?sd=%"UINT32">%"INT32"</a>"
+			sb.safePrintf("><a href=/account.html?sd=%"U INT32 ">%" INT32 "</a>"
 				      "</td>" 
 				      , startDate + (count-1)*86400
 				      , count );

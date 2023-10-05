@@ -138,7 +138,7 @@ readLoop:
 	if ( n <= 0 ) goto readLoop;
 	s = inet_ntoa(from.sin_addr);
 	fromport = (uint32_t)ntohs(from.sin_port);
-	fprintf(stderr,"got request from ip %s:%"UINT32"\n",
+	fprintf(stderr,"got request from ip %s:%"U INT32 "\n",
 		s,fromport);
 	to.sin_family      = AF_INET;
 	to.sin_addr.s_addr = from.sin_addr.s_addr;
@@ -153,7 +153,7 @@ readLoop:
 	if ( n != bytes ) fprintf(stderr,"sendto:%s\n",strerror(errno));
 	else count += n;
 	//usleep(1);
-	//fprintf(stderr,"sent %"INT32" bytes (of %"INT32")\n",count,s_n);
+	//fprintf(stderr,"sent %" INT32 " bytes (of %" INT32 ")\n",count,s_n);
 	if ( count < nn ) goto sendLoop;
 	fprintf(stderr,"finished sending now listening again\n");
 	goto readLoop;
@@ -172,12 +172,12 @@ readLoop:
 	n = recvfrom (sock,dgram,DGRAM_SIZE,0,(sockaddr *)&from, &fromLen);
 	if ( n <= 0 ) goto readLoop2;
 	count += n;
-	//fprintf(stderr,"read %"INT32" bytes (of %"INT32")\n",count,s_n);
+	//fprintf(stderr,"read %" INT32 " bytes (of %" INT32 ")\n",count,s_n);
 	if ( count < s_n ) goto readLoop2;
 	float secs = gettimeofdayInMilliseconds() - startTime;
 	secs /= 1000.0;
 	float mb = (float)count * 8.0 / (1024.0*1024.0);
 	float mbps = mb / secs;
-	fprintf(stderr,"got %"INT32" bytes at %.2f Mbps\n", count , mbps );
+	fprintf(stderr,"got %" INT32 " bytes at %.2f Mbps\n", count , mbps );
 	return 1;
 }

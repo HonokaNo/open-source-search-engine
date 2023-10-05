@@ -110,7 +110,7 @@ void Flags::setFlag( int32_t n, char set ) {
 
 void Flags::dumpFlags() {
 	for ( int32_t i = 0; i < m_numFlags; i++ ) {
-		log(LOG_DEBUG, "AWL: Flag %"INT32":%d", i, (int)m_flags[i]);
+		log(LOG_DEBUG, "AWL: Flag %" INT32 ":%d", i, (int)m_flags[i]);
 	}
 }
 
@@ -253,7 +253,7 @@ void testFlags() {
 	for ( int32_t i = 0; i < flags.getNumFlags(); i++ ) {
 		GBASSERT( ! flags.getFlag( i ) );
 	}
-	log(LOG_DEBUG, "AWL: Testing Flags 15 (test case size:%"INT32")...", 
+	log(LOG_DEBUG, "AWL: Testing Flags 15 (test case size:%" INT32 ")...", 
 	    TESTCASESIZE);
 	Timer timer;
 	timer.start();
@@ -270,7 +270,7 @@ void testFlags() {
 			if ( ! wasSet ) cnt++;
 			flags.setFlag( j, r );
 			GBASSERT( flags.getFlag( j ) == r );
-			//log(LOG_DEBUG, "AWL: set j:%"INT32" wasSet:%d set:%"INT32", cnt:%"INT32"", 
+			//log(LOG_DEBUG, "AWL: set j:%" INT32 " wasSet:%d set:%" INT32 ", cnt:%" INT32 "", 
 			//    j, wasSet, flags.getNumSet(), cnt);
 			GBASSERT( flags.getNumSet() == cnt );
 			GBASSERT( flags.getNumFlags() == TESTCASESIZE );
@@ -298,7 +298,7 @@ void testFlags() {
 					     flags.getHighestSet() < j );
 				hs = flags.getHighestSet();
 			}
-			//log(LOG_DEBUG, "AWL: unset j:%"INT32" wasSet:%d set:%"INT32", cnt:%"INT32"", 
+			//log(LOG_DEBUG, "AWL: unset j:%" INT32 " wasSet:%d set:%" INT32 ", cnt:%" INT32 "", 
 			//    j, wasSet, flags.getNumSet(), cnt);
 			GBASSERT( ! flags.getFlag( j ) );
 			GBASSERT( flags.getNumSet() == cnt );
@@ -322,6 +322,6 @@ void testFlags() {
 		GBASSERT( ! flags.getFlag( i ) );
 	}
 	timer.stop();
-	log("AWL: Flags %"INT32" tests took %lld ms", TESTCASESIZE, timer.getSpan());
+	log("AWL: Flags %" INT32 " tests took %lld ms", TESTCASESIZE, timer.getSpan());
 	log(LOG_DEBUG, "AWL: Flags tests passed. :)");
 }

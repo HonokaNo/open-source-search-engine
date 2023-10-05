@@ -634,7 +634,7 @@ bool sendPageOverview ( TcpSocket *s , HttpRequest *r ) {
 	p += sprintf(p,"<tr><td colspan=3><b>C error codes</b></td></tr>\n");
 	for ( int32_t i = 1 ; i <= EMEDIUMTYPE ; i++ ) {
 		char *b = p;
-		p += sprintf(p,"<tr bgcolor=#%s><td>%"INT32"</td>"
+		p += sprintf(p,"<tr bgcolor=#%s><td>%" INT32 "</td>"
 			     "<td>%s</td><td>",
 			     c,i,strerror(i));
 		char *s = p;
@@ -678,7 +678,7 @@ bool sendPageOverview ( TcpSocket *s , HttpRequest *r ) {
 				     "descriptor. This should not happen.");
 			break;
 		case ENOBUFS :
-			p += sprintf(p,"a - Collection name limit of %"INT32" is "
+			p += sprintf(p,"a - Collection name limit of %" INT32 " is "
 				     "exceeded.",(int32_t)MAX_COLL_LEN);
 			break;
 		case ENOMEM: 
@@ -696,7 +696,7 @@ bool sendPageOverview ( TcpSocket *s , HttpRequest *r ) {
 		     "</td></tr><br><br>\n");
 	for ( int32_t i = EDUMPFAILED ; i <= ECANCELACK ; i++ ) {
 		char *b = p;
-		p += sprintf(p,"<tr bgcolor=#%s><td>%"INT32"</td>"
+		p += sprintf(p,"<tr bgcolor=#%s><td>%" INT32 "</td>"
 			     "<td>%s</td><td>",
 			     c,i,mstrerror(i));
 		char *s = p;
@@ -715,18 +715,18 @@ bool sendPageOverview ( TcpSocket *s , HttpRequest *r ) {
 			p += sprintf(p,"a - Collection name being added "
 				     "contains an illegal character, or an "
 				     "empty name was provided, or the name "
-				     "is more than %"INT32" characters.<br>",
+				     "is more than %" INT32 " characters.<br>",
 				     (int32_t)MAX_COLL_LEN); 
 			// SpiderLoop.cpp Msg7.cpp PageInject.cpp
 			p += sprintf(p,"i - No URL was provided, or URL "
 				     "has no hostname. Or provided URL is "
-				     "currently being injected. Or %"INT32" "
+				     "currently being injected. Or %" INT32 " "
 				     "injects are currently in progress.",
 				     (int32_t)MAX_SPIDERS);
 			break;
 	       	//case EURLTOOLONG :
 	       	//p += sprintf(p,"i - Injected URL was longer than "
-	       	//	     "%"INT32" characters.",(int32_t)MAX_URL_LEN);
+	       	//	     "%" INT32 " characters.",(int32_t)MAX_URL_LEN);
 	       	//break;
 		case EBADREPLY:
 			p += sprintf(p,"i - Received bad internal reply. You "
@@ -749,7 +749,7 @@ bool sendPageOverview ( TcpSocket *s , HttpRequest *r ) {
 			break;
 		case EBUFTOOSMALL:
 			p += sprintf(p,"i - Injected URL was longer than "
-				     "%"INT32" characters. Or the injected "
+				     "%" INT32 " characters. Or the injected "
 				     "document was too big to fit in memory, "
 				     "so consider increasing "
 				     "<titledbMaxTreeMem> in gb.conf." 
@@ -1629,7 +1629,7 @@ bool sendPageOverview ( TcpSocket *s , HttpRequest *r ) {
 "<td>There was a int16_tage of memory to properly "
 "process the request.</td></tr>\n"
 
-"<tr><td><b>%05"INT32" %s</b></td>"
+"<tr><td><b>%05" INT32 " %s</b></td>"
 "<td>A cached page was not found when it should have "
 "been, likely due to corrupt data on disk.</td></tr>\n"
 

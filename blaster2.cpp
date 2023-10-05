@@ -203,12 +203,12 @@ int main ( int argc , char *argv[] ) {
 		f.close();
 	}
 	// log a msg
-	log(LOG_INIT,"blaster: read %"INT32" urls into memory", n );
+	log(LOG_INIT,"blaster: read %" INT32 " urls into memory", n );
 
 	int32_t linesToSkip = 0;
 	if ( argc >=  5 ) {
 		linesToSkip = atoi ( argv[4] );
-		log (LOG_INIT,"blaster: skipping %"INT32" urls",linesToSkip);
+		log (LOG_INIT,"blaster: skipping %" INT32 " urls",linesToSkip);
 	}
 	for ( int32_t i = 0; i < linesToSkip && s_p < s_pend; i++ )
 		s_p += gbstrlen(s_p) + 1;
@@ -267,8 +267,8 @@ void startSpidering ( ) {
 	double took = (double)(now - s_startTime) / 1000.0 ;
 	// log this every 20 urls
 	if ( s_printIt && s_total > 0 && ( s_total % 20 ) == 0 ) {
-		logf(LOG_INFO,"did %"INT32" urls in %f seconds. %f urls per second."
-		    " threads now = %"INT32".",
+		logf(LOG_INFO,"did %" INT32 " urls in %f seconds. %f urls per second."
+		    " threads now = %" INT32 ".",
 		    s_total ,  took , ((double)s_total) / took, s_launched);
 		s_printIt = false;
 	}
@@ -349,7 +349,7 @@ void startSpidering ( ) {
 	//if ( s_launched > 0 ) return;
 	if ( s_server || s_p < s_pend ) return;
 	// otherwise, we're all done
-	logf(LOG_INFO,"blaster: did %"INT32" urls in %f seconds. %f urls per "
+	logf(LOG_INFO,"blaster: did %" INT32 " urls in %f seconds. %f urls per "
 	     "second.",
 	    s_total ,  took , ((double)s_total) / took );
 	// exit now
@@ -400,15 +400,15 @@ void gotDocWrapper ( void *state , TcpSocket *s ) {
 
 	// log msg
 	if ( g_errno ) 
-		logf(LOG_INFO,"blaster: got doc (status=%"INT32") (%"INT32") (%"INT32"ms) %s : "
+		logf(LOG_INFO,"blaster: got doc (status=%" INT32 ") (%" INT32 ") (%" INT32 "ms) %s : "
 		     "%s", status,
 		      s->m_readOffset      , 
 		      (int32_t)(now - s->m_startTime) , 
 		      (char *)state        , 
 		      mstrerror(g_errno)   );
 	else
-		logf(LOG_INFO,"blaster: got doc (status=%"INT32") (%"INT32") (%"INT32"ms) "
-		     "(hash=%"XINT32") %s", status,
+		logf(LOG_INFO,"blaster: got doc (status=%" INT32 ") (%" INT32 ") (%" INT32 "ms) "
+		     "(hash=%"X INT32 ") %s", status,
 		      s->m_readOffset      , 
 		      (int32_t)(now - s->m_startTime) , 
 		      h ,
@@ -451,8 +451,8 @@ bool getWords() {
 		s_words += '\0';
 	}
 	fclose ( fd );
-	log("blaster: read %"INT32" words, "
-	    "%"INT32" bytes in from dictionary.", 
+	log("blaster: read %" INT32 " words, "
+	    "%" INT32 " bytes in from dictionary.", 
 	    (int32_t)(s_windices.length() / sizeof(int32_t)), 
 	    (int32_t)s_words.length());
 	return true;

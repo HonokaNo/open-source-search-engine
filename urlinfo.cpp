@@ -138,7 +138,7 @@ int main ( int argc , char *argv[] ) {
 	if ( sg.m_siteLen )
 		printf("site: %s\n",sg.m_site);
 
-	printf("isRoot: %"INT32"\n",(int32_t)u.isRoot());
+	printf("isRoot: %" INT32 "\n",(int32_t)u.isRoot());
 
 	/*
 	bool perm = ::isPermalink ( NULL        , // coll
@@ -147,7 +147,7 @@ int main ( int argc , char *argv[] ) {
 				    CT_HTML     , // contentType
 				    NULL        , // LinkInfo ptr
 				    false       );// isRSS?
-	printf ("isPermalink: %"INT32"\n",(int32_t)perm);
+	printf ("isPermalink: %" INT32 "\n",(int32_t)perm);
 	*/
 
 	// print the path too
@@ -174,19 +174,19 @@ int main ( int argc , char *argv[] ) {
 
 	// the probable docid
 	int64_t pd = g_titledb.getProbableDocId(&u);
-	printf("pdocid: %"UINT64"\n", pd );
-	printf("dom8: 0x%"XINT32"\n", (int32_t)g_titledb.getDomHash8FromDocId(pd) );
-	//printf("ext23: 0x%"XINT32"\n",g_tfndb.makeExt(&u));
+	printf("pdocid: %" UINT64 "\n", pd );
+	printf("dom8: 0x%"X INT32 "\n", (int32_t)g_titledb.getDomHash8FromDocId(pd) );
+	//printf("ext23: 0x%"X INT32 "\n",g_tfndb.makeExt(&u));
 	if ( u.isLinkLoop() ) printf("islinkloop: yes\n");
 	else                  printf("islinkloop: no\n");
 	int64_t hh64 = u.getHostHash64();
-	printf("hosthash64: 0x%016"XINT64"\n",hh64);
+	printf("hosthash64: 0x%016" XINT64 "\n",hh64);
 	uint32_t hh32 = u.getHostHash32();
-	printf("hosthash32: 0x%08"XINT32" (%"UINT32")\n",hh32,hh32);
+	printf("hosthash32: 0x%08"X INT32 " (%"U INT32 ")\n",hh32,hh32);
 	int64_t dh64 = u.getDomainHash64();
-	printf("domhash64: 0x%016"XINT64"\n",dh64);
+	printf("domhash64: 0x%016" XINT64 "\n",dh64);
 	int64_t uh64 = u.getUrlHash64();
-	printf("urlhash64: 0x%016"XINT64"\n",uh64);
+	printf("urlhash64: 0x%016" XINT64 "\n",uh64);
 	//if(isUrlUnregulated(NULL ,0,&u)) printf("unregulated: yes\n");
 	//else                            printf("unregulated: no\n");
 	goto loop;

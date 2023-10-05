@@ -30,8 +30,8 @@ int main ( ) {
 	gettimeofday ( &tv , NULL );
        int64_t now2=(int64_t)(tv.tv_usec/1000)+((int64_t)tv.tv_sec)*1000;
        
-	fprintf(stderr,"did %"INT32" access in %"INT64" ms.\n",loops*np,now2-now);
-	fprintf(stderr,"did %"INT64" access per second.\n",
+	fprintf(stderr,"did %" INT32 " access in %" INT64 " ms.\n",loops*np,now2-now);
+	fprintf(stderr,"did %" INT64 " access per second.\n",
 		(1000LL*(((int64_t)loops)*((int64_t)np)))/(now2-now));
 	return 0;
 
@@ -41,22 +41,22 @@ int main ( ) {
 
 	for ( int32_t i = 0 ; i < 10000 ; i++ ) {
 		sizes[i] = rand() % 1000;
-		//fprintf(stderr,"i=%"INT32"\n",i);
+		//fprintf(stderr,"i=%" INT32 "\n",i);
 		//ptrs[i] = (char *)mmalloc ( sizes[i] ,NULL );
 		ptrs[i] = (char *)malloc ( sizes[i] );
 		if ( ! ptrs[i] ) { 
-			fprintf(stderr,"failed on #%"INT32"",i); 
+			fprintf(stderr,"failed on #%" INT32 "",i); 
 			goto freeThem;
 		}
 		end = i;
-		//fprintf(stderr,"ptr=%"INT32"\n",(int32_t)ptrs[i]);
+		//fprintf(stderr,"ptr=%" INT32 "\n",(int32_t)ptrs[i]);
 	}
 
  freeThem:
 	// now free all
 	for ( int32_t i = 0 ; i < end ; i++ ) {
 	// for ( int32_t i = 99 ; i >= 0 ; i-- ) {
-		//fprintf(stderr,"fi=%"INT32"\n",i);
+		//fprintf(stderr,"fi=%" INT32 "\n",i);
 		//mfree ( ptrs[i] , sizes[i] , NULL );
 		free ( ptrs[i] );
 	}

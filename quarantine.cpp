@@ -64,11 +64,11 @@ int main ( int argc , char *argv[] ) {
 		n++;
 		if ( total >= maxMem ) break;
 		if ( (n % 1000) == 0 )
-			fprintf(stderr,"quarantine: alloc block #%"INT32"\n",n);
+			fprintf(stderr,"quarantine: alloc block #%" INT32 "\n",n);
 	}
 	fprintf(stderr,
-		"quarantine: grabbed %"INT32" chunks of ram for "
-		"total of %"UINT64" : %s\n",
+		"quarantine: grabbed %" INT32 " chunks of ram for "
+		"total of %" UINT64 " : %s\n",
 		n,total,strerror(errno));
 
 	fprintf(stderr,
@@ -87,12 +87,12 @@ int main ( int argc , char *argv[] ) {
 			mlock ( mem[i] , chunkSize );
 		}
 		if ( (i % 1000) == 0 )
-			fprintf(stderr,"quarantine: test block #%"INT32"\n",i);
+			fprintf(stderr,"quarantine: test block #%" INT32 "\n",i);
 	}
 
 	if ( badRam ) {
 		fprintf(stderr,
-			"quarantine: quarantining %"UINT64" bytes of bad ram.\n",
+			"quarantine: quarantining %" UINT64 " bytes of bad ram.\n",
 			badRam);
 		// sleep forever
 		for ( ; ; ) sleep ( 100 );

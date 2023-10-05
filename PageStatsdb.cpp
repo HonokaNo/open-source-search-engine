@@ -182,7 +182,7 @@ void genStatsGraphTable(SafeBuf *buf, StateStatsdb *st) {
 	g_statsdb.m_gw.purge();
 	g_statsdb.m_dupTable.reset();
 
-	//"<img src=\"/stats%"INT32".gif\" height=%"INT32" width=%"INT32" "
+	//"<img src=\"/stats%" INT32 ".gif\" height=%" INT32 " width=%" INT32 " "
 	//"border=\"0px\">"
 	//st->m_hostId,
 	//g_statsdb.getImgHeight(),
@@ -258,7 +258,7 @@ void sendReply ( void *state ) {
 
 	// make the query string
 	char qs[1024];
-	sprintf(qs,"&date_period=%"INT32"&date_units=%"INT32"&samples=%"INT32"",
+	sprintf(qs,"&date_period=%" INT32 "&date_units=%" INT32 "&samples=%" INT32 "",
 		st->m_datePeriod,
 		st->m_dateUnits,
 		st->m_samples);
@@ -327,7 +327,7 @@ void writeControls ( SafeBuf *buf, StateStatsdb *st ) {
 		"<tr>"
 		"<td>Moving Average Samples</td>"
 		"<td>"
-		"<input type=text name=samples length=20 value=\"%"INT32"\">"
+		"<input type=text name=samples length=20 value=\"%" INT32 "\">"
 		"</td>"
 		"</tr>"
 		"<tr class=\"show\" id=\"e_date_start\">\n"
@@ -606,9 +606,9 @@ void writeControls ( SafeBuf *buf, StateStatsdb *st ) {
 	buf->safePrintf ( ">Sample</option>\n");
 
 	for (int32_t i = 0; i < g_hostdb.getNumHosts(); i++) {
-		buf->safePrintf ( "<option value=\"%"INT32"\"", i );
+		buf->safePrintf ( "<option value=\"%" INT32 "\"", i );
 		if ( st->m_hostId == i ) buf->safePrintf ( " selected " );
-		buf->safePrintf ( ">Host %"INT32"</option>\n", i );
+		buf->safePrintf ( ">Host %" INT32 "</option>\n", i );
 	}
 
 	// Print the statistic selector.

@@ -183,7 +183,7 @@ bool IndexTable::addLists (IndexList *lists, int32_t numLists, bool forcePhrases
 	// ensure they aren't messing with us after calling set() above
 	if ( m_numTerms != numLists ) {
 		errno = EBADENGINEER;
-		return log("IndexTable::addLists: numLists=%"INT32", should be %"INT32"",
+		return log("IndexTable::addLists: numLists=%" INT32 ", should be %" INT32 "",
 			   numLists, m_numTerms );
 	}
 	// which bits are for singletons?
@@ -221,7 +221,7 @@ bool IndexTable::addLists (IndexList *lists, int32_t numLists, bool forcePhrases
 	//   instead of 20%!
 	if ( ! growTable ( (numKeys * 200) / 100 ) ) return false;
 	// another timestamp
-	log("IndexTable::addLists: adding %"INT32" lists now t=%"INT64", slots=%"INT32"",
+	log("IndexTable::addLists: adding %" INT32 " lists now t=%" INT64 ", slots=%" INT32 "",
 	    numLists , gettimeofdayInMilliseconds() , m_numSlots );
 	// keep track of collisions in hash table
 	//s_collisions = 0;
@@ -231,19 +231,19 @@ bool IndexTable::addLists (IndexList *lists, int32_t numLists, bool forcePhrases
 		// . uses m_startTermNums and m_endTermNums for setting 
 		//   multiple bits for phrases to dilute the effects of 
 		//   truncation limit
-		log("IndexTable::addLists: getting bit mask now t=%"INT64"",
+		log("IndexTable::addLists: getting bit mask now t=%" INT64 "",
 		    gettimeofdayInMilliseconds() );
 		uint16_t termBitMask = getTermBitMask ( i );
-		log("IndexTable::addLists: got bit mask now t=%"INT64", sign=%c",
+		log("IndexTable::addLists: got bit mask now t=%" INT64 ", sign=%c",
 		    gettimeofdayInMilliseconds() , m_termSigns[i] );
-		log("adding list #%"INT32", size=%"INT32"",i,lists[i].getListSize());
+		log("adding list #%" INT32 ", size=%" INT32 "",i,lists[i].getListSize());
 		addList ( &lists[i] , m_scoreWeights[i] , m_termSigns[i] ,
 			  termBitMask ) ;
 	}
-	//log("IndexTable::addLists: collisions = %"INT32", #keys=%"INT32", #slots=%"INT32"",
+	//log("IndexTable::addLists: collisions = %" INT32 ", #keys=%" INT32 ", #slots=%" INT32 "",
 	//    s_collisions, numKeys , m_numSlots );
 	// another timestamp
-	log("IndexTable::addLists: setting the top docIds now t=%"INT64"",
+	log("IndexTable::addLists: setting the top docIds now t=%" INT64 "",
 	    gettimeofdayInMilliseconds() );
 	// now set the top docIds
 	if ( ! setTopDocIds ( m_docsWanted , forcePhrases ) ) return false;
@@ -291,12 +291,12 @@ void IndexTable::addList ( IndexList *list, int32_t scoreWeight, char termSign ,
 		// . it's faster to use a power-of-2 table size and a mask
 		n = ( (*(uint32_t *)k) >>1 ) & m_mask;
 		// debug
-		//log("docIdBits=%"UINT64" slot=%"INT32"",docIdBits,n);
+		//log("docIdBits=%" UINT64 " slot=%" INT32 "",docIdBits,n);
 		// . chain until we find empty bucket
 		// . empty bucket has a score of 0
 		while ( m_scores[n] != 0 && m_docIdBits[n] != docIdBits ) {
 			//s_collisions++;
-			//log("COLLISION with docIdBits=%"UINT64"",m_docIdBits[n]);
+			//log("COLLISION with docIdBits=%" UINT64 "",m_docIdBits[n]);
 			if ( ++n >= m_numSlots ) n = 0;
 		}
 		// if it's new come here since m_termBits was not calloc'd
@@ -442,7 +442,7 @@ bool IndexTable::setTopDocIds ( int32_t topn , bool forcePhrases ) {
 	// timing debug
 	// this chunk of code takes the longest (1-4 seconds), the bubble sort
 	// is only 15ms
-	log("setTopDocIds: phase 1 took %"INT64" ms", 
+	log("setTopDocIds: phase 1 took %" INT64 " ms", 
 	    gettimeofdayInMilliseconds() - startTime );
 	startTime = gettimeofdayInMilliseconds();	
 	// your bitsOn must be >= minBitsOn and score > minScore to get into
@@ -467,8 +467,8 @@ bool IndexTable::setTopDocIds ( int32_t topn , bool forcePhrases ) {
 		// kick out the lowest
 		int32_t j = getLowestTopDocId ( );
 		// debug
-		//log("replacing #%"INT32" docId=%"INT64", bitsOn=%"INT32", score=%"INT32" "
-		//    "with #%"INT32" docId=%"INT64", bitsOn=%"INT32", score=%"INT32"",
+		//log("replacing #%" INT32 " docId=%" INT64 ", bitsOn=%" INT32 ", score=%" INT32 " "
+		//    "with #%" INT32 " docId=%" INT64 ", bitsOn=%" INT32 ", score=%" INT32 "",
 		//    j,m_topDocIds[j],m_topBitScores[j],m_topScores[j],
 		//    i,docId,s_bitScores [ m_termBits[i] ],m_scores[i]);
 		//  now we got in the top
@@ -479,12 +479,12 @@ bool IndexTable::setTopDocIds ( int32_t topn , bool forcePhrases ) {
 		getLowestTopDocId ( &minBitScore , &minScore, &minDocId );
 	}
 	// timing debug
-	log("setTopDocIds: phase 2 took %"INT64" ms", 
+	log("setTopDocIds: phase 2 took %" INT64 " ms", 
 	    gettimeofdayInMilliseconds() - startTime );
 	// sort the m_topDocIds/m_topScores/m_topBitScores arrays now
 	sortTopDocIds();
 	// timing debug
-	log("setTopDocIds: @ phase 3 time is %"INT64" ms", 
+	log("setTopDocIds: @ phase 3 time is %" INT64 " ms", 
 	    gettimeofdayInMilliseconds() - startTime );
 	return true;
 }
@@ -601,10 +601,10 @@ int32_t IndexTable::getNumResults ( bool thatIncludeAllTerms ) {
 
 int64_t *IndexTable::getTopDocIds ( bool isAdmin ) { 
 	if ( isAdmin ) {
-		log("----- # top docIds = %"INT32"",m_numTopDocIds);
+		log("----- # top docIds = %" INT32 "",m_numTopDocIds);
 		for ( int32_t i = 0 ; i < m_numTopDocIds; i++ ) 
-			//log("%"INT32") docId=%"INT64", # terms Matched=%"INT32", sum=%"INT32"",
-			log("%"INT32") docId=%"INT64", bit score=%hu, sum=%"INT32"",
+			//log("%" INT32 ") docId=%" INT64 ", # terms Matched=%" INT32 ", sum=%" INT32 "",
+			log("%" INT32 ") docId=%" INT64 ", bit score=%hu, sum=%" INT32 "",
 			    i,m_topDocIds[i],m_topBitScores[i],
 			    m_topScores[i]);
 	}

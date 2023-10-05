@@ -194,7 +194,7 @@ bool sendPageThesaurus( TcpSocket *s, HttpRequest *r ) {
 		  "<table cellpadding=4 width=100%% bgcolor=#%s border=1>"
 		  "<tr>"
 		  "<td colspan=2 bgcolor=#%s>"
-		  "<center><b>Synonym List (%"INT32")</b></center>"
+		  "<center><b>Synonym List (%" INT32 ")</b></center>"
 		  "</td>"
 		  "</tr>\n",
 		  LIGHT_BLUE, DARK_BLUE, info.m_numSyns);
@@ -234,7 +234,7 @@ bool sendPageThesaurus( TcpSocket *s, HttpRequest *r ) {
 				} else {
 					p.safePrintf("(u) ");
 				}
-				p.safePrintf("(%"INT32") (%"INT32") (%"INT32") (%"INT32") "
+				p.safePrintf("(%" INT32 ") (%" INT32 ") (%" INT32 ") (%" INT32 ") "
 					     "(%lld) (%lld)",
 				  (int32_t)info.m_type[i], (int32_t)info.m_sort[i],
 				  info.m_firstId[i], info.m_lastId[i],
@@ -490,27 +490,27 @@ bool sendPageThesaurus( TcpSocket *s, HttpRequest *r ) {
 	}
 	p.safePrintf (
 		  "<tr><td><b># of total pairs</b></td>"
-		  "<td>%"INT64"</td></tr>\n"
+		  "<td>%" INT64 "</td></tr>\n"
 		  "<tr><td><b># of pairs remaining</b></td>"
-		  "<td>%"INT64"</td></tr>\n"
+		  "<td>%" INT64 "</td></tr>\n"
 		  "<tr><td><b># of pairs processed</b></td>"
-		  "<td>%"INT64"</td></tr>\n"
+		  "<td>%" INT64 "</td></tr>\n"
 		  "<tr><td><b>elapsed time in seconds</b></td>"
-		  "<td>%"INT64"</td></tr>\n"
+		  "<td>%" INT64 "</td></tr>\n"
 		  "<tr><td><b>estimated remaining time in seconds</b></td>"
-		  "<td>%"INT64"</td></tr>\n"
+		  "<td>%" INT64 "</td></tr>\n"
 		  "<tr><td><b># of requests sent</b></td>"
-		  "<td>%"INT64"</td></tr>\n"
+		  "<td>%" INT64 "</td></tr>\n"
 		  "<tr><td><b># of requests received</b></td>"
-		  "<td>%"INT64"</td></tr>\n"
+		  "<td>%" INT64 "</td></tr>\n"
 		  "<tr><td><b># of request errors</b></td>"
-		  "<td>%"INT64"</td></tr>\n"
+		  "<td>%" INT64 "</td></tr>\n"
 		  "<tr><td><b># of old values reused</b></td>"
-		  "<td>%"INT64"</td></tr>\n"
+		  "<td>%" INT64 "</td></tr>\n"
 		  "<tr><td><b># of cache hits</b></td>"
-		  "<td>%"INT64"</td></tr>\n"
+		  "<td>%" INT64 "</td></tr>\n"
 		  "<tr><td><b>cache size</b></td>"
-		  "<td>%"INT64"</td></tr>\n",
+		  "<td>%" INT64 "</td></tr>\n",
 		  a, b, c, d, e, f, g, h, i, j, k);
 	p.safePrintf ( "</table>\n" );
 

@@ -525,7 +525,7 @@ bool SiteGetter::setSite ( ) {
 	//   make it a string so tagdb likes it
 	// . this could be -1 which indicates to use hostname!
 	char buf[12];
-	sprintf ( buf , "%"INT32"",m_sitePathDepth);
+	sprintf ( buf , "%" INT32 "",m_sitePathDepth);
 
 	// sanity check
 	if ( m_timestamp == 0 ) { char *xx=NULL;*xx=0; }

@@ -82,7 +82,7 @@ bool Tfndb::init2 ( int32_t treeMem ) {
 	//if ( ! m_pc.init ( "tfndb" , g_conf.m_tfndbMaxDiskPageCacheMem ) )
 	//	return log("db: Tfndb page cache init failed.");
 	// note
-	//logf(LOG_INIT, "db: -- Tfndb extended bits set to %"INT32".",
+	//logf(LOG_INIT, "db: -- Tfndb extended bits set to %" INT32 ".",
 	//     g_conf.m_tfndbExtBits );
 	// initialize our own internal rdb
 	if ( ! m_rdb.init ( g_hostdb.m_dir,
@@ -173,7 +173,7 @@ bool Tfndb::verify ( char *coll ) {
 			got++;
 		else if ( !printedKey ) {
 			log ( "db: Found bad key in list (only printing once): "
-			      "%"XINT32" %"XINT64"", k.n1, k.n0 );
+			      "%"X INT32 " %" XINT64 "", k.n1, k.n0 );
 			printedKey = true;
 		}
 		if ( k.n1 == 0 && k.n0 == 0 ) {
@@ -188,7 +188,7 @@ bool Tfndb::verify ( char *coll ) {
 		}
 	}
 	if ( got != count ) {
-		log ("db: Out of first %"INT32" records in tfndb, only %"INT32" passed "
+		log ("db: Out of first %" INT32 " records in tfndb, only %" INT32 " passed "
 		     "verification.",count,got);
 		// exit if NONE, we probably got the wrong data
 		if ( got == 0 ) log("db: Are you sure you have the "
@@ -203,7 +203,7 @@ bool Tfndb::verify ( char *coll ) {
 		return g_conf.m_bypassValidation;
 	}
 
-	log ( LOG_INFO, "db: Tfndb passed verification successfully for %"INT32" "
+	log ( LOG_INFO, "db: Tfndb passed verification successfully for %" INT32 " "
 			"recs.", count );
 	// DONE
 	g_threads.enableThreads();

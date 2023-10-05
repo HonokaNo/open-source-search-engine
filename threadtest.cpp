@@ -85,17 +85,17 @@ void *startUp ( void *state ) {
 	// read buf
 	char buf [ 100*1024 ];
 	// msg
-	fprintf(stderr,"priority = %"INT32" launched\n",(int32_t)p);
+	fprintf(stderr,"priority = %" INT32 " launched\n",(int32_t)p);
 	// now do a stupid loop
 	int32_t j, off;
 	for ( int32_t i = 0 ; i < 30000000 ; i++ ) {
 		j = i % 1000000;
-		//if ( j == 0 ) fprintf(stderr,"%"INT32") i=%"INT32"\n",p,i );
+		//if ( j == 0 ) fprintf(stderr,"%" INT32 ") i=%" INT32 "\n",p,i );
 		if ( j == 0 ) {
 			off = 0; //rand() % 70000000 ;
-			fprintf(stderr,"%"INT32") i=%"INT32" start\n",id,i );
+			fprintf(stderr,"%" INT32 ") i=%" INT32 " start\n",id,i );
 			pread ( s_fd1 , buf , 1024*2 , off );
-			fprintf(stderr,"%"INT32") i=%"INT32" done\n",id,i );
+			fprintf(stderr,"%" INT32 ") i=%" INT32 " done\n",id,i );
 		}
 	}
 		

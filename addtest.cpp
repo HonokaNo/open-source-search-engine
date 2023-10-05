@@ -39,11 +39,11 @@ void test0 ( int arg ) {
 	// how many keys per list?
 	int32_t nk = 100000;
 
-	printf("intersecting %"INT32" keys total from %"INT32" lists\n", 
+	printf("intersecting %" INT32 " keys total from %" INT32 " lists\n", 
 	       nk*numLists , numLists );
 
 	for ( int32_t i = 0 ; i < numLists ; i++ ) {
-		printf("loading list #%"INT32"\n",i);
+		printf("loading list #%" INT32 "\n",i);
 		RdbList *list = &lists[0][i]; 
 		// make a list of compressed (6 byte) docIds
 		key_t *keys = (key_t *) malloc ( 12 + 6 * nk );
@@ -96,10 +96,10 @@ void test0 ( int arg ) {
 			   15       );// docs wanted
 
 	int64_t now = gettimeofdayInMilliseconds();
-	printf("intersection took %"UINT64" ms\n" , now - startTime );
+	printf("intersection took %" UINT64 " ms\n" , now - startTime );
 
-	log("addLists_r: took %"INT64" ms docids=%"UINT32" "
-	    "panics=%"INT32" chains=%"INT32" ptrs=%"INT32" loops=%"INT32".",
+	log("addLists_r: took %" INT64 " ms docids=%"U INT32 " "
+	    "panics=%" INT32 " chains=%" INT32 " ptrs=%" INT32 " loops=%" INT32 ".",
 	    table.m_addListsTime  ,
 	    table.m_totalDocIds   ,
 	    table.m_numPanics     ,

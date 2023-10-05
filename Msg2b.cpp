@@ -39,7 +39,7 @@ bool Msg2b::generateDirectory ( int32_t   dirId,
 	m_numSubCats  = 0;
 	m_subCats = (SubCategory*)mmalloc(m_subCatsSize, "Msg2b");
 	if (!m_subCats) {
-		log("Msg2b: Could not allocate %"INT32" bytes for m_subCats.",
+		log("Msg2b: Could not allocate %" INT32 " bytes for m_subCats.",
 		    m_subCatsSize);
 		g_errno = ENOMEM;
 		return true;
@@ -49,7 +49,7 @@ bool Msg2b::generateDirectory ( int32_t   dirId,
 	m_catBufferLen  = 0;
 	m_catBuffer = (char*)mmalloc(m_catBufferSize, "PageResults");
 	if (!m_catBuffer) {
-		log("Msg2b: Could not allocate %"INT32" bytes for m_catBuffer.",
+		log("Msg2b: Could not allocate %" INT32 " bytes for m_catBuffer.",
 		    m_catBufferSize);
 		g_errno = ENOMEM;
 		return true;
@@ -119,7 +119,7 @@ int32_t Msg2b::serialize ( char *buf, int32_t bufLen ) {
 	p += m_catBufferLen;
 	// sanity check
 	if (p - buf != storedSize) {
-		log("Msg2b: Bad serialize size, %i != %"INT32", bad engineer.",
+		log("Msg2b: Bad serialize size, %i != %" INT32 ", bad engineer.",
 		    p - buf, storedSize);
 		char *xx = NULL; *xx = 0;
 	}
@@ -150,7 +150,7 @@ int32_t Msg2b::deserialize ( char *buf, int32_t bufLen ) {
 	// sanity check
 	if (p - buf > bufLen) {
 		log("Msg2b: Overstepped deserialize buffer length, "
-		    "%i > %"INT32", bad engineer.",
+		    "%i > %" INT32 ", bad engineer.",
 		    p - buf, bufLen);
 		char *xx = NULL; *xx = 0;
 	}

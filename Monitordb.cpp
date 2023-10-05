@@ -115,8 +115,8 @@ bool Monitordb::verify ( char *coll ) {
 		if ( shardNum == getMyShardNum() ) got++;
 	}
 	if ( got != count ) {
-		log ("db: Out of first %"INT32" records in Monitordb , "
-		     "only %"INT32" belong to our group.",count,got);
+		log ("db: Out of first %" INT32 " records in Monitordb , "
+		     "only %" INT32 " belong to our group.",count,got);
 
 		/*
 		// repeat with log
@@ -130,7 +130,7 @@ bool Monitordb::verify ( char *coll ) {
 			uint32_t sh32 ;
 			sh32 = g_monitordb.getLinkeeSiteHash32_uk(&k);
 			uint16_t sh16 = sh32 >> 19;
-			log("db: sh16=0x%"XINT32" group=%"INT32"",
+			log("db: sh16=0x%"X INT32 " group=%" INT32 "",
 			    (int32_t)sh16,groupNum);
 		}
 		*/
@@ -146,7 +146,7 @@ bool Monitordb::verify ( char *coll ) {
 		return g_conf.m_bypassValidation;
 	}
 	log ( LOG_INFO, "db: Monitordb passed verification successfully for "
-	      "%"INT32" recs.", count );
+	      "%" INT32 " recs.", count );
 	// DONE
 	g_threads.enableThreads();
 	return true;

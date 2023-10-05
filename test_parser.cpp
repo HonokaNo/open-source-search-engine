@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
 					   file_buf,nread,doHash,
 					   encoding,
 					   NUM_TEST_RUNS);
-		fprintf(stderr,"Document parsed (%s, hash=%s, filterSpaces=%s): %"INT32" usec\n", 
+		fprintf(stderr,"Document parsed (%s, hash=%s, filterSpaces=%s): %" INT32 " usec\n", 
 			parser_str, 
 			doHash?"true":"false",
 			doFilterSpaces?"true":"false",
@@ -187,7 +187,7 @@ int32_t time_parser(void (*parse_doc)(char*,int, bool,char*), char* buf, int len
 		if (times[i] > max_time) max_time = times[i];
 	}
 	int32_t avg_time = total/test_count;
-	printf("Hash %s, count: %d, avg: %"INT32", min: %"INT32", max: %"INT32"\n",
+	printf("Hash %s, count: %d, avg: %" INT32 ", min: %" INT32 ", max: %" INT32 "\n",
 	       (doHash?"true":"false"),
 	       test_count, avg_time, min_time, max_time);
 	return avg_time;	

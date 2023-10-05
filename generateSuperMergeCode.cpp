@@ -25,9 +25,9 @@ void doit ( int32_t n ) {
 		"generateSuperMergeCode.cpp\n");
 
 	// print header
-	printf ( "void RdbList::superMerge%"INT32" ( RdbList *list0 ,\n" , n );
+	printf ( "void RdbList::superMerge%" INT32 " ( RdbList *list0 ,\n" , n );
 	for ( int32_t i = 1 ; i < n ; i++ )
-		printf ("\tRdbList *list%"INT32" ,\n", i );
+		printf ("\tRdbList *list%" INT32 " ,\n", i );
 	// then key parms
 	printf ( "\tkey_t startKey ,\n\tkey_t endKey ) {\n");
 	// set up
@@ -38,17 +38,17 @@ void doit ( int32_t n ) {
 		 "\tkey_t *kstart  = (key_t *) m_listPtr;\n" );
 	// then quick vars
 	for ( int32_t i = 0 ; i < n ; i++ )
-		printf("\tkey_t *k%"INT32"   = (key_t *) list%"INT32"->m_listPtr;\n",i,i);
+		printf("\tkey_t *k%" INT32 "   = (key_t *) list%" INT32 "->m_listPtr;\n",i,i);
 	for ( int32_t i = 0 ; i < n ; i++ )
-		printf ("\tkey_t *end%"INT32"    = (key_t *) list%"INT32"->m_listEnd;\n",i,i);
+		printf ("\tkey_t *end%" INT32 "    = (key_t *) list%" INT32 "->m_listEnd;\n",i,i);
 	// go forwards
 	for ( int32_t i = 0 ; i < n ; i++ ) 
-		printf ("\twhile ( k%"INT32" < end%"INT32"  && *k%"INT32"    < startKey ) "
-			"k%"INT32"++;\n",i,i,i,i);
+		printf ("\twhile ( k%" INT32 " < end%" INT32 "  && *k%" INT32 "    < startKey ) "
+			"k%" INT32 "++;\n",i,i,i,i);
 	// pedal backwards
 	for ( int32_t i = 0 ; i < n ; i++ ) 
-		printf ("\twhile ( end%"INT32"  > k%"INT32" && *(end%"INT32"-1) > endKey   ) "
-			"end%"INT32"--;\n",i,i,i,i);
+		printf ("\twhile ( end%" INT32 "  > k%" INT32 " && *(end%" INT32 "-1) > endKey   ) "
+			"end%" INT32 "--;\n",i,i,i,i);
 
 	// . begin tree stuff
 	// . OUTTER COMPARES
@@ -127,7 +127,7 @@ void doit ( int32_t n ) {
 	int32_t count = 1;
 	for ( int32_t i = 0 ; i < numCmps ; i++ ) count *= 2;
 
-	printf ("\t// %"INT32" logic paths\n",count );
+	printf ("\t// %" INT32 " logic paths\n",count );
 
 	// we may not need padding
 	printf ("\tif ( m_listPtr > m_list ) goto top;\n");
@@ -136,7 +136,7 @@ void doit ( int32_t n ) {
 
 	// padding start
 	for ( int32_t i = 0 ; i < n ; i++ ) 
-		printf ("\tif ( k%"INT32" >= end%"INT32" ) goto done;\n",i,i);
+		printf ("\tif ( k%" INT32 " >= end%" INT32 " ) goto done;\n",i,i);
 
 	// init lastBits
 	char lastBits[32];
@@ -178,7 +178,7 @@ void doit ( int32_t n ) {
 	printf ( "\tdone:\n");
 	// update list ptrs
 	for ( int32_t i = 0 ; i < n ; i++ ) 
-		printf("\tlist%"INT32"->m_listPtr = (char *)k%"INT32";\n",i,i);
+		printf("\tlist%" INT32 "->m_listPtr = (char *)k%" INT32 ";\n",i,i);
 
 	printf ("\tm_mergeMinListSize -= ((char *)k-(char *)kstart);\n");
 	// set our stuff
@@ -188,12 +188,12 @@ void doit ( int32_t n ) {
 
 	// then re-calls
 	for ( int32_t i = 0 ; i < n ; i++ ) {
-		printf("\tif ( k%"INT32" >= end%"INT32" ) {\n",i,i);
-		printf ("\t\tsuperMerge%"INT32" ( ",n-1);
+		printf("\tif ( k%" INT32 " >= end%" INT32 " ) {\n",i,i);
+		printf ("\t\tsuperMerge%" INT32 " ( ",n-1);
 		// arguments
 		for ( int32_t j = 0 ; j < n ; j++ ) {
 			if ( j == i ) continue;
-			printf("list%"INT32" , ",j);
+			printf("list%" INT32 " , ",j);
 		}
 		// rest of args
 		//if ( n-1 == 2 ) printf("startKey , endKey , false );\n");
@@ -210,7 +210,7 @@ void doit ( int32_t n ) {
 
 	// set endKey of each list if we ran out of room
 	for ( int32_t i = 0 ; i < n ; i++ ) 
-		printf ("\tif ( k%"INT32" < end%"INT32" && *k%"INT32" < m_endKey ) "
+		printf ("\tif ( k%" INT32 " < end%" INT32 " && *k%" INT32 " < m_endKey ) "
 			"m_endKey = lastKey;\n",i,i,i);
 
 	printf ("}\n");
@@ -235,7 +235,7 @@ void printLine ( char *bits , int32_t n , char *lastBits , int32_t removeNegs ) 
 	//printf("CALLED ");
 	// print bits out for debug
 	//for ( int32_t i = 0 ; i < n ; i++ ) 
-	//	printf("%"INT32"(%"INT32") ",bits[i],lastBits[i]);
+	//	printf("%" INT32 "(%" INT32 ") ",bits[i],lastBits[i]);
 	//printf("\n");	
 
 	for ( int32_t i = 0 ; i < n ; i++ ) {
@@ -244,14 +244,14 @@ void printLine ( char *bits , int32_t n , char *lastBits , int32_t removeNegs ) 
 			for ( int32_t j = 0 ; j < i ; j++ ) printf("\t");
 		if ( bits[i] == 0 ) {
 			if ( bits[i] != lastBits[i] )
-				printf("\tif ( *k%"INT32" <= *k%"INT32" ) {\n",
+				printf("\tif ( *k%" INT32 " <= *k%" INT32 " ) {\n",
 				       winners[0],i+1);
 			//winners[0] = i;
 			//numWinners = 1;
 		}
 		else if ( bits[i] == 1 ) {
 			if ( bits[i] != lastBits[i] )
-				//printf("\telse if ( *k%"INT32" >  *k%"INT32" ) {\n",
+				//printf("\telse if ( *k%" INT32 " >  *k%" INT32 " ) {\n",
 				printf("\telse {\n",
 				      winners[0],i+1);
 			winners[0] = i+1;
@@ -266,30 +266,30 @@ void printLine ( char *bits , int32_t n , char *lastBits , int32_t removeNegs ) 
 
 	// if removing negs...
 	if ( removeNegs ) {
-		printf ("%s\tif ((k-1)->n1==k%"INT32"->n1 && "
-			       "((k-1)->n0|0x01LL)==k%"INT32"->n0)"
+		printf ("%s\tif ((k-1)->n1==k%" INT32 "->n1 && "
+			       "((k-1)->n0|0x01LL)==k%" INT32 "->n0)"
 			"{\n"
-			"%s\t\tk%"INT32"++; "
+			"%s\t\tk%" INT32 "++; "
 			"if ( --k == kstart ) goto padding; }\n"
 			"%s\telse { ",
 			tabs,winners[0],winners[0],
 			tabs,winners[0],
 			tabs);
 		// then the storage instructions
-		printf ("*k++ = *k%"INT32"++; }\n",winners[0]);
+		printf ("*k++ = *k%" INT32 "++; }\n",winners[0]);
 		// advance 1st winner only
-		//printf ("%s\t\tk%"INT32"++;\n",tabs,winners[0]);	
+		//printf ("%s\t\tk%" INT32 "++;\n",tabs,winners[0]);	
 		// if anything we advanced finished
-		printf ("%s\tif ( k%"INT32" >= end%"INT32" ) goto done;",
+		printf ("%s\tif ( k%" INT32 " >= end%" INT32 " ) goto done;",
 			tabs,winners[0],winners[0]);
 	}
 	else {
 		// then the storage instructions
-		printf ("%s\t*k++ = *k%"INT32"++; \n",tabs,winners[0]);
+		printf ("%s\t*k++ = *k%" INT32 "++; \n",tabs,winners[0]);
 		// advance 1st winner only
-		//printf ("%s\tk%"INT32"++;\n",tabs,winners[0]);	
+		//printf ("%s\tk%" INT32 "++;\n",tabs,winners[0]);	
 		// if anything we advanced finished
-		printf ("%s\tif ( k%"INT32" >= end%"INT32" ) goto done;",
+		printf ("%s\tif ( k%" INT32 " >= end%" INT32 " ) goto done;",
 			tabs,winners[0],winners[0]);
 	}
 	printf ("\n");

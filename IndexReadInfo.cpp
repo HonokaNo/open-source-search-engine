@@ -144,13 +144,13 @@ void IndexReadInfo::init ( Query *q ,
 		// debug msg
 		if ( m_isDebug || g_conf.m_logDebugQuery )
 			logf ( LOG_DEBUG,"query: ReadInfo: "
-			       "newreadSizes[%"INT32"]=%"INT32"",i,
+			       "newreadSizes[%" INT32 "]=%" INT32 "",i,
 			       m_readSizes[i] );
 
 		// sanity check
 		if ( m_readSizes[i] > ( 500 * 1024 * 1024 ) || 
 		     m_readSizes[i] < 0 ){
-			log( "minRecSize = %"INT32"", m_readSizes[i] );
+			log( "minRecSize = %" INT32 "", m_readSizes[i] );
 			char *xx=NULL; *xx=0;
 		}
 	}
@@ -175,8 +175,8 @@ void IndexReadInfo::update ( IndexList *lists, int32_t numLists,
 		// . iff we did NOT do a merge
 		//if ( ! didMerge && docsRead > 0 ) docsRead--;
 		// debug
-		//log("startKey for list #%"INT32" is n1=%"XINT32",n0=%"XINT64" "
-		//     "(docsRead=%"INT32")",
+		//log("startKey for list #%" INT32 " is n1=%"X INT32 ",n0=%" XINT64 " "
+		//     "(docsRead=%" INT32 ")",
 		//     i,m_startKeys[i].n1,m_startKeys[i].n0,docsRead);
 		// . if we read less than supposed to, this list is exhausted 
 		//   so we set m_ignore[i] to true so we don't read again
@@ -217,14 +217,14 @@ void IndexReadInfo::update ( IndexList *lists, int32_t numLists,
 		//gbmemcpy ( &startKey , lastPart , 6 );
 		gbmemcpy ( startKey , lastPart , m_hks );
 		// debug msg
-		//log("pre-startKey for list #%"INT32" is n1=%"XINT32",n0=%"XINT64"",
+		//log("pre-startKey for list #%" INT32 " is n1=%"X INT32 ",n0=%" XINT64 "",
 		//     i,startKey.n1,startKey.n0);
 		// sanity checks
 		//if ( startKey < m_startKeys[i] ) {
 		if ( KEYCMP(startKey,&m_startKeys[i*m_ks],m_ks)<0 ) {
 			log("query: bad startKey. "
-			    "a.n1=%016"XINT64" a.n0=%016"XINT64" < "
-			    "b.n1=%016"XINT64" b.n0=%016"XINT64"" ,
+			    "a.n1=%016" XINT64 " a.n0=%016" XINT64 " < "
+			    "b.n1=%016" XINT64 " b.n0=%016" XINT64 "" ,
 			    KEY1(startKey,m_ks),
 			    KEY0(startKey     ),
 			    KEY1(&m_startKeys[i*m_ks],m_ks),
@@ -239,7 +239,7 @@ void IndexReadInfo::update ( IndexList *lists, int32_t numLists,
 		//m_startKeys[i] += (uint32_t) 1;
 		KEYADD(&m_startKeys[i*m_ks],1,m_ks);
 		// debug msg
-		//log("NOW startKey for list #%"INT32" is n1=%"XINT32",n0=%"XINT64"",
+		//log("NOW startKey for list #%" INT32 " is n1=%"X INT32 ",n0=%" XINT64 "",
 		//     i,m_startKeys[i].n1,m_startKeys[i].n0);
 		// . increase termFreqs if we read more than was estimated
 		// . no! just changes # of total results when clicking Next 10
@@ -271,7 +271,7 @@ void IndexReadInfo::update ( IndexList *lists, int32_t numLists,
 		else                                 
 		m_readSizes[i] = m_stage2;*/
 		// debug msg
-		log("newreadSizes[%"INT32"]=%"INT32"",i,m_readSizes[i]);
+		log("newreadSizes[%" INT32 "]=%" INT32 "",i,m_readSizes[i]);
 	}
 }
 
@@ -324,7 +324,7 @@ void IndexReadInfo::update ( int64_t *termFreqs,
 	// loop over all lists and update m_startKeys[i] and m_totalDocsRead
 	for ( int32_t i = 0 ; i < numLists ; i++ ) {
 		// debug msg
-		//log("oldreadSizes[%"INT32"]=%"INT32"",i,m_readSizes[i]);
+		//log("oldreadSizes[%" INT32 "]=%" INT32 "",i,m_readSizes[i]);
 		// update each list's docs to read if we're not on the last 
 		// tier
 		if ( !m_ignore[i] && callNum < MAX_TIERS && 
@@ -339,6 +339,6 @@ void IndexReadInfo::update ( int64_t *termFreqs,
 		// debug msg
 		if ( m_isDebug || g_conf.m_logDebugQuery )
 			logf ( LOG_DEBUG,"query: ReadInfo: "
-			       "newreadSizes[%"INT32"]=%"INT32"",i,m_readSizes[i] );
+			       "newreadSizes[%" INT32 "]=%" INT32 "",i,m_readSizes[i] );
 	}
 }

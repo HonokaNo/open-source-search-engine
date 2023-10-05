@@ -143,7 +143,7 @@ void timeWrapper ( int fd , void *state ) {
 void dnsWrapper ( void *state , int32_t ip ) {
 	StateT *st = (StateT *)state;
 	int64_t time = gettimeofdayInMilliseconds() - st->m_time ;
-	fprintf ( stderr,"Response: %"INT64"ms %s %s (%s)\n", time, 
+	fprintf ( stderr,"Response: %" INT64 "ms %s %s (%s)\n", time, 
 			st->m_buf , iptoa(ip) , mstrerror(g_errno));
 	//if ( g_errno == ETRYAGAIN )
 	//	log("hey");

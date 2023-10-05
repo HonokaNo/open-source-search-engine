@@ -65,7 +65,7 @@ extern int g_inMemcpy;
 #include "fctypes.h"	// commonly included in include files
 #include "hash.h"	// commonly included in include files
 
-#include "Errno.h"	// commonly included in include files
+#include "gbErrno.h"	// commonly included in include files
 #include "Log.h"	// commonly included in include files
 
 // cygwin fix

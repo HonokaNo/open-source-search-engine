@@ -99,7 +99,7 @@ void *gohere ( void *) {
 	
 	for ( int32_t i = 0 ; i < 50000 ; i++ ) {
 		key_t k = keys[i];
-		if ( (i % 1000) == 0 ) fprintf(stderr,"%"INT32"\n",i);
+		if ( (i % 1000) == 0 ) fprintf(stderr,"%" INT32 "\n",i);
 		if ( rdb.addRecord ( k, NULL ,0, false ) >= 0 ) continue;
 		fprintf(stderr,"rdb::addRecord: %s\n",mstrerror(errno));
 		exit(-1);

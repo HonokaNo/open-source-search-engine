@@ -153,7 +153,7 @@ bool sendPageIndexdb ( TcpSocket *s , HttpRequest *r ) {
 				    false,
 				    true  );
 		log ( LOG_INFO, "build: adding indexdb key to indexdb: "
-				"%"XINT32" %"XINT64"", 
+				"%"X INT32 " %" XINT64 "", 
 		      st->m_key.n1, st->m_key.n0 );
 		// call msg1 to add/delete key
 		if ( ! st->m_msg1.addList ( &st->m_keyList,
@@ -221,8 +221,8 @@ loop:
 	//Host *hosts = g_hostdb.getGroup ( gid );
 	// get host from that group, just pick the first one, assume not dead!!!
 	//Host *h = &hosts[0];
-	//fprintf(stderr,"termId now=%"INT64"\n",st->m_termId);
-	//fprintf(stderr,"should be=%"INT64"\n",(st->m_termId & TERMID_MASK));
+	//fprintf(stderr,"termId now=%" INT64 "\n",st->m_termId);
+	//fprintf(stderr,"should be=%" INT64 "\n",(st->m_termId & TERMID_MASK));
 	// now get the indexList for this termId
 	char startKey[16];
 	char endKey  [16];
@@ -321,8 +321,8 @@ bool gotIndexList ( void *state ) {
 	if ( ! launchRequests ( st ) ) return false;
 	/*
 	// get the date list
-	//fprintf(stderr,"termId now=%"INT64"\n",st->m_termId);
-	//fprintf(stderr,"should be=%"INT64"\n",(st->m_termId & TERMID_MASK));
+	//fprintf(stderr,"termId now=%" INT64 "\n",st->m_termId);
+	//fprintf(stderr,"should be=%" INT64 "\n",(st->m_termId & TERMID_MASK));
 	// . now get the indexList for this termId
 	// . date is complemented, so start with bigger one first
 	key128_t startKey = g_datedb.makeStartKey ( st->m_termId ,0xffffffff);
@@ -435,27 +435,27 @@ bool gotIndexList2 ( void *state , RdbList *list ) {
 		  "</td></tr><tr><td>"
 		  "termId:"
 		  "</td><td>"
-		  "<input type=text name=t value=%"INT64" size=20>"
+		  "<input type=text name=t value=%" INT64 " size=20>"
 		  "</td><td>"
 		  "numRecs:"
 		  "</td><td>"
-		  "<input type=text name=numRecs value=%"INT32" size=10> "
+		  "<input type=text name=numRecs value=%" INT32 " size=10> "
 		  "</td></tr><tr><td>"
 		  "docId:"
 		  "</td><td>"
-		  "<input type=text name=d value=%"INT64" size=20> "
+		  "<input type=text name=d value=%" INT64 " size=20> "
 		  "</td><td>"
 		  "score:"
 		  "</td><td>"
-		  "<input type=text name=score value=%"INT32" size=10> "
+		  "<input type=text name=score value=%" INT32 " size=10> "
 		  "</td><td>"
 		  "<input type=submit value=ok border=0>"
 		  "</td></tr>"
 		  "<tr><td colspan=2>"
-		  "term appears in about %"INT64" docs +/- %"INT32""
+		  "term appears in about %" INT64 " docs +/- %" INT32 ""
 		  "</td></tr>"
 		  //"<tr><td colspan=2>"
-		  //"this indexlist held by host #%"INT32" and twins"
+		  //"this indexlist held by host #%" INT32 " and twins"
 		  //"</td></tr>"
 		  "</table>"
 		  "</form><br><br>" ,
@@ -519,7 +519,7 @@ bool gotIndexList2 ( void *state , RdbList *list ) {
 		// log the first docid so we can blaster url: queries
 		// to PageIndexdb and see if they are in indexdb
 		if ( i == 0 ) 
-			logf(LOG_INFO,"indexdb: %"UINT64" %s",docId,st->m_query);
+			logf(LOG_INFO,"indexdb: %" UINT64 " %s",docId,st->m_query);
 		// adjust ip/port if local
 		if ( st->m_isLocal ) {
 			ip   = h->m_ip;
@@ -531,18 +531,18 @@ bool gotIndexList2 ( void *state , RdbList *list ) {
 		uint8_t dh = g_titledb.getDomHash8FromDocId ( docId );
 		char ds[32];
 		ds[0]=0;
-		if ( st->m_useDatedb ) sprintf (ds,"%"UINT32"/",date);
+		if ( st->m_useDatedb ) sprintf (ds,"%"U INT32 "/",date);
 		pbuf->safePrintf ( 
-			  "<tr><td>%"INT32".</td>"
+			  "<tr><td>%" INT32 ".</td>"
 			  "<td>%s%i</td>"
 			  "<td>"
-			  //"<a href=http://%s:%hu/admin/titledb?d=%"UINT64">"
-			  "<a href=/admin/titledb?c=%s&d=%"UINT64">"
-			  "%"UINT64""
-			  //"<td><a href=/cgi/4.cgi?d=%"UINT64">%"UINT64""
+			  //"<a href=http://%s:%hu/admin/titledb?d=%" UINT64 ">"
+			  "<a href=/admin/titledb?c=%s&d=%" UINT64 ">"
+			  "%" UINT64 ""
+			  //"<td><a href=/cgi/4.cgi?d=%" UINT64 ">%" UINT64 ""
 			  "</td>"
 			  "<td>"
-			  "0x%02"XINT32""
+			  "0x%02"X INT32 ""
 			  "</td>"
 			  "</tr>\n" ,
 			  i++,
@@ -594,19 +594,19 @@ bool gotIndexList2 ( void *state , RdbList *list ) {
 		// debug
 		char kb[16];
 		st->m_list2.getCurrentKey(kb);
-		//log(LOG_INFO,"debug: n1=%016"XINT64" n0=%016"XINT64"",
+		//log(LOG_INFO,"debug: n1=%016" XINT64 " n0=%016" XINT64 "",
 		//    *(int64_t *)(kb+8),*(int64_t *)(kb+0));
 		//if ( (uint32_t)st->m_list2.getCurrentDate() == 0 )
 		//	log("STOP");
 		sprintf ( p , 
-			  "<tr><td>%"INT32".</td>"
-			  "<td>%"UINT64"</td>"
-			  "<td>%"UINT32"</td><td>%i</td>"
+			  "<tr><td>%" INT32 ".</td>"
+			  "<td>%" UINT64 "</td>"
+			  "<td>%"U INT32 "</td><td>%i</td>"
 			  "<td>"
-			  //"<a href=http://%s:%hu/admin/titledb?d=%"UINT64">"
-			  "<a href=/admin/titledb?c=%s&d=%"UINT64">"
-			  "%"UINT64""
-			  //"<td><a href=/cgi/4.cgi?d=%"UINT64">%"UINT64""
+			  //"<a href=http://%s:%hu/admin/titledb?d=%" UINT64 ">"
+			  "<a href=/admin/titledb?c=%s&d=%" UINT64 ">"
+			  "%" UINT64 ""
+			  //"<td><a href=/cgi/4.cgi?d=%" UINT64 ">%" UINT64 ""
 			  "</td></tr>\n" ,
 			  i++,
 			  st->m_list2.getTermId16(kb) ,

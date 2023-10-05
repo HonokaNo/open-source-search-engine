@@ -291,8 +291,8 @@ class CatRec {
 // <minSpiderFrequency>       %i  </> (default 60*60*24*30=1month, in seconds)
 // <maxSpiderFrequency>       %i  </> (default 60*60*24*30=1month, in seconds)
 // <spiderLinks>              %b  </> (default true)
-// <spiderLinkPriority>       %"INT32" </> (0-7, default -1) -1 means prntPriorty-1
-// <spiderMaxPriority>        %"INT32" </> (0-7, default 7) 
+// <spiderLinkPriority>       %" INT32 " </> (0-7, default -1) -1 means prntPriorty-1
+// <spiderMaxPriority>        %" INT32 " </> (0-7, default 7) 
 
 
 // ## these are fairly self-explanatory

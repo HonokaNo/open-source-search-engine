@@ -58,7 +58,7 @@ int32_t speedtest ( int32_t numNodes , bool balanced ) {
 
 
 
-making %sbalanced tree with %"INT32" nodes",bs,numNodes);
+making %sbalanced tree with %" INT32 " nodes",bs,numNodes);
 	RdbTree t;
 	if ( ! t.set ( 0             ,    // fixedDataSize
 		       numNodes      ,    // maxTreeNodes   
@@ -82,7 +82,7 @@ making %sbalanced tree with %"INT32" nodes",bs,numNodes);
 		k.n0 |= rand();
 		keys[i] = k;
 	}
-	log("generated %"INT32" random keys",numNodes);
+	log("generated %" INT32 " random keys",numNodes);
 
 
 	//char *data = (char *)mmalloc ( numNodes * sizeof(key_t), "treetest");
@@ -94,7 +94,7 @@ making %sbalanced tree with %"INT32" nodes",bs,numNodes);
 		//pp += 5*1024;
 	}
 	int64_t t2 = gettimeofdayInMilliseconds();
-	log("added %"INT32" keys to tree in %"INT64" ms",  numNodes , t2 - t1 );
+	log("added %" INT32 " keys to tree in %" INT64 " ms",  numNodes , t2 - t1 );
 
 
 	// now get the list
@@ -116,7 +116,7 @@ making %sbalanced tree with %"INT32" nodes",bs,numNodes);
 		return -1;
 	}
 	t2 = gettimeofdayInMilliseconds();
-	log("got list of %"INT32" bytes (%"INT32" keys) in %"INT64" ms", 
+	log("got list of %" INT32 " bytes (%" INT32 " keys) in %" INT64 " ms", 
 	    list.getListSize(),numNodes,t2-t1);
 	return 0;
 }
@@ -138,7 +138,7 @@ int32_t sanitytest () {
 	}
 	int32_t p = 0;
  loop:
-	fprintf(stderr,"pass=%"INT32"\n",p++);
+	fprintf(stderr,"pass=%" INT32 "\n",p++);
 	// make random keys
 	for ( int32_t i = 0 ; i < 1505000 ; i++ ) {
 		key_t k;

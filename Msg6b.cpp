@@ -147,7 +147,7 @@ bool Msg6b::gotDocIdList() {
 	m_docIdPtr = m_msg3a.getDocIds();
 	m_lastDocIdPtr = m_docIdPtr + m_msg3a.getNumDocIds();
 
-	//log(LOG_WARN, "Msg6b got %"INT32" docids.",m_msg3a.getNumDocIds());
+	//log(LOG_WARN, "Msg6b got %" INT32 " docids.",m_msg3a.getNumDocIds());
 	if(m_docIdPtr == m_lastDocIdPtr) return true;
 	
 	

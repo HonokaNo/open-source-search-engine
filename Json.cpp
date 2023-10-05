@@ -403,7 +403,7 @@ void Json::test ( ) {
 	JsonItem *ji = parseJsonStringIntoJsonItems ( json , niceness );
 
 	// print them out?
-	//log("json: type0=%"INT32"",(int32_t)ji->m_type);
+	//log("json: type0=%" INT32 "",(int32_t)ji->m_type);
 	// sanity test
 	if ( ji->m_type != 6 ) { char *xx=NULL;*xx=0; }
 
@@ -481,12 +481,12 @@ char *JsonItem::getValueAsString ( int32_t *valueLen ) {
 	// it went into s_vbuf in Version.cpp
 	static char s_numBuf[256];
 	if ( (float)m_valueLong == m_valueDouble ) {
-		*valueLen = snprintf ( s_numBuf,255,"%"INT32"", m_valueLong );
+		*valueLen = snprintf ( s_numBuf,255,"%" INT32 "", m_valueLong );
 		return s_numBuf;
 	}
 
 	if ( (double)m_value64 == m_valueDouble ) {
-		*valueLen = snprintf ( s_numBuf,255,"%"INT64"", m_value64 );
+		*valueLen = snprintf ( s_numBuf,255,"%" INT64 "", m_value64 );
 		return s_numBuf;
 	}
 

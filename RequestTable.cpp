@@ -44,7 +44,7 @@ int32_t RequestTable::addRequest ( int64_t requestHash , void *state2 ) {
 	// returns false and set g_errno on error, so we should return -1
 	if ( ! m_htable.addKey(&requestHash, &state2) ) return -1;
 
- 	//log ( "requesttable: added hash=%"INT64" state2=%"XINT32"", requestHash,
+ 	//log ( "requesttable: added hash=%" INT64 " state2=%"X INT32 "", requestHash,
 	//     (int32_t) state2 );
 	// count the slots that have this key
 	int32_t n = m_htable.getSlot ( &requestHash );
@@ -67,7 +67,7 @@ int32_t RequestTable::addRequest ( int64_t requestHash , void *state2 ) {
 		if ( ++n >= m_htable.m_numSlots ) n = 0;
 	}
 	/*if ( count == 1 )
-		log( "requesttable: hash=%"INT64" state2=%"XINT32" is getting quality",
+		log( "requesttable: hash=%" INT64 " state2=%"X INT32 " is getting quality",
 		requestHash, (int32_t) state2 );*/
 	return count;
 }
@@ -102,7 +102,7 @@ void RequestTable::gotReply ( int64_t  requestHash ,
 		// somehow alters the table!
 		//m_htable.removeKey ( requestHash );
 		m_htable.removeSlot ( n );
-		/*log ( "requesttable: removed hash=%"INT64" state1=%"XINT32" state2=%"XINT32"", 
+		/*log ( "requesttable: removed hash=%" INT64 " state1=%"X INT32 " state2=%"X INT32 "", 
 		  requestHash, (int32_t) state1, (int32_t) state2 );*/
 
 		// restore it before calling callback
@@ -130,7 +130,7 @@ void RequestTable::cancelRequest ( int64_t requestHash , void *state2 ) {
 		char *xx = NULL; *xx = 0;
 	}
 	log( LOG_INFO, "reqtable: cancelled "
-	     "request hash=%"INT64" state2=%"PTRFMT"", 
+	     "request hash=%" INT64 " state2=%" PTRFMT "", 
 	     requestHash, (PTRTYPE) state2 );
 	return;
 }

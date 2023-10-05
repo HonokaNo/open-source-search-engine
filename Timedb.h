@@ -161,7 +161,7 @@ inline uint32_t getTimeScore ( //collnum_t collnum   ,
 		// event's query terms but its been too long and timedb
 		// does not have it anymore since we only like store
 		// a year out or so since spider time
-		//log("timedb: docid/eid not found d=%"UINT64" eid=%"INT32".",
+		//log("timedb: docid/eid not found d=%"UINT64" eid=%" INT32 ".",
 		//    docId,(int32_t)eventId);
 		return 0;
 	}

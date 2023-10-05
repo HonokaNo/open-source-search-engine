@@ -131,7 +131,7 @@ rename msgaa to Site.
 	p += m_url->getHostLen();
 	// sort them by the random score term, gbrandscore (see XmlDoc.cpp)
 	p += sprintf (p ,
-		      " gbpathdepth:%"INT32""
+		      " gbpathdepth:%" INT32 ""
 		      " gbiscgi:0"
 		      " gbhasfilename:0"
 		      // www.xyz.com/viacom-extends-brad-greys-contract/ not!
@@ -231,14 +231,14 @@ bool Msgaa::gotResults ( ) {
 	int32_t required = n / 2;
 	if ( unique < required ) {
 		// ok, do not set m_sitePathDepth, leave it -1
-		log("msgaa: only have %"INT32" unique path components at path "
-		    "depth %"INT32" out of %"INT32" results. %s does not have subsites.",
+		log("msgaa: only have %" INT32 " unique path components at path "
+		    "depth %" INT32 " out of %" INT32 " results. %s does not have subsites.",
 		    unique,m_pathDepth,n,m_url->getUrl());
 		return true;
 	}
 	// i guess we got it
-	log("msgaa: have %"INT32" unique path components at path "
-	    "depth %"INT32" out of %"INT32" results. Enough to declare this as a "
+	log("msgaa: have %" INT32 " unique path components at path "
+	    "depth %" INT32 " out of %" INT32 " results. Enough to declare this as a "
 	    "subsite for %s .",unique,m_pathDepth,n,m_url->getUrl());
 	// ok set it
 	m_sitePathDepth = m_pathDepth;

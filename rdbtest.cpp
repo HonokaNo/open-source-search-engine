@@ -60,7 +60,7 @@ int main ( int argc , char *argv[] ) {
 
 	final.merge_r ( ptrs , 2 , false , startKey , endKey , true , 16 );
 
-	log("final listsize = %"INT32"", final.getListSize() );
+	log("final listsize = %" INT32 "", final.getListSize() );
 
 	return 0;
 }

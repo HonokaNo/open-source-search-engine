@@ -93,7 +93,7 @@ int main(int argc, char**argv)
 		gettimeofday(&tv2, &tz2);
 		int32_t usec_elapsed = elapsed_usec(&tv1, &tv2);
 
-		printf("\nDocument parsed (iso-8851-1): %"INT32" usec (%"INT32" words)\n", 
+		printf("\nDocument parsed (iso-8851-1): %" INT32 " usec (%" INT32 " words)\n", 
 		       usec_elapsed,
 		       words.getNumWords());
 		
@@ -110,7 +110,7 @@ int main(int argc, char**argv)
 		gettimeofday(&tv2, &tz2);
 		usec_elapsed = elapsed_usec(&tv1, &tv2);
 
-		printf("\nDocument parsed (Unicode): %"INT32" usec (%"INT32" words)\n", 
+		printf("\nDocument parsed (Unicode): %" INT32 " usec (%" INT32 " words)\n", 
 		       usec_elapsed,
 		       tokens.getNumTokens());
 		int32_t max_words = words.getNumWords();

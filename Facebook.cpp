@@ -278,7 +278,7 @@ bool Msgfb::getFacebookUserInfo ( HttpRequest *hr,
 		int32_t h32b = m_hr.getLongLong("fh",0);
 		if ( h32a != h32b ) {
 			useFbid = NULL;
-			log("facebook: bad usefbid=%"INT64" h32=%"UINT32" fh=%"UINT32"",
+			log("facebook: bad usefbid=%" INT64 " h32=%"U INT32 " fh=%"U INT32 "",
 			    used,h32a,h32b);
 		}
 		else 
@@ -389,9 +389,9 @@ bool Msgfb::gotFBUserRec ( ) {
 	// need to set this for printBlackBar()
 	m_fbId = fbrec->m_fbId;
 
-	log("facebook: loaded fbrec for fbid=%"UINT64"",fbrec->m_fbId);
-	log("facebook: loaded emailfreq=%"INT32"",(int32_t)fbrec->m_emailFrequency);
-	log("facebook: loaded myradius=%"INT32"",(int32_t)fbrec->m_myRadius);
+	log("facebook: loaded fbrec for fbid=%" UINT64 "",fbrec->m_fbId);
+	log("facebook: loaded emailfreq=%" INT32 "",(int32_t)fbrec->m_emailFrequency);
+	log("facebook: loaded myradius=%" INT32 "",(int32_t)fbrec->m_myRadius);
 
 
 	// or if its an hour old i guess, get another token
@@ -500,7 +500,7 @@ bool Msgfb::gotFBAccessToken ( TcpSocket *s ) {
 	// not good?
 	int32_t httpStatus = mime.getHttpStatus();
 	if ( httpStatus != 200 ) {
-		log("facebook: bad access request http status = %"INT32". "
+		log("facebook: bad access request http status = %" INT32 ". "
 		    "reply=%s",
 		    httpStatus ,
 		    reply );
@@ -518,7 +518,7 @@ bool Msgfb::gotFBAccessToken ( TcpSocket *s ) {
 	m_accessToken[0] = '\0';
 
 	// look for access token
-	//sscanf(content,"access_token=%s&expires=%"INT32"",m_accessToken,&expires);
+	//sscanf(content,"access_token=%s&expires=%" INT32 "",m_accessToken,&expires);
 	char *at = strstr(content,"access_token=");
 	if ( at ) {
 		char *p = at + 13;
@@ -651,7 +651,7 @@ bool Msgfb::gotFBUserToUserRequest ( TcpSocket *s ) {
 	// not good?
 	int32_t httpStatus = mime.getHttpStatus();
 	if ( httpStatus != 200 ) {
-		log("facebook: bad fb request reply http status = %"INT32". "
+		log("facebook: bad fb request reply http status = %" INT32 ". "
 		    "reply=%s",
 		    httpStatus ,
 		    reply );
@@ -829,7 +829,7 @@ bool Msgfb::gotFQLUserInfo ( TcpSocket *s ) {
 	// not good?
 	int32_t httpStatus = mime.getHttpStatus();
 	if ( httpStatus != 200 ) {
-		log("facebook: bad fql request http status = %"INT32"",
+		log("facebook: bad fql request http status = %" INT32 "",
 		    httpStatus );
 		g_errno = EBADREPLY;
 		m_errno = g_errno;
@@ -872,7 +872,7 @@ bool Msgfb::gotFQLUserInfo ( TcpSocket *s ) {
 	}
 
 	// sanity
-	log("facebook: got initial facebook reply. fbid=%"INT64"",m_fbId);
+	log("facebook: got initial facebook reply. fbid=%" INT64 "",m_fbId);
 
 	// point to it!
 	m_fbrecPtr = &m_fbrecGen;
@@ -951,11 +951,11 @@ void mergeFBRec ( FBRec *dst , FBRec *src ) {
 // returns false if blocked, true otherwise
 bool Msgfb::saveFBRec ( FBRec *fbrec ) {
 
-	log("facebook: saving fbrec for fbid=%"INT64"",m_fbId);
+	log("facebook: saving fbrec for fbid=%" INT64 "",m_fbId);
 
-	log("facebook: saving myradius=%"INT32"",fbrec->m_myRadius);
+	log("facebook: saving myradius=%" INT32 "",fbrec->m_myRadius);
 	log("facebook: saving mylocation=%s",fbrec->ptr_myLocation);
-	log("facebook: saving emailfreq=%"INT32"",(int32_t)fbrec->m_emailFrequency);
+	log("facebook: saving emailfreq=%" INT32 "",(int32_t)fbrec->m_emailFrequency);
 
 	// . returns NULL and sets g_errno on error
 	// . "true" means we should make mr.ptr_* reference into the newly
@@ -1042,7 +1042,7 @@ bool Msgfb::doneRechecking ( ) {
 				 m_oldFbrec->m_buf );
 		// sanity
 		if ( m_fbId != m_oldFbrec->m_fbId ) 
-			log("facebook: fbid mismatch 3 %"UINT64" != %"UINT64"",
+			log("facebook: fbid mismatch 3 %" UINT64 " != %" UINT64 "",
 			    m_fbId,m_oldFbrec->m_fbId);
 		// int16_tcuts
 		FBRec *src = m_oldFbrec;
@@ -1085,7 +1085,7 @@ bool Msgfb::doneRechecking ( ) {
 	// here and save them back to facebookdb.
 	m_afterSaveCallback = savedFBRecWrapper1;
 
-	log("facebook: saving rec for fbid=%"INT64"",m_fbId);
+	log("facebook: saving rec for fbid=%" INT64 "",m_fbId);
 
 	// . queue it up. it returns true if added to the queue.
 	// . it won't add it if no room or its already in the queue.
@@ -1127,7 +1127,7 @@ bool Msgfb::setFBRecFromFQLReply ( char *content,
 		SafeBuf eb;
 		eb.safeMemcpy ( content,contentLen);
 		char fname[128];
-		sprintf(fname,"error.%"UINT64"",m_fbId);
+		sprintf(fname,"error.%" UINT64 "",m_fbId);
 		eb.save("/tmp/",fname);
 		g_errno = EBADREPLY;
 		return false;
@@ -1358,10 +1358,10 @@ bool Msgfb::setFBRecFromFQLReply ( char *content,
 			char c = rsvp_status[6];
 			rsvp_status[6] = '\0';
 			log("facebook: got event "
-			    "eid=%"UINT64" "
-			    "uid=%"UINT64" "
+			    "eid=%" UINT64 " "
+			    "uid=%" UINT64 " "
 			    "rsvp_status=%s "
-			    "start_time=%"UINT32""
+			    "start_time=%"U INT32 ""
 			    , eid
 			    , uid
 			    , rsvp_status
@@ -1476,11 +1476,11 @@ bool queueFBId ( int64_t fbId , collnum_t collnum ) {
 	//	return true;
 	//}
 	if ( g_n1 >= 100 )
-		return log("facebook: could not add fbid=%"INT64" to queue",fbId);
+		return log("facebook: could not add fbid=%" INT64 " to queue",fbId);
 
 	// make sure not already in
 	if ( isInQueue ( fbId , collnum ) ) return false;
-	log("facebook: queueing fbid=%"INT64"",fbId);
+	log("facebook: queueing fbid=%" INT64 "",fbId);
 	g_fbq1   [ g_n1 ] = fbId;
 	g_colls1 [ g_n1 ] = collnum;
 	g_n1++;
@@ -1497,7 +1497,7 @@ static void doneProcessingWrapper ( void *state ) {
 	g_msgfb.m_inProgress = false;
 	g_msgfb.reset();
 	// note it
-	log("facebook: done with queue for fbid=%"UINT64". error=%s",
+	log("facebook: done with queue for fbid=%" UINT64 ". error=%s",
 	    g_fbq1[0],mstrerror(err));
 	// save it for potential re-add
 	//int64_t fsaved = g_fbq1  [0];
@@ -1684,7 +1684,7 @@ void Msgfb::queueLoop ( ) {
 		m_oldFbrec = (FBRec *)m_list33.getList();
 		// get is fbid and queue that
 		if ( m_oldFbrec->m_fbId < 0 ) {
-			log("fbqueue: bad fbid in local scan: %"INT64"",
+			log("fbqueue: bad fbid in local scan: %" INT64 "",
 			    m_oldFbrec->m_fbId);
 			g_errno = EBADREPLY;
 			goto error;
@@ -1715,7 +1715,7 @@ void Msgfb::queueLoop ( ) {
 				 // ask for 100 results
 				 "max=100&"
 				 "sort_by=id&"
-				 "since_id=%"INT64""
+				 "since_id=%" INT64 ""
 				 // no need to add 1 to s_ptr4, just make
 				 // sure that it exactly equals the LAST
 				 // id we injected because it is EXCLUDED
@@ -1967,7 +1967,7 @@ void Msgfb::queueLoop ( ) {
 		}
 		// empty is bad
 		if ( m_list1.getListSize() <= 0 ) {
-			log("fbqueue: facebookdb rec is empty. wtf? fbid=%"INT64"",
+			log("fbqueue: facebookdb rec is empty. wtf? fbid=%" INT64 "",
 			    m_fbId);
 			g_errno = EBADREPLY;
 			goto error;
@@ -1976,7 +1976,7 @@ void Msgfb::queueLoop ( ) {
 		m_oldFbrec = (FBRec *)m_list1.getList();
 		// sanity
 		if ( m_oldFbrec->m_fbId != m_fbId ) {
-			log("fbqueue: fbid mismatch. fbid=%"INT64"", m_fbId);
+			log("fbqueue: fbid mismatch. fbid=%" INT64 "", m_fbId);
 			g_errno = EBADREPLY;
 			goto error;
 		}
@@ -2056,11 +2056,11 @@ void Msgfb::queueLoop ( ) {
 			SafeBuf eb;
 			eb.safeMemcpy ( reply,replyLen);
 			char fname[128];
-			sprintf(fname,"error1.%"UINT64"",m_fbId);
+			sprintf(fname,"error1.%" UINT64 "",m_fbId);
 			eb.save("/tmp/",fname);
 			// do a retry
 			if ( m_retryCount++ < 5 ) {
-				log("facebook: retrying %"INT32".",m_retryCount);
+				log("facebook: retrying %" INT32 ".",m_retryCount);
 				goto retryDownload;
 			}
 			// otherwise abandon ship
@@ -2074,7 +2074,7 @@ void Msgfb::queueLoop ( ) {
 	// download friend list
 	if ( m_phase == 3 ) {
 		// note it
-		log("facebook: downloading friend list fbid=%"INT64"",m_fbId);
+		log("facebook: downloading friend list fbid=%" INT64 "",m_fbId);
 		// get your facebook user info again in case it changed
 		SafeBuf cmd;
 		cmd.safePrintf ( "SELECT uid2 from friend WHERE uid1=me()");
@@ -2127,7 +2127,7 @@ void Msgfb::queueLoop ( ) {
 		if ( httpStatus != 200 ) g_errno = EBADREPLY;
 		// bail on http reply error
 		if ( g_errno ) {
-			log("fbqueue: error getting friend list fbid=%"INT64": "
+			log("fbqueue: error getting friend list fbid=%" INT64 ": "
 			    "%s", m_fbId,   mstrerror(g_errno));
 			goto error;
 		}
@@ -2142,8 +2142,8 @@ void Msgfb::queueLoop ( ) {
 	if ( m_phase == 5 ) {
 	recallMembers:
 		// note it
-		log("facebook: downloading event members #%"INT32"-#%"INT32" "
-		    "fbid=%"INT64"",
+		log("facebook: downloading event members #%" INT32 "-#%" INT32 " "
+		    "fbid=%" INT64 "",
 		    m_chunkStart,m_chunkStart+m_chunkSize,m_fbId);
 		// get status of each friend attending an event & what eventid
 		SafeBuf cmd;
@@ -2151,7 +2151,7 @@ void Msgfb::queueLoop ( ) {
 		cmd.safePrintf ( "SELECT uid, eid, rsvp_status, start_time "
 				 "FROM event_member where uid IN "
 				 "( SELECT uid2 from friend WHERE uid1=me() "
-				 "LIMIT %"INT32",%"INT32") "
+				 "LIMIT %" INT32 ",%" INT32 ") "
 				 , m_chunkStart , m_chunkSize 
 				 // this start_time from the event_member table
 				 // is not accurate. it is often in the past! 
@@ -2205,7 +2205,7 @@ void Msgfb::queueLoop ( ) {
 		if ( httpStatus != 200 ) g_errno = EBADREPLY;
 		// bail on http reply error
 		if ( g_errno ) {
-			log("fbqueue: error getting event members fbid=%"INT64": "
+			log("fbqueue: error getting event members fbid=%" INT64 ": "
 			    "%s", m_fbId,   mstrerror(g_errno));
 			// count it
 			m_errorCount++;
@@ -2233,15 +2233,15 @@ void Msgfb::queueLoop ( ) {
 		// get MY events
 	recallMyEvents:
 		// note it
-		log("facebook: downloading my event ids #%"INT32"-#%"INT32" "
-		    "fbid=%"INT64"",
+		log("facebook: downloading my event ids #%" INT32 "-#%" INT32 " "
+		    "fbid=%" INT64 "",
 		    m_myChunkStart,m_myChunkStart+m_myChunkSize,m_fbId);
 		// get status of each friend attending an event & what eventid
 		SafeBuf cmd;
 		// if this fails then chunk down to 50 instead of 300
 		cmd.safePrintf ( "SELECT uid, eid, rsvp_status, start_time "
 				 "FROM event_member where uid=me() "
-				 "LIMIT %"INT32",%"INT32""
+				 "LIMIT %" INT32 ",%" INT32 ""
 				 , m_myChunkStart , m_myChunkSize 
 				 // this start_time from the event_member table
 				 // is not accurate. it is often in the past! 
@@ -2295,7 +2295,7 @@ void Msgfb::queueLoop ( ) {
 		if ( httpStatus != 200 ) g_errno = EBADREPLY;
 		// bail on http reply error
 		if ( g_errno ) {
-			log("fbqueue: error getting my events fbid=%"INT64": "
+			log("fbqueue: error getting my events fbid=%" INT64 ": "
 			    "%s", m_fbId,   mstrerror(g_errno));
 			// count it
 			m_errorCount++;
@@ -2324,7 +2324,7 @@ void Msgfb::queueLoop ( ) {
 	if ( m_phase == 9 ) {
 		// save to disk for debug
 		char fname[64];
-		sprintf(fname,"%"INT64".txt",m_fbId);
+		sprintf(fname,"%" INT64 ".txt",m_fbId);
 		m_fullReply.save("/tmp/",fname);
 		// compile into a new facebook rec
 		char *content    = m_fullReply.getBufStart();
@@ -2374,7 +2374,7 @@ void Msgfb::queueLoop ( ) {
 			//goto skipdown;
 		}
 		// note it
-		log("facebook: downloading events #%"INT32"-#%"INT32" fbid=%"INT64"",
+		log("facebook: downloading events #%" INT32 "-#%" INT32 " fbid=%" INT64 "",
 		    m_eventStartNum,m_eventStartNum+m_eventStep,m_fbId);
 		SafeBuf cmd;
 		cmd.safePrintf ( "SELECT eid, "
@@ -2416,7 +2416,7 @@ void Msgfb::queueLoop ( ) {
 		      i < m_eventStartNum + m_eventStep ; i++ ) {
 			if ( printed ) cmd.pushChar(',');
 			printed = true;
-			cmd.safePrintf("%"INT64"",eids[i]);
+			cmd.safePrintf("%" INT64 "",eids[i]);
 		}
 		// end it
 		cmd.safePrintf(")");
@@ -2474,7 +2474,7 @@ void Msgfb::queueLoop ( ) {
 			char *reply = "";
 			if ( m_socket && m_socket->m_readBuf )
 				reply = m_socket->m_readBuf;
-			log("fbqueue: error getting events fbid=%"INT64": "
+			log("fbqueue: error getting events fbid=%" INT64 ": "
 			    "%s : %s", m_fbId,   mstrerror(g_errno),reply);
 			// bail right away if doing spider
 			if ( m_fbId <= 0 ) goto error;
@@ -2506,7 +2506,7 @@ void Msgfb::queueLoop ( ) {
 
 		// show it
 		if ( type )
-			log("facebook: got %s reply (%"INT32" bytes)"
+			log("facebook: got %s reply (%" INT32 " bytes)"
 			    , type , m_rbuf.length() );
 
 		//fprintf(stderr,"full raw reply=%s",m_rbuf.getBufStart());
@@ -2611,7 +2611,7 @@ void Msgfb::queueLoop ( ) {
 			// count them
 			m_numEvents++;
 		}
-		log("facebook: got %"INT32" events from %s",m_numEvents,type);
+		log("facebook: got %" INT32 " events from %s",m_numEvents,type);
 
 		// if we got 0 events from an eventbrite request, then
 		// wait for an hour before retrying
@@ -2656,14 +2656,14 @@ void Msgfb::queueLoop ( ) {
 		//if ( eventIds[m_i] != 314901535212815LL ) {m_i++; continue;}
 		// make a fake url
 		char url[128];
-		sprintf(url,"http://www.facebook.com/events/%"UINT64"",
+		sprintf(url,"http://www.facebook.com/events/%" UINT64 "",
 			eventIds[m_i]);
 		// is it a stubhub event? <str name="event_id">2659223</str>
 		if ( m_fbId == -1 )
-			sprintf(url,"http://www.stubhub.com/%"UINT64"",
+			sprintf(url,"http://www.stubhub.com/%" UINT64 "",
 				eventIds[m_i]);
 		if ( m_fbId == -2 )
-			sprintf(url,"http://www.eventbrite.com/%"UINT64"",
+			sprintf(url,"http://www.eventbrite.com/%" UINT64 "",
 				eventIds[m_i]);
 
 		// test debug (on for eventbrite now)
@@ -2803,7 +2803,7 @@ void Msgfb::queueLoop ( ) {
 		if ( m_fbId > 0 ) {
 			// final save of rec to clear the FB_INQUEUE bit
 			m_afterSaveCallback = queueLoopWrapper;
-			log("facebook: saving final rec for fbid=%"INT64"",m_fbId);
+			log("facebook: saving final rec for fbid=%" INT64 "",m_fbId);
 			m_fbrecGen.m_flags &= ~FB_INQUEUE;
 			m_fbrecGen.m_eventsDownloaded = getTimeGlobal();
 			// this calls serializeMsg() which mallocs a 
@@ -2824,7 +2824,7 @@ void Msgfb::queueLoop ( ) {
 		// this will purge fullreply
 		reset();
 		// note it
-		log("facebook: done with queue for fbid=%"INT64". error=%s",
+		log("facebook: done with queue for fbid=%" INT64 ". error=%s",
 		    g_fbq1[0],mstrerror(err));
 
 		// if we are eventbrite, update s_ptr4 to the last eventid
@@ -2846,7 +2846,7 @@ void Msgfb::queueLoop ( ) {
 	}
 
  error:
-	log("facebook: queue fbid %"INT64" had error: %s",
+	log("facebook: queue fbid %" INT64 " had error: %s",
 	    m_fbId,mstrerror(g_errno));
 	// no longer in progress
 	m_inProgress = false;
@@ -2865,7 +2865,7 @@ void Msgfb::queueLoop ( ) {
 	g_numOut--;
 	// re-add on certain errors
 	if ( g_errno == ETIMEDOUT || g_errno == ESOCKETCLOSED ) {
-		log("facebook: re-queue fbid %"INT64" from error: %s",
+		log("facebook: re-queue fbid %" INT64 " from error: %s",
 		    m_fbId,mstrerror(g_errno));
 		queueFBId ( fsaved , csaved );
 	}
@@ -2947,7 +2947,7 @@ bool Msgfb::makeLikedbKeyList ( Msg7 *msg7 , RdbList *list ) {
 		lts = (LikedbTableSlot *)m_likedbTable.getDataFromSlot(i);
 		// debug note
 		if ( g_conf.m_logDebugFacebook )
-			log("facebook: makerec uid=%"INT64"",lts->m_uid);
+			log("facebook: makerec uid=%" INT64 "",lts->m_uid);
 		// assume they "like" it
 		int64_t value = 1LL;
 		// unless it is "negative"
@@ -3007,7 +3007,7 @@ bool Msgfb::makeLikedbKeyList ( Msg7 *msg7 , RdbList *list ) {
 
 	// debug
 	//key192_t *k2 = (key192_t *)rec2;
-	//log("key: 0x%"XINT64" 0x%"XINT64" 0x%"XINT64"",k2->n2,k2->n1,k2->n0);
+	//log("key: 0x%" XINT64 " 0x%" XINT64 " 0x%" XINT64 "",k2->n2,k2->n1,k2->n0);
 	// all done if nothing
 	if ( count == 0 ) return true;
 	// sort the records in tmp now
@@ -3107,7 +3107,7 @@ static void gotFQLReplyWrapper ( void *state , TcpSocket *s ) {
 // fql console: http://developers.facebook.com/docs/reference/rest/fql.query/
 bool Msgfb::hitFacebook ( ) {
 
-	log("facebook: downloading event_members for %"UINT64"",m_fbId);
+	log("facebook: downloading event_members for %" UINT64 "",m_fbId);
 
 	if ( g_errno ) {
 		log("fbqueue: error getting facebookdb rec: %s", 
@@ -3117,7 +3117,7 @@ bool Msgfb::hitFacebook ( ) {
 
 	// empty is bad
 	if ( m_list1.getListSize() <= 0 ) {
-		log("fbqueue: facebookdb rec is empty. wtf? fbid=%"INT64"",
+		log("fbqueue: facebookdb rec is empty. wtf? fbid=%" INT64 "",
 		    m_fbId);
 		g_errno = EBADREPLY;
 		return true;
@@ -3128,7 +3128,7 @@ bool Msgfb::hitFacebook ( ) {
 
 	// sanity
 	if ( m_fbrecPtr->m_fbId != m_fbId ) {
-		log("fbqueue: fbid mismatch. fbid=%"INT64"", m_fbId);
+		log("fbqueue: fbid mismatch. fbid=%" INT64 "", m_fbId);
 		g_errno = EBADREPLY;
 		return true;
 	}
@@ -3252,12 +3252,12 @@ bool Msgfb::gotFQLReply ( TcpSocket *s ) {
 	// not good?
 	int32_t httpStatus = mime.getHttpStatus();
 	if ( httpStatus != 200 ) {
-		log("facebook: bad fql request 2 http status = %"INT32". reply=%s"
+		log("facebook: bad fql request 2 http status = %" INT32 ". reply=%s"
 		    , httpStatus 
 		    , reply
 		    );
 		log("facebook: resuming despite error to download friends "
-		    "for fbid=%"INT64"",m_fbId);
+		    "for fbid=%" INT64 "",m_fbId);
 		//g_errno = EBADREPLY;
 		m_errno = EBADREPLY;
 		//m_errorCount++;
@@ -3273,7 +3273,7 @@ bool Msgfb::gotFQLReply ( TcpSocket *s ) {
 	if ( errMsg ) {
 		log("facebook: error in fql reply: %s", content );
 		log("facebook: resuming despite error to download friends "
-		    "for fbid=%"INT64"",m_fbId);
+		    "for fbid=%" INT64 "",m_fbId);
 		//g_errno = EBADREPLY;
 		m_errno = EBADREPLY;
 		//m_errorCount++;
@@ -3342,7 +3342,7 @@ bool Msgfb::downloadEvents ( ) {
 	// reset this since we check for it in injectFBEventsWrapper
 	m_errno = 0;
 
-	log("facebook: downloading events for %"UINT64" (#%"INT32"-#%"INT32")",
+	log("facebook: downloading events for %" UINT64 " (#%" INT32 "-#%" INT32 ")",
 	    m_fbId,m_eventStartNum,m_eventStartNum+m_eventStep);
 
 	// skip matt wells for now
@@ -3366,7 +3366,7 @@ bool Msgfb::downloadEvents ( ) {
 	     m_eventStartNum < 130 &&
 	     m_errorCount >= 10 ) {
 		log("facebook: too many errors in event downloads. "
-		    "fbid=%"INT64" . giving up. start=%"INT32" errcount=%"INT32"",
+		    "fbid=%" INT64 " . giving up. start=%" INT32 " errcount=%" INT32 "",
 		    m_fbId,m_eventStartNum,m_errorCount);
 		return doFinalFBRecSave();
 	}
@@ -3401,7 +3401,7 @@ bool Msgfb::downloadEvents ( ) {
 			  " SELECT eid FROM event_member WHERE "
 			  "uid IN "
 			  "( SELECT uid2 from friend WHERE uid1=me()) ) "
-			  "LIMIT %"INT32",%"INT32""
+			  "LIMIT %" INT32 ",%" INT32 ""
 			  , m_eventStartNum
 			  , m_eventStep
 			  );
@@ -3413,7 +3413,7 @@ bool Msgfb::downloadEvents ( ) {
 	//for ( int32_t i = 0 ; i < n ; i++ ) {
 	//	if ( ! firstOne ) cmd4.pushChar(',');
 	//	firstOne = false;
-	//	cmd4.safePrintf("%"UINT64"",newIds[i]);
+	//	cmd4.safePrintf("%" UINT64 "",newIds[i]);
 	//}
 	//cmd4.safePrintf ( ")" // ORDER by start_time ASC "
 	//		  // LIMIT 1001,100 etc. 
@@ -3501,7 +3501,7 @@ bool Msgfb::injectFBEvents ( TcpSocket *s ) {
 	// not good?
 	int32_t httpStatus = mime.getHttpStatus();
 	if ( httpStatus != 200 ) {
-		log("facebook: bad fql request 3 http status = %"INT32". reply=%s",
+		log("facebook: bad fql request 3 http status = %" INT32 ". reply=%s",
 		    httpStatus ,reply );
 		g_errno = EBADREPLY;
 		m_errno = g_errno;
@@ -3569,7 +3569,7 @@ bool Msgfb::injectFBEvents ( TcpSocket *s ) {
 
 	int32_t askedFor = m_eidBuf.length() / 8;
 	if ( askedFor != m_numEvents )
-		log("facebook: asked for %"INT32" events but got %"INT32"",
+		log("facebook: asked for %" INT32 " events but got %" INT32 "",
 		    askedFor,m_numEvents );
 
 	// bail if none!
@@ -3616,7 +3616,7 @@ bool Msgfb::doInjectionLoop ( ) {
 		//content[contentLen] = '\0';
 		// make a fake url
 		char url[128];
-		sprintf(url,"http://www.facebook.com/events/%"UINT64"",
+		sprintf(url,"http://www.facebook.com/events/%" UINT64 "",
 			eventIds[m_i]);
 		// test debug
 		if ( g_conf.m_logDebugFacebook )
@@ -3778,7 +3778,7 @@ static void savedFinalFBRecWrapper3 ( void *state ) {
 // final save of rec to clear the FB_INQUEUE bit
 bool Msgfb::doFinalFBRecSave ( ) {
 	m_afterSaveCallback = savedFinalFBRecWrapper3;
-	log("facebook: saving final rec for fbid=%"INT64"",m_fbId);
+	log("facebook: saving final rec for fbid=%" INT64 "",m_fbId);
 	m_fbrecGen.m_flags &= ~FB_INQUEUE;
 	m_fbrecGen.m_eventsDownloaded = getTimeGlobal();
 	// this calls serializeMsg() which mallocs a new reply to add
@@ -3952,8 +3952,8 @@ char *Likedb::makeRecs ( int64_t  uid         ,
 
 	uint32_t eventHash32 = (uint32_t)eventHash64;
 
-	//log("facebook: adding eventhash64 = %"UINT64"",eventHash64 );
-	//log("facebook: adding eventhash32 = %"UINT32"",eventHash32 );
+	//log("facebook: adding eventhash64 = %" UINT64 "",eventHash64 );
+	//log("facebook: adding eventhash32 = %"U INT32 "",eventHash32 );
 
 	//
 	// make the first type of rec
@@ -4282,8 +4282,8 @@ bool Msgfb::gotAppAccessToken ( ) {
 	args.urlEncode( title );
 	args.safePrintf("&description=");
 	args.urlEncode( description );
-	args.safePrintf("&start_time=%"UINT32""
-			"&end_time=%"UINT32""
+	args.safePrintf("&start_time=%"U INT32 ""
+			"&end_time=%"U INT32 ""
 			"&latitude=%.07f"
 			"&longitude=%.07f"
 			, start_time
@@ -4467,7 +4467,7 @@ bool Msgfb::gotAppAccessToken ( TcpSocket *s ) {
 	// not good?
 	int32_t httpStatus = mime.getHttpStatus();
 	if ( httpStatus != 200 ) {
-		log("facebook: bad app access request http status = %"INT32"",
+		log("facebook: bad app access request http status = %" INT32 "",
 		    httpStatus );
 		g_errno = EBADREPLY;
 		return;
@@ -4480,7 +4480,7 @@ bool Msgfb::gotAppAccessToken ( TcpSocket *s ) {
 	s_appAccessToken[0] = '\0';
 
 	// look for access token
-	//sscanf(content,"access_token=%s&expires=%"INT32"",m_accessToken,&expires);
+	//sscanf(content,"access_token=%s&expires=%" INT32 "",m_accessToken,&expires);
 	char *at = strstr(content,"access_token=");
 	if ( at ) {
 		char *p = at + 13;
@@ -4671,8 +4671,8 @@ bool Emailer::launchEmail ( int64_t fbId ) {
 			      "showpersonal=1&"
 			      //"where=anywhere&"
 			      // this should override the fbid in the cookie
-			      "usefbid=%"INT64"&"
-			      "fh=%"UINT32"&"
+			      "usefbid=%" INT64 "&"
+			      "fh=%"U INT32 "&"
 			      "usecookie=0&"
 			      "map=0&"
 			      "n=25&"
@@ -4745,7 +4745,7 @@ bool Emailer::getMailServerIP ( EmailState *es ) {
 	// if no results, skip it the next couple functions
 	//
 	if ( es->m_emailResultsBuf.length() == 0 ) {
-		log("emailer: no results for user %"UINT64"",es->m_fbId);
+		log("emailer: no results for user %" UINT64 "",es->m_fbId);
 		return gotEmailReply ( es , NULL );
 	}
 
@@ -4756,7 +4756,7 @@ bool Emailer::getMailServerIP ( EmailState *es ) {
 	if ( rb ) emailTo = strstr(rb,"RCPT To:<");
 	// bail on error
 	if ( ! emailTo ) {
-		log("emailer: no email address for %"UINT64"",es->m_fbId);
+		log("emailer: no email address for %" UINT64 "",es->m_fbId);
 		es->m_emailResultsBuf.purge();
 		es->m_emailLikedbListBuf.purge();
 		es->m_inUse = false;
@@ -4770,7 +4770,7 @@ bool Emailer::getMailServerIP ( EmailState *es ) {
 	for ( ; *p && *p != '@' && p < pend ; p++ ) ;
 	if ( p >= pend || ! *p ) {
 		log("emailer: no at sign in email address "
-		    "for %"UINT64"",es->m_fbId);
+		    "for %" UINT64 "",es->m_fbId);
 		es->m_emailResultsBuf.purge();
 		es->m_emailLikedbListBuf.purge();
 		es->m_inUse = false;
@@ -4787,7 +4787,7 @@ bool Emailer::getMailServerIP ( EmailState *es ) {
 	int32_t domLen = p - dom;
 	if ( p >= pend || ! *p || domLen > 80 ) {
 		log("emailer: no valid subdomain in email address "
-		    "for %"UINT64"",es->m_fbId);
+		    "for %" UINT64 "",es->m_fbId);
 		es->m_emailResultsBuf.purge();
 		es->m_emailLikedbListBuf.purge();
 		es->m_inUse = false;
@@ -4843,7 +4843,7 @@ bool Emailer::gotMXIp ( EmailState *es ) {
 	int32_t ip = es->m_ip;//msgc.getIp();
 	// problem?
 	if ( ip == 0 || ip == -1 ) {
-		log("emailer: bad ip of %"INT32" for %s for %"UINT64"",
+		log("emailer: bad ip of %" INT32 " for %s for %" UINT64 "",
 		    ip,
 		    es->m_emailSubdomain,
 		    es->m_fbId);
@@ -4855,7 +4855,7 @@ bool Emailer::gotMXIp ( EmailState *es ) {
 	// send the message
 	TcpServer *ts = g_httpServer.getTcp();
 	// log it
-	log ( LOG_WARN, "emailer: Sending email to %"UINT64" size=%"INT32"", 
+	log ( LOG_WARN, "emailer: Sending email to %" UINT64 " size=%" INT32 "", 
 	      es->m_fbId , es->m_emailResultsBuf.length());
 
 	/*
@@ -4888,7 +4888,7 @@ bool Emailer::gotMXIp ( EmailState *es ) {
 	//
 	char filename[512];
 	int32_t now = getTimeLocal();
-	sprintf ( filename,"html/email/email.%"UINT64".%"UINT32""
+	sprintf ( filename,"html/email/email.%" UINT64 ".%"U INT32 ""
 		  , es->m_fbId
 		  , now
 		  );
@@ -4896,7 +4896,7 @@ bool Emailer::gotMXIp ( EmailState *es ) {
 	log("facebook: saving email %s", filename);
 	SafeBuf embuf;
 	embuf.load(g_hostdb.m_dir,"html/email/email.html");
-	embuf.safePrintf("<a href=/email/email.%"UINT64".%"UINT32">email.%"UINT64".%"UINT32"</a><br>"
+	embuf.safePrintf("<a href=/email/email.%" UINT64 ".%"U INT32 ">email.%" UINT64 ".%"U INT32 "</a><br>"
 			 , es->m_fbId
 			 , now
 			 , es->m_fbId
@@ -4904,7 +4904,7 @@ bool Emailer::gotMXIp ( EmailState *es ) {
 			 );
 	embuf.save(g_hostdb.m_dir,"html/email/email.html");
 
-	log("facebook: emailing %"INT32" bytes",
+	log("facebook: emailing %" INT32 " bytes",
 	    es->m_emailResultsBuf.length() );
 
 
@@ -4950,7 +4950,7 @@ bool Emailer::gotEmailReply ( EmailState *es , TcpSocket *s ) {
 	es->m_emailResultsBuf.purge();
 
 	if ( g_errno ) { 
-		log("emailer: got error sending to fbid=%"INT64": %s",es->m_fbId,
+		log("emailer: got error sending to fbid=%" INT64 ": %s",es->m_fbId,
 		    mstrerror(g_errno));
 		es->m_errno = g_errno;
 		// reset these errors just in case
@@ -4964,7 +4964,7 @@ bool Emailer::gotEmailReply ( EmailState *es , TcpSocket *s ) {
 		log("emailer: missing email server reply!");
 
 
-	log("emailer: getting fbrec for fbid=%"INT64"",es->m_fbId);
+	log("emailer: getting fbrec for fbid=%" INT64 "",es->m_fbId);
 
 	// load the facebookdb rec so we can update it and save it then
 	key96_t startKey;
@@ -5008,7 +5008,7 @@ bool Emailer::gotRec3 ( EmailState *es ) {
 
 	// error loading?
 	if ( g_errno ) {
-		log("emailer: error loading facebookdb rec for %"UINT64"",
+		log("emailer: error loading facebookdb rec for %" UINT64 "",
 		    es->m_fbId );
 		es->m_errno = g_errno;
 	}
@@ -5016,7 +5016,7 @@ bool Emailer::gotRec3 ( EmailState *es ) {
 
 	// empty is bad
 	if ( es->m_list9.getListSize() <= 0 ) {
-		log("emailer: facebookdb rec is empty. wtf? fbid=%"INT64"",
+		log("emailer: facebookdb rec is empty. wtf? fbid=%" INT64 "",
 		    es->m_fbId);
 		es->m_errno = EBADREPLY;
 	}
@@ -5102,7 +5102,7 @@ bool Emailer::savedUpdatedRec ( EmailState *es ) {
 	eb->detachBuf();
 	// note it
 	log("facebook: adding events to likedb to prevent re-emailing. "
-	    "listsize=%"INT32"",es->m_list5.getListSize());
+	    "listsize=%" INT32 "",es->m_list5.getListSize());
 	// add that
 	if ( ! es->m_msg1.addList ( &es->m_list5 ,
 				    RDB_LIKEDB ,
@@ -5290,7 +5290,7 @@ void Emailer::gotScanList ( ) {
 		if ( ef == 3 ) continue;
 		// strange?
 		if ( ef != 1 && ef != 2 ) {
-			log("email: strange freq = %"INT32"",(int32_t)ef);
+			log("email: strange freq = %" INT32 "",(int32_t)ef);
 			continue;
 		}
 		// int16_tcut
@@ -5606,7 +5606,7 @@ char *getNextQuery ( ) {
 			// key for making sure we have no dups in tree2.
 			k.n0 = (uint64_t)pd;
 			//note it
-			//log("adding pop=%"UINT32"",pop);
+			//log("adding pop=%"U INT32 "",pop);
 			// add to b-tree to sort by pop
 			tree2.addNode(0,k,(char *)offset,4);
 		}
@@ -5720,15 +5720,15 @@ bool saveQueryLoopState ( ) {
 	ss.pushLongLong(s_ptr5);
 	ss.pushLong    (s_localWaitUntil);
 	log("facebook: saving fbloop.dat. "
-	    "s_ptr1=%"INT32" "
-	    "s_ptr2=%"INT32" "
-	    "s_ptr3=%"INT32" "
-	    "s_ptr4=%"INT64" "
-	    "s_ptr5=%"INT64" "
-	    "s_holdOffStubHubTill=%"UINT32" "
-	    "s_eventBriteWaitUntil=%"UINT32" "
-	    "s_localWaitUntil=%"UINT32" "
-	    "g_n1=%"INT32"",
+	    "s_ptr1=%" INT32 " "
+	    "s_ptr2=%" INT32 " "
+	    "s_ptr3=%" INT32 " "
+	    "s_ptr4=%" INT64 " "
+	    "s_ptr5=%" INT64 " "
+	    "s_holdOffStubHubTill=%"U INT32 " "
+	    "s_eventBriteWaitUntil=%"U INT32 " "
+	    "s_localWaitUntil=%"U INT32 " "
+	    "g_n1=%" INT32 "",
 	    s_ptr1,
 	    s_ptr2,
 	    s_ptr3,
@@ -5766,15 +5766,15 @@ bool loadQueryLoopState ( ) {
 	s_localWaitUntil = *(int32_t      *)p; p += 4;
  done:
 	log("facebook: loaded fbloop.dat. "
-	    "s_ptr1=%"INT32" "
-	    "s_ptr2=%"INT32" "
-	    "s_ptr3=%"INT32" "
-	    "s_ptr4=%"INT64" "
-	    "s_ptr5=%"INT64" "
-	    "s_holdOffStubHubTill=%"UINT32" "
-	    "s_eventBriteWaitUntil=%"UINT32" "
-	    "s_localWaitUntil=%"UINT32" "
-	    "g_n1=%"INT32"",
+	    "s_ptr1=%" INT32 " "
+	    "s_ptr2=%" INT32 " "
+	    "s_ptr3=%" INT32 " "
+	    "s_ptr4=%" INT64 " "
+	    "s_ptr5=%" INT64 " "
+	    "s_holdOffStubHubTill=%"U INT32 " "
+	    "s_eventBriteWaitUntil=%"U INT32 " "
+	    "s_localWaitUntil=%"U INT32 " "
+	    "g_n1=%" INT32 "",
 	    s_ptr1,
 	    s_ptr2,
 	    s_ptr3,

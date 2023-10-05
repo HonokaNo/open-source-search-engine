@@ -46,7 +46,7 @@ main ( int argc , char *argv[] ) {
 
 	s_numThreads = atoi(argv[2]);
 	s_maxReadSize = atoi(argv[3]);
-	fprintf(stderr,"threads = %"INT32"  maxReadSize = %"INT32"\n",
+	fprintf(stderr,"threads = %" INT32 "  maxReadSize = %" INT32 "\n",
 		s_numThreads, s_maxReadSize );
 
 	if ( s_maxReadSize <= 0 ) s_maxReadSize = 1;
@@ -62,7 +62,7 @@ main ( int argc , char *argv[] ) {
 		exit(-1);
 	}
 	s_filesize = stats.st_size;
-	fprintf(stderr,"file size = %"INT32"\n",s_filesize);
+	fprintf(stderr,"file size = %" INT32 "\n",s_filesize);
 	// seed rand
 	srand(time(NULL));
 	// open 2 file descriptors
@@ -116,7 +116,7 @@ void *startUp ( void *state ) {
 	// we got ourselves
 	s_launched++;
 	// msg
-	fprintf(stderr,"id = %"INT32" launched\n",id);
+	fprintf(stderr,"id = %" INT32 " launched\n",id);
 	// wait for lock to be unleashed
 	while ( s_launched != s_numThreads ) usleep(10);
 	// now do a stupid loop
@@ -129,14 +129,14 @@ void *startUp ( void *state ) {
 		//if ( size < 32*1024 ) size = 32*1024;
 		// time it
 		int64_t start = gettimeofdayInMilliseconds();
-		//fprintf(stderr,"%"INT32") i=%"INT32" start\n",id,i );
+		//fprintf(stderr,"%" INT32 ") i=%" INT32 " start\n",id,i );
 		pread ( s_fd1 , buf , size , off );
-		//fprintf(stderr,"%"INT32") i=%"INT32" done\n",id,i );
+		//fprintf(stderr,"%" INT32 ") i=%" INT32 " done\n",id,i );
 		int64_t now = gettimeofdayInMilliseconds();
 		s_count++;
 		float sps = (float)((float)s_count * 1000.0) / 
 			(float)(now - s_startTime);
-		fprintf(stderr,"count=%"INT32" off=%"INT32" size=%"INT32" time=%"INT32"ms "
+		fprintf(stderr,"count=%" INT32 " off=%" INT32 " size=%" INT32 " time=%" INT32 "ms "
 			"(%.2f seeks/sec)\n",
 			(int32_t)s_count,
 			(int32_t)off,

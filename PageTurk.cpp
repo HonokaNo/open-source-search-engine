@@ -370,11 +370,11 @@ bool banTableReady ( State60 *st ) {
 	// add the tag then (overwrite?)
 	SafeBuf *tbuf = &st->m_tagBuf;
 	// . make the fake url
-	// . %"UINT64".gbturkuser.com
-	// . %"UINT64" could be the ip as a 32 bit int32_t or it could be
+	// . %" UINT64 ".gbturkuser.com
+	// . %" UINT64 " could be the ip as a 32 bit int32_t or it could be
 	//   a 64 bit hash of the turk user name
 	char fakebanurl[256];
-	sprintf(fakebanurl,"gbturkuser.com/%"UINT64"",key64);
+	sprintf(fakebanurl,"gbturkuser.com/%" UINT64 "",key64);
 	// use this timesampe
 	int32_t now = getTimeGlobal();
 	// must be 0 or 1
@@ -388,7 +388,7 @@ bool banTableReady ( State60 *st ) {
 	// make the data (e.g. "mwells,1"  or "1.2.3.4,1") means that
 	// mwells and 1.2.3.4 are banned turkusernames/turkips
 	char dbuf[1024];
-	sprintf(dbuf,"%s,%"INT32"",data,st->m_ban);
+	sprintf(dbuf,"%s,%" INT32 "",data,st->m_ban);
 	// first rdbid
 	//if ( ! tbuf->pushChar ( RDB_TURKDB ) ) goto hadError;
 	// add that tag to our buffer
@@ -615,7 +615,7 @@ bool sendPageTurkStats2 ( State60 *st ) {
 	if ( ! st->m_tuid64 ) sprintf(fakeUrl,"gbturkvotestat.com");
 	// just scan vote stats for that user... should still be sorted
 	// by Tag::m_timestamp since the tag type is "votestatbydate"
-	else sprintf(fakeUrl,"%"UINT64"gbturkvotestat.com",st->m_tuid64);
+	else sprintf(fakeUrl,"%" UINT64 "gbturkvotestat.com",st->m_tuid64);
 
 	// . now read in the list of turkvotestatbydate tags
 	//   and skip tags whose username does not match "turkuser"
@@ -1112,7 +1112,7 @@ bool printAllUserStats ( SafeBuf *sb , RdbList *list , State60 *st ) {
 			if ( tus->m_isBanned ) ban = 0;
 			if ( ! sb->safePrintf("<td><a href=/evalstats?"
 					      "evaluser=%s&"
-					      "ban=%"INT32"&"
+					      "ban=%" INT32 "&"
 					      "banevaluser="
 					      ,st->m_turkUser
 					      ,ban))
@@ -1194,7 +1194,7 @@ bool printAllUserStats ( SafeBuf *sb , RdbList *list , State60 *st ) {
 			if ( ! sb->safePrintf("<nobr>") ) return false;
 			if ( showBanLink &&
 			     ! sb->safePrintf("<a href=banevalip=%s&"
-					      "ban=%"INT32">%s</a> &nbsp; "
+					      "ban=%" INT32 ">%s</a> &nbsp; "
 					      ,ips 
 					      ,ban
 					      ,cmd) )
@@ -1208,40 +1208,40 @@ bool printAllUserStats ( SafeBuf *sb , RdbList *list , State60 *st ) {
 			return false;
 
 		// print vote count stats
-		if ( ! sb->safePrintf("<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
+		if ( ! sb->safePrintf("<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
 				      ,tus->m_errorPassed
 				      ,tus->m_errorFailed
 				      ,tus->m_errorUnconfirmed 
 				      ,tus->m_errorNone ) )
 			return false;
 		// print vote count stats
-		if ( ! sb->safePrintf("<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
+		if ( ! sb->safePrintf("<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
 				      ,tus->m_titlePassed
 				      ,tus->m_titleFailed
 				      ,tus->m_titleUnconfirmed 
 				      ,tus->m_titleNone ) )
 			return false;
 		// print vote count stats
-		if ( ! sb->safePrintf("<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
+		if ( ! sb->safePrintf("<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
 				      ,tus->m_venuePassed
 				      ,tus->m_venueFailed
 				      ,tus->m_venueUnconfirmed 
 				      ,tus->m_venueNone ) )
 			return false;
 		// print vote count stats
-		if ( ! sb->safePrintf("<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
-				      "<td>%"INT32"</td>"
+		if ( ! sb->safePrintf("<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
+				      "<td>%" INT32 "</td>"
 				      ,tus->m_descrPassed
 				      ,tus->m_descrFailed
 				      ,tus->m_descrUnconfirmed 
@@ -1416,10 +1416,10 @@ bool printSingleUserStats ( SafeBuf *sb , RdbList *list, char *showTurkUser ,
 			else if ( ! st->m_useXml &&
 				  ! sb->safePrintf ("<tr>"
 						    "<td colspan=10>"
-						    //"votes=%"INT32" "
-						    //"passedvotes=%"INT32" "
-						    //"failedvotes=%"INT32" "
-						    //"unconfirmedvotes=%"INT32" "
+						    //"votes=%" INT32 " "
+						    //"passedvotes=%" INT32 " "
+						    //"failedvotes=%" INT32 " "
+						    //"unconfirmedvotes=%" INT32 " "
 						    //"accuracy=%.0f%% "
 						    "earned=<b>$%.02f</b> "
 						    "</td>"
@@ -1453,7 +1453,7 @@ bool printSingleUserStats ( SafeBuf *sb , RdbList *list, char *showTurkUser ,
 		int32_t  dsize = tag->getTagDataSize();
 		// TODO: binary encode the tag data for speed?? it breaks
 		// our rules for tagdb, but might be worth it
-		sscanf ( tag->getTagData(),"%"UINT64",%"UINT32",%s",
+		sscanf ( tag->getTagData(),"%" UINT64 ",%"U INT32 ",%s",
 			 &tagUh48,&tagAdch,status);
 
 		// update this for printing out daily stats at end of day
@@ -1470,12 +1470,12 @@ bool printSingleUserStats ( SafeBuf *sb , RdbList *list, char *showTurkUser ,
 		char link[256];
 		sprintf(link,
 			"<a href=\"/eval?evaluser=%s&evalip=%s&c=%s&"
-			"q=gbuh48:%"UINT64"+"
+			"q=gbuh48:%" UINT64 "+"
 			// only if we directly turked it!
 			// on salsapower.com there are event's with same
 			// adch32 but in different places on page
-			"gbturkeddirectlyby:%"UINT64"+"
-			"gbadch32:%"UINT32"#top\">link</a>",
+			"gbturkeddirectlyby:%" UINT64 "+"
+			"gbadch32:%"U INT32 "#top\">link</a>",
 			st->m_turkUser,iptoa(st->m_turkIp),st->m_coll,
 			tagUh48,
 			st->m_tuid64,
@@ -1484,7 +1484,7 @@ bool printSingleUserStats ( SafeBuf *sb , RdbList *list, char *showTurkUser ,
 		// print it out
 		if ( ! st->m_useXml &&
 		     ! sb->safePrintf ( "<tr>"
-					"<td>%"INT32"</td>"
+					"<td>%" INT32 "</td>"
 					"<td>%s</td>"
 					"<td>%s</td>"
 					"<td>%s</td>"
@@ -2132,11 +2132,11 @@ bool getResults ( State61 *st ) {
 	char tq[1024];
 	sprintf ( tq, 
 		  // avoid events we already turked directly
-		  "-gbturkeddirectlyby:%"UINT64" "
+		  "-gbturkeddirectlyby:%" UINT64 " "
 		  // if NOT all (error,title,venue) got an indirect vote
 		  // from us, then we should directly turk it! its like
 		  // a half ass indirect turk ...
-		  "-gberrortitlevenueturkedindirectlyby:%"UINT64" "
+		  "-gberrortitlevenueturkedindirectlyby:%" UINT64 " "
 		  // avoid events with outlinked titles ALWAYS. i only
 		  // added these back in so that if the turks cause an event
 		  // to get an outlinked title we do not lose all the voting
@@ -2164,7 +2164,7 @@ bool getResults ( State61 *st ) {
 		  //   or something...
 		  "-gbstorehours:1 "
 		  // sometimes do initial eval, sometimes confirm old eval...
-		  "+gbturked:%"INT32" "
+		  "+gbturked:%" INT32 " "
 		  "%s"
 		  ,st->m_tuid64
 		  // use a fake value of 0 for this to turn it off!
@@ -2320,7 +2320,7 @@ bool gotResults ( State61 *st ) {
 		// get key
 		int64_t uh48 = tk->m_uh48;
 		// ok, it is expired
-		log("turk: force releasing turk lock on uh48=%"UINT64"",uh48);
+		log("turk: force releasing turk lock on uh48=%" UINT64 "",uh48);
 		// do it
 		ht->removeSlot ( i );
 		// re do full loop
@@ -2491,7 +2491,7 @@ bool gotResults ( State61 *st ) {
 		     ! g_lockerTable.addKey(&mr->m_urlHash48,&tk))
 			goto hadError;
 		// log that too
-		log("turk: adding lock uh48=%"UINT64" for %s",
+		log("turk: adding lock uh48=%" UINT64 " for %s",
 		    mr->m_urlHash48,turkUser);
 		// now display the first search result
 		// use this for now
@@ -2536,7 +2536,7 @@ bool gotResults ( State61 *st ) {
 				      // cnsp=1 means do not print disclaimer
 				      // "This is Gigablast's cached page..."
 				      "/get?"
-				      "c=%s&d=%"INT64"&qh=0&links=1&cnsp=1&eb=%s"
+				      "c=%s&d=%" INT64 "&qh=0&links=1&cnsp=1&eb=%s"
 				      "#gbscrolldown"
 				      "\" "
 				      "scrolling=yes "
@@ -2639,7 +2639,7 @@ bool Msg1e::processLoop ( ) {
 
 	if ( m_stage == 0 ) {
 		int64_t docId = m_r->getLongLong("docid",0LL);
-		log("turk: loading old title rec for turked docid=%"UINT64" "
+		log("turk: loading old title rec for turked docid=%" UINT64 " "
 		    ,docId);
 		if ( docId == 0LL ) { g_errno = ENODOCID; return true; }
 		CollectionRec *cr = g_collectiondb.getRec ( m_r );
@@ -2693,25 +2693,25 @@ bool Msg1e::processLoop ( ) {
 
 	// needs to be there
 	if ( ! tk ) {
-		log("turk: turk fradulated bogus docid uh48=%"UINT64"",uh48);
+		log("turk: turk fradulated bogus docid uh48=%" UINT64 "",uh48);
 		g_errno = EPLSRESUBMIT;
 		return true;
 	}
 	// see if banned
 	//int32_t turkIp = atoip(turkIpStr);
 	if ( isTurkBanned ( &tk->m_tuid64, tk->m_turkIp ) ) {
-		log("turk: turk is banned. wtf uh48=%"UINT64"",uh48);
+		log("turk: turk is banned. wtf uh48=%" UINT64 "",uh48);
 		g_errno = EDNSTIMEDOUT;
 		return true;
 	}
 	// must match us
 	if ( tk->m_tuid64 != tuid64 ) {
-		log("turk: wrong turkuser for lock uh48=%"UINT64"",uh48);
+		log("turk: wrong turkuser for lock uh48=%" UINT64 "",uh48);
 		g_errno = EBADENGINEER;
 		return true;
 	}
 	if ( ! tk->m_adch32 ) {
-		log("turk: missing adch32 for lock uh48=%"UINT64"",uh48);
+		log("turk: missing adch32 for lock uh48=%" UINT64 "",uh48);
 		g_errno = EBADENGINEER;
 		return true;
 	}
@@ -2732,7 +2732,7 @@ bool Msg1e::processLoop ( ) {
 
 	if ( m_stage == 1 ) {
 		// log the stages
-		log("turk: adding turk votes for uh48=%"UINT64" url=%s",
+		log("turk: adding turk votes for uh48=%" UINT64 " url=%s",
 		    uh48,url);
 		// info on turk's ip
 		//char *turkUser  = m_r->getString("turkuser",NULL);
@@ -2758,7 +2758,7 @@ bool Msg1e::processLoop ( ) {
 		int32_t reject = m_r->getLong ( "reject" , 0 );
 		// error?
 		if ( reject <= -1 || reject >= 10 ) {
-			log("turk: reject code error = %"INT32"",reject);
+			log("turk: reject code error = %" INT32 "",reject);
 			g_errno = EBADENGINEER;
 			return true;
 		}
@@ -2777,7 +2777,7 @@ bool Msg1e::processLoop ( ) {
 		int32_t  dlen = xd->getFirstUrl()->getDomainLen();
 		char  c = dom[dlen];
 		dom[dlen] = '\0';
-		sprintf(fakeSite,"adth32-%"UINT32"-%s",tk->m_adth32,dom );
+		sprintf(fakeSite,"adth32-%"U INT32 "-%s",tk->m_adth32,dom );
 		dom[dlen] = c;
 
 
@@ -2794,7 +2794,7 @@ bool Msg1e::processLoop ( ) {
 		// data=<uh48>,<adch32>,<adth32>>,<sentch32>
 		// <sentth32>,<"title"|"venue"|"descr"|"error">,[0|1+] 
 		//(c=contenthash,t=taghash)
-		sprintf ( dataVal,"%"UINT64",%"UINT32",%"UINT32",%"UINT32",%"UINT32",%"INT32",error,%"INT32"",
+		sprintf ( dataVal,"%" UINT64 ",%"U INT32 ",%"U INT32 ",%"U INT32 ",%"U INT32 ",%" INT32 ",error,%" INT32 "",
 			  uh48,tk->m_adch32,tk->m_adth32,
 			  // since we do not have a single sentence
 			  // for this vote, it is for the event
@@ -2831,10 +2831,10 @@ bool Msg1e::processLoop ( ) {
 				g_errno = EBADENGINEER;
 				return true;
 			}
-			// its format is like %"UINT32"-%"INT32" = (sentch32-sentth32)
+			// its format is like %"U INT32 "-%" INT32 " = (sentch32-sentth32)
 			uint32_t titlech32 = 0;
 			uint32_t titleth32 = 0;
-			sscanf ( title , "%"UINT32"-%"UINT32"", &titlech32, &titleth32 );
+			sscanf ( title , "%"U INT32 "-%"U INT32 "", &titlech32, &titleth32 );
 			// add vote tag into here
 			char dataVal[256];
 			// sanity check
@@ -2842,7 +2842,7 @@ bool Msg1e::processLoop ( ) {
 			// data=<uh48>,<adch32>,<adth32>>,<sentch32>
 			// <sentth32>,<"title"|"venue"|"descr"|"error">,[0|1+] 
 			//(c=contenthash,t=taghash)
-			sprintf ( dataVal,"%"UINT64",%"UINT32",%"UINT32",%"UINT32",%"UINT32",%"INT32",title,1",
+			sprintf ( dataVal,"%" UINT64 ",%"U INT32 ",%"U INT32 ",%"U INT32 ",%"U INT32 ",%" INT32 ",title,1",
 				  uh48,tk->m_adch32,tk->m_adth32,
 				  titlech32,titleth32,votePower);
 			// put tag into this rdb
@@ -2896,16 +2896,16 @@ bool Msg1e::processLoop ( ) {
 			}
 			// if none, do not add
 			if ( strcmp ( venue, "none" ) == 0 ) goto skipVenue;
-			// its format is like %"UINT32"-%"INT32" = (sentch32-sentth32)
+			// its format is like %"U INT32 "-%" INT32 " = (sentch32-sentth32)
 			uint32_t venuech32 = 0;
 			uint32_t venueth32 = 0;
-			sscanf ( venue , "%"UINT32"-%"UINT32"", &venuech32, &venueth32 );
+			sscanf ( venue , "%"U INT32 "-%"U INT32 "", &venuech32, &venueth32 );
 			// add vote tag into here
 			char dataVal[256];
 			// data=<uh48>,<adch32>,<adth32>>,<sentch32>
 			// <sentth32>,<"title"|"venue"|"descr"|"error">,[0|1+] 
 			//(c=contenthash,t=taghash)
-			sprintf ( dataVal,"%"UINT64",%"UINT32",%"UINT32",%"UINT32",%"UINT32",%"INT32",venue,1",
+			sprintf ( dataVal,"%" UINT64 ",%"U INT32 ",%"U INT32 ",%"U INT32 ",%"U INT32 ",%" INT32 ",venue,1",
 				  uh48,tk->m_adch32,tk->m_adth32,
 				  venuech32,venueth32,votePower);
 			// put tag into this rdb
@@ -3058,7 +3058,7 @@ bool Msg1e::processLoop ( ) {
 			// . content hash based tag
 			// . sub1 is contenthash32
 			// . sub2 is taghash32
-			sprintf ( dataVal ,"%"UINT64",%"UINT32",%"UINT32",%s,%s,%"INT32",%5s,%"INT32"",
+			sprintf ( dataVal ,"%" UINT64 ",%"U INT32 ",%"U INT32 ",%s,%s,%" INT32 ",%5s,%" INT32 "",
 				  uh48,tk->m_adch32,tk->m_adth32,
 				  sub1,sub2,modVotePower,voteField,favor);
 
@@ -3100,7 +3100,7 @@ bool Msg1e::processLoop ( ) {
 		// advance stage
 		m_stage = 3;
 		// log the stages
-		log("turk: flushing msg4 buffers for uh48=%"UINT64" url=%s",
+		log("turk: flushing msg4 buffers for uh48=%" UINT64 " url=%s",
 		    uh48,url);
 		// flush it. true = wait?
 		if ( ! flushMsg4Buffers ( this , processLoopWrapper ) ) 
@@ -3126,7 +3126,7 @@ bool Msg1e::processLoop ( ) {
 		CollectionRec *cr = g_collectiondb.getRec ( m_r );
 		char *coll = cr->m_coll;
 		// log the stages
-		log("turk: calling msg7 inject on turked uh48=%"UINT64" url=%s",
+		log("turk: calling msg7 inject on turked uh48=%" UINT64 " url=%s",
 		    uh48,url);
 		//if ( ! xd->m_contentTypeValid ) { char *xx=NULL;*xx=0; }
 		// make it call set3 on the xmldoc just once
@@ -3163,7 +3163,7 @@ bool Msg1e::processLoop ( ) {
 	// add the remaining urls to spiderdb i guess
 	if ( m_stage == 4 ) {
 		// log it now
-		log("turk: done indexing injected doc uh48=%"UINT64" url=%s",
+		log("turk: done indexing injected doc uh48=%" UINT64 " url=%s",
 		    uh48,url);
 		m_stage = 5;
 		char *dom  = xd->getFirstUrl()->getDomain();
@@ -3174,8 +3174,8 @@ bool Msg1e::processLoop ( ) {
 		// same address/date tag hash. they are likely made from
 		// the same template
 		sprintf(m_queryBuf,
-			"gbadth32:%"UINT32" "
-			"-gbuh48:%"UINT64" "
+			"gbadth32:%"U INT32 " "
+			"-gbuh48:%" UINT64 " "
 			"site:%s"
 			,tk->m_adth32
 			,uh48
@@ -3237,7 +3237,7 @@ bool Msg1e::processLoop ( ) {
 		// info on turk's ip
 		//char *turkUser  = m_r->getString("turkuser",NULL);
 		// log it
-		log("turk: releasing lock on uh48=%"UINT64" for turk=%s url=%s",
+		log("turk: releasing lock on uh48=%" UINT64 " for turk=%s url=%s",
 		    uh48,turkUser,url);
 	}
 
@@ -3290,7 +3290,7 @@ bool Msg1e::addSupplementalVoteTags ( char *furl ,
 		// decompose into ch32-th32
 		uint32_t sentch32 = 0;
 		uint32_t sentth32 = 0;
-		sscanf(name+hplen,"%"UINT32"-%"UINT32"", &sentch32,&sentth32);
+		sscanf(name+hplen,"%"U INT32 "-%"U INT32 "", &sentch32,&sentth32);
 		// skip if ch32 does not match
 		if ( sentch32 != mainSentch32 ) continue;
 		// skip if taghash already matches
@@ -3307,8 +3307,8 @@ bool Msg1e::addSupplementalVoteTags ( char *furl ,
 		// [0|1+] 
 		//(c=contenthash,t=taghash)
 		// titl2-4
-		sprintf ( dataVal,"%"UINT64",%"UINT32",%"UINT32",%"UINT32",%"UINT32","
-			  "%"INT32",%s%"INT32",1",
+		sprintf ( dataVal,"%" UINT64 ",%"U INT32 ",%"U INT32 ",%"U INT32 ",%"U INT32 ","
+			  "%" INT32 ",%s%" INT32 ",1",
 			  tk->m_uh48,
 			  tk->m_adch32,
 			  tk->m_adth32,
@@ -3352,8 +3352,8 @@ bool Msg1e::addSupplementalVoteTags ( char *furl ,
 		// <"title"|"venue"|"descr"|"error">,
 		// [0|1+] 
 		//(c=contenthash,t=taghash)
-		sprintf ( dataVal,"%"UINT64",%"UINT32",%"UINT32",%"UINT32",%"UINT32","
-			  "%"INT32",%s%"INT32",1",
+		sprintf ( dataVal,"%" UINT64 ",%"U INT32 ",%"U INT32 ",%"U INT32 ",%"U INT32 ","
+			  "%" INT32 ",%s%" INT32 ",1",
 			  tk->m_uh48,tk->m_adch32,tk->m_adth32,
 			  (uint32_t)0,//titlech32,
 			  (uint32_t)0,//sentth32,

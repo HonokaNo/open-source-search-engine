@@ -246,7 +246,7 @@ void IndexTable2::init ( Query     *q               ,
 	if ( base ) m_numDocsInColl = base->getNumGlobalRecs();
 	// issue? set it to 1000 if so
 	if ( m_numDocsInColl < 0 ) {
-		log("query: Got num docs in coll of %"INT64" < 0",m_numDocsInColl);
+		log("query: Got num docs in coll of %" INT64 " < 0",m_numDocsInColl);
 		// avoid divide by zero below
 		m_numDocsInColl = 1;
 	}
@@ -496,14 +496,14 @@ bool IndexTable2::recompute ( Msg39Request *r ) {
 	// return false if could not get it!
 	if ( i >= s_maxi ) {
 		// note it
-		log (LOG_DEBUG,"query: MISSED THE CACHE qid=0x%"XINT64" tier=%"INT32"",
+		log (LOG_DEBUG,"query: MISSED THE CACHE qid=0x%" XINT64 " tier=%" INT32 "",
 		     m_r->m_queryId,(int32_t)m_r->m_tier);
 		return false;
 	}
 
 	// log it
 	if ( m_isDebug )
-		logf(LOG_DEBUG,"query: found in cache qid=0x%"XINT64" tier=%"INT32"",
+		logf(LOG_DEBUG,"query: found in cache qid=0x%" XINT64 " tier=%" INT32 "",
 		     r->m_queryId,(int32_t)r->m_tier);
 
 	// the number of valid quer terms we are dealing with
@@ -540,7 +540,7 @@ bool IndexTable2::recompute ( Msg39Request *r ) {
 
 	// for debug
 	//for ( int32_t i = 0 ; i < 38 ; i++ )
-	//	logf(LOG_DEBUG,"poo2: tt=%"UINT32"",m_tmpTimeVec2[i]);
+	//	logf(LOG_DEBUG,"poo2: tt=%"U INT32 "",m_tmpTimeVec2[i]);
 
 	// sizes here
 	m_localBufSize     = s_recs[i].m_localBufSize;
@@ -633,8 +633,8 @@ bool IndexTable2::recompute ( Msg39Request *r ) {
 void IndexTable2::freeCacheRec ( int32_t i ) {
 	// remove from cache
 	if ( m_isDebug )
-		logf(LOG_DEBUG,"query: freeing cache rec #%"INT32" qid=0x%"XINT64" "
-		     "tier=%"INT32"",i,s_recs[i].m_queryId,(int32_t)s_recs[i].m_tier);
+		logf(LOG_DEBUG,"query: freeing cache rec #%" INT32 " qid=0x%" XINT64 " "
+		     "tier=%" INT32 "",i,s_recs[i].m_queryId,(int32_t)s_recs[i].m_tier);
 	// was it already freed? this happens sometimes, dunno why exactly...
 	if ( ! s_recs[i].m_buf ) {
 		logf(LOG_DEBUG,"query: Caught double free on itcache");
@@ -694,14 +694,14 @@ bool IndexTable2::cacheIntersectionForRecompute ( Msg39Request *r ) {
 	// return if no room in the cache
 	if ( i >= maxi ) {
 		logf(LOG_DEBUG,"query: could not add cache rec for "
-		     "qid=0x%"XINT64" tier=%"INT32"",
+		     "qid=0x%" XINT64 " tier=%" INT32 "",
 		     m_r->m_queryId,(int32_t)m_r->m_tier);
 		return false;
 	}
 
 	if ( m_isDebug )
-		logf(LOG_DEBUG,"query: adding cache rec #%"INT32". "
-		     "numTmpDocIds2=%"INT32" qid=0x%"XINT64" tier=%"INT32"",i,  
+		logf(LOG_DEBUG,"query: adding cache rec #%" INT32 ". "
+		     "numTmpDocIds2=%" INT32 " qid=0x%" XINT64 " tier=%" INT32 "",i,  
 		     m_numTmpDocIds2,m_r->m_queryId,(int32_t)m_r->m_tier);
 
 	// save m_buf/m_bufSize
@@ -717,7 +717,7 @@ bool IndexTable2::cacheIntersectionForRecompute ( Msg39Request *r ) {
 
 	// for debug
 	//for ( int32_t i = 0 ; i < 38 ; i++ )
-	//	logf(LOG_DEBUG,"poo: tt=%"UINT32"",m_tmpTimeVec2[i]);
+	//	logf(LOG_DEBUG,"poo: tt=%"U INT32 "",m_tmpTimeVec2[i]);
 
 	// # docids we got buf for
 	//int32_t nd  = m_maxTmpDocIds2;
@@ -880,7 +880,7 @@ void IndexTable2::setFreqWeights ( Query *q , bool phrases ) {
 		//   that ranges from 0.0 to 1.0.
 		int64_t max = 0x7fffffff / 256;
 		if ( w > max ) {
-			log("query: Weight breech. Truncating to %"UINT64".",max);
+			log("query: Weight breech. Truncating to %" UINT64 ".",max);
 			w = (float)max;
 		}
 
@@ -917,11 +917,11 @@ void IndexTable2::setFreqWeights ( Query *q , bool phrases ) {
 			*tpc = '\0';
 			char sign = qt->m_termSign;
 			if ( sign == 0 ) sign = '0';
-			logf(LOG_DEBUG,"query: [%"UINT32"] term=\"%s\" "
-			     "qnum=%"INT32" has freq=%"INT64" "
+			logf(LOG_DEBUG,"query: [%"U INT32 "] term=\"%s\" "
+			     "qnum=%" INT32 " has freq=%" INT64 " "
 			     "r1=%.3f r2=%.3f r3=%.3f r4=%.3f score "
-			     "freqWeight=%.3f termId=%"INT64" "
-			     "sign=%c field=%"INT32"", 
+			     "freqWeight=%.3f termId=%" INT64 " "
+			     "sign=%c field=%" INT32 "", 
 			     m_logstate,qt->m_term,i,m_termFreqs[i],
 			     ratio1,ratio2,ratio3,ratio4,w,
 			     qt->m_termId,sign,(int32_t)qt->m_fieldCode);
@@ -1032,7 +1032,7 @@ void IndexTable2::setFreqWeights ( Query *q , bool phrases ) {
 		float newWeight = m_freqWeights[qwtn] * scalar;
 
 		// debug msg
-		logf(LOG_DEBUG,"query: reduce query word score #%"INT32" from %f "
+		logf(LOG_DEBUG,"query: reduce query word score #%" INT32 " from %f "
 		     "to %f",  i,m_freqWeights[qwtn],newWeight);
 
 		// reduce the word's term score
@@ -1158,7 +1158,7 @@ bool IndexTable2::alloc ( ) {
 		// set it
 		m_bigBufSize = need;
 		if ( ! m_bigBuf ) {
-			log("query: Could not allocate %"INT64" for query "
+			log("query: Could not allocate %" INT64 " for query "
 			    "resolution.",need);
 			return false;
 		}
@@ -1302,7 +1302,7 @@ bool IndexTable2::alloc ( ) {
 	*/
 
 	// debug msg
-	//log("minSize = %"INT32" docids q=%s",min,m_q->m_orig);
+	//log("minSize = %" INT32 " docids q=%s",min,m_q->m_orig);
 
 	// . now add in space for m_tmpDocIdPtrs2 (holds winners of a
 	//   2 list intersection (more than 2 lists if we have phrases) [imap]
@@ -1384,7 +1384,7 @@ bool IndexTable2::alloc ( ) {
 	}
 
 	m_buf = (char *) mmalloc ( m_bufSize , "IndexTable2" );
-	if ( ! m_buf ) return log("query: table alloc(%"INT64"): %s",
+	if ( ! m_buf ) return log("query: table alloc(%" INT64 "): %s",
 				  need,mstrerror(g_errno));
 
 	// save it for breach checking below
@@ -2286,7 +2286,7 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 					if ( ! pflag )
 						log(LOG_LOGIC,
 						    "query: Got indextable "
-						    "breech. np=%"INT32"",numPtrs);
+						    "breech. np=%" INT32 "",numPtrs);
 					pflag = 1;
 					break;
 				}
@@ -2313,19 +2313,19 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 	// time the gbsorting for the datelists
 	if ( m_isDebug || g_conf.m_logDebugQuery ) {
 		int64_t t2 = gettimeofdayInMilliseconds();
-		logf(LOG_DEBUG,"query: Took %"INT64" ms to prepare list ptrs. "
-		     "numDocIds=%"UINT32" numSorts=%"INT32"",
+		logf(LOG_DEBUG,"query: Took %" INT64 " ms to prepare list ptrs. "
+		     "numDocIds=%"U INT32 " numSorts=%" INT32 "",
 		     t2 - t1 , numDocIds , numSorts );
-		logf(LOG_DEBUG,"query: numListsToDo=%"INT32" "
-		     "lastRound=%"INT32" numBaseLists=%"INT32" "
-		     "sortByDateWeight=%f negbits=0x%"XINT32"",
+		logf(LOG_DEBUG,"query: numListsToDo=%" INT32 " "
+		     "lastRound=%" INT32 " numBaseLists=%" INT32 " "
+		     "sortByDateWeight=%f negbits=0x%"X INT32 "",
 		     numListsToDo,(int32_t)lastRound,numBaseLists,
 		     sortByDateWeight,(int32_t)negativeBits);
 		for ( int32_t i = 0 ; i < numListsToDo ; i++ ) {
 			int32_t m = imap[i];
 			// add in bonus since "imap" points within m_imap
 			int32_t off = imap - m_imap;
-			logf(LOG_DEBUG,"query: imap[%"INT32"]=%"INT32"",i+off,m);
+			logf(LOG_DEBUG,"query: imap[%" INT32 "]=%" INT32 "",i+off,m);
 		}
 	}
 
@@ -2592,7 +2592,7 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 			if ( m_searchingEvents ) break;
 
 			listi         = listIndexes        [ next ];
-			//logf(LOG_DEBUG,"query: imap[%"INT32"]=%"INT32"",
+			//logf(LOG_DEBUG,"query: imap[%" INT32 "]=%" INT32 "",
 			//	       listi, imap[listi]);
 			sign          = listSigns          [ next ];
 			//scoreTablePtr = listScoreTablePtrs [ next ];
@@ -2633,7 +2633,7 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 		if ( ddd == 
 			unsigned char ss = (unsigned char)ptrs[i][5];
 			int32_t sss = scoreTablePtr[ss];
-			logf(LOG_DEBUG,"i=%"INT32" max=%"UINT64" sc=%hhu sc2=%"UINT32" d=%"UINT64"",
+			logf(LOG_DEBUG,"i=%" INT32 " max=%" UINT64 " sc=%hhu sc2=%"U INT32 " d=%" UINT64 "",
 			    (int32_t)i,
 			    (int64_t)(((int64_t)maxDocId)<<6) | 0x3fLL, 
 			     255-ss, 
@@ -2704,8 +2704,8 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 			}
 		advance:
 			// debug msg
-			//log("added score=%05"INT32" totalscore=%05"INT32" to "
-			//    "slotnum=%04"INT32" ptrList=%"INT32"",
+			//log("added score=%05" INT32 " totalscore=%05" INT32 " to "
+			//    "slotnum=%04" INT32 " ptrList=%" INT32 "",
 			//    scoreTablePtr[((unsigned char)ptrs[i][5])],
 			//    scoresVec[nn],nn,i);
 			// advance ptr to point to next score/docid 6 bytes
@@ -2739,7 +2739,7 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 			//gbmemcpy ( &dd , ptrs[i] , 6 );
 			//dd >>= 2;
 			//dd &= DOCID_MASK;
-			//fprintf(stderr,"got dup score for docid=%"INT64"\n",dd);
+			//fprintf(stderr,"got dup score for docid=%" INT64 "\n",dd);
 			if      ( ! m_useDateLists ) goto advance;
 			else if (   m_sortByDate   ) goto dateAdvance1;
 			else                         goto dateAdvance2;
@@ -2797,7 +2797,7 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 	// sanity check
 	if ( lastMaxDocId >= maxDocId ) { char *xx = NULL; *xx = 0; }
 	// sanity test, log if not sane
-	//log(LOG_LOGIC,"query: last=%"UINT32" downstep=%"UINT32" max=%"UINT32"",
+	//log(LOG_LOGIC,"query: last=%"U INT32 " downstep=%"U INT32 " max=%"U INT32 "",
 	//    lastMaxDocId,downStep,maxDocId);
 	// count
 	m_numPanics++;
@@ -2806,14 +2806,14 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 	// . TODO: look into this more
 	if ( downStep == 0 || downStep >= maxDocId || m_numPanics > 100) {
 		log(LOG_LOGIC,"query: indextable: Major panic. "
-		    "downstep=%"UINT32" maxDocId=%"UINT32" numPanics=%"INT32"",
+		    "downstep=%"U INT32 " maxDocId=%"U INT32 " numPanics=%" INT32 "",
 		    downStep,maxDocId,m_numPanics);
 		goto done;
 	}
 	// why is this still maxed out after a panic?
 	if ( maxDocId == 0xffffffff && m_numPanics > 1 ) {
 		log(LOG_LOGIC,"query: indextable: Logic panic. "
-		    "downstep=%"UINT32" maxDocId=%"UINT32" numPanics=%"INT32"",
+		    "downstep=%"U INT32 " maxDocId=%"U INT32 " numPanics=%" INT32 "",
 		    downStep,maxDocId,m_numPanics);
 		goto done;
 	}
@@ -2862,7 +2862,7 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 	}
 	if ( m_isDebug || g_conf.m_logDebugQuery )
 		logf(LOG_DEBUG,"query: indextable: Rolled back over "
-		     "%"INT32" docids.",j);
+		     "%" INT32 " docids.",j);
 	// sanity check, no, you can hash more if docids intersect with
 	// existing docids in hash table. then one slot gives multiple
 	// ptr rollbacks.
@@ -2882,12 +2882,12 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 	if ( m_isDebug && s_flag == 0 ) {
 		s_flag = 1;
 		logf(LOG_DEBUG,"query: "
-		     "requiredBits=0x%08"XINT32" "
-		     "negativeBits=0x%08"XINT32" "
-		     "forcedBits=0x%08"XINT32" "
-		     "minHardCount=0%"INT32" "
-		     "useYes=%"INT32" "
-		     "useNo=%"INT32"",
+		     "requiredBits=0x%08"X INT32 " "
+		     "negativeBits=0x%08"X INT32 " "
+		     "forcedBits=0x%08"X INT32 " "
+		     "minHardCount=0%" INT32 " "
+		     "useYes=%" INT32 " "
+		     "useNo=%" INT32 "",
 		     (int32_t)requiredBits,
 		     (int32_t)negativeBits,
 		     (int32_t)forcedBits,
@@ -2912,8 +2912,8 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 			int64_t d = getDocIdFromPtr(docIdPtrs[i]);
 			if ( d == 17601280831LL ) 
 				log("you");
-			log("query: checking docid %"INT64" "
-			    "ibits=0x%08"XINT32"",d,(int32_t)ibits);
+			log("query: checking docid %" INT64 " "
+			    "ibits=0x%08"X INT32 "",d,(int32_t)ibits);
 		}
 		// add it right away to m_tmpDocIdPtrs2[] if we're rat
 		if ( rat ) {
@@ -3059,13 +3059,13 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 
 		/*
 		if ( weakest >= 0 ) 
-			log("bscore=%04"UINT32" score=%04"INT32" topp+1=%08"XINT32" "
+			log("bscore=%04"U INT32 " score=%04" INT32 " topp+1=%08"X INT32 " "
 			"replacing "
-			     "#%02"INT32" bscore=%04"UINT32" score=%04"INT32" topp+1=%08"XINT32"",
+			     "#%02" INT32 " bscore=%04"U INT32 " score=%04" INT32 " topp+1=%08"X INT32 "",
 			     bscore,scores[i],*(int32_t *)(docIdPtrs[i]+1),
 			     j,topb[j],tops[j],*(int32_t *)(topp[j]+1));
 		else
-		       log("bscore=%04"UINT32" score=%04"INT32" topp+1=%08"XINT32" adding #%"INT32"",
+		       log("bscore=%04"U INT32 " score=%04" INT32 " topp+1=%08"X INT32 " adding #%" INT32 "",
 			   bscore,scores[i],*(int32_t *)(docIdPtrs[i]+1),j);
 		*/
 
@@ -3078,7 +3078,7 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 			//if (m_isDebug)
 			//	logf(LOG_DEBUG, 
 			//	     "query: getBitScore1 "
-			//	     "queryId=%lld bits=0x%016"XINT64"",
+			//	     "queryId=%lld bits=0x%016" XINT64 "",
 			//	     m_r->m_queryId,
 			//	     (int64_t) explicitBits[i]);
 			uint8_t bscore = getBitScore(explicitBits[i]);
@@ -3343,7 +3343,7 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 			// and replace him...
 			lastGuy = lastGuy2;
 		}
-		//log("adding marker %"INT32"",newTmpDocIds2);
+		//log("adding marker %" INT32 "",newTmpDocIds2);
 		// overwrite last entry if no actual docids were added since
 		// then, this allows us to save memory and fixes the seg fault
 		//if ( newTmpDocIds2 > 0 && 
@@ -3382,8 +3382,8 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
                 //if ( m_q && m_q->m_orig && m_q->m_orig[0] ) qq = m_q->m_orig;
 		// i am seeing a lot of 5 and 6 panics msgs, stop that...
 		if ( m_numPanics >= 7 )
-			log(LOG_INFO,"query: Got %"INT32" panics. Using small steps of "
-			    "%"INT32"",m_numPanics,downStep);
+			log(LOG_INFO,"query: Got %" INT32 " panics. Using small steps of "
+			    "%" INT32 "",m_numPanics,downStep);
                 // set step to downStep, otherwise, maxDocId will not be
                 // able to be decreased close to within lastMaxDocId because
                 // it is only decremented by downStep above, but
@@ -3534,7 +3534,7 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 		//if (m_isDebug)
 		//	logf(LOG_DEBUG, 
 		//	     "query: getBitScore2 "
-		//	     "queryId=%lld bits=0x%016"XINT64"",
+		//	     "queryId=%lld bits=0x%016" XINT64 "",
 		//	     m_r->m_queryId,
 		//	     (int64_t) m_tmpEbitVec2[i]);
 		// get the bit score, # terms implied
@@ -3722,7 +3722,7 @@ void IndexTable2::addLists2_r ( int32_t       numListsToDo     ,
 		else                                  m_doRecalc = false;
 	}
 	if (m_useBoolTable)
-		log(LOG_DEBUG,"query: boolTable: queryId=%lld numSlotsUsed=%"INT32"",
+		log(LOG_DEBUG,"query: boolTable: queryId=%lld numSlotsUsed=%" INT32 "",
 		    m_r->m_queryId,m_bt.m_numSlotsUsed);
 }
 
@@ -3812,7 +3812,7 @@ bool IndexTable2::eventHashLoop ( int32_t *listIndexes ,
 		// for debugging lat/lon/times for an event
 		//int64_t d = getDocIdFromPtr(ptrs[i]);
 		//if ( d == 17601280831LL && a==1 )
-		//	log("hey listi=%"INT32"",listi);
+		//	log("hey listi=%" INT32 "",listi);
 
 		//
 		// loop over event ids for this key
@@ -4025,7 +4025,7 @@ void IndexTable2::hashTmpDocIds2 ( uint32_t  *maxDocId     ,
 		char *xx = NULL; *xx = 0; }
 	// debug msg
 	if ( m_isDebug || g_conf.m_logDebugQuery )
-		logf(LOG_DEBUG,"query: Hashing %"INT32" top docids2, [%"INT32", %"INT32")",
+		logf(LOG_DEBUG,"query: Hashing %" INT32 " top docids2, [%" INT32 ", %" INT32 ")",
 		     maxi-m_nexti,m_nexti,maxi);
 	int32_t nn;
 	// we use a hard count of -1 to denote docid blocks
@@ -4110,7 +4110,7 @@ void IndexTable2::computeAffWeights    ( bool           rat          ,
 	int32_t nqt = m_ni;
 
 	//int64_t startTime = gettimeofdayInMilliseconds();
-	//logf ( LOG_DEBUG, "query: ComputeAffWeights nd=%"INT32" nqt=%"INT32"",
+	//logf ( LOG_DEBUG, "query: ComputeAffWeights nd=%" INT32 " nqt=%" INT32 "",
 	//		  numDocIds, nqt );
 
  	/////////////////////////////////////////
@@ -4204,9 +4204,9 @@ void IndexTable2::computeAffWeights    ( bool           rat          ,
 				int64_t d = getDocIdFromPtr(docIdPtrs[i]);
 				int32_t cb = 0;
 				if ( ebits & qt->m_explicitBit ) cb = 1;
-				logf(LOG_DEBUG,"query: affweights d=%"INT64" "
-				     "qtn=%"INT32""
-				     " phrase=%"INT32" dh=0x%"XINT32"",d,it,cb,(int32_t)dh);
+				logf(LOG_DEBUG,"query: affweights d=%" INT64 " "
+				     "qtn=%" INT32 ""
+				     " phrase=%" INT32 " dh=0x%"X INT32 "",d,it,cb,(int32_t)dh);
 			}
 			// count this docid. it has aANDb... (MDW)
 			termTotals[t]++;
@@ -4216,8 +4216,8 @@ void IndexTable2::computeAffWeights    ( bool           rat          ,
 				phraseTotals[t]++;
 			// limit to sample size to keep things consistent
 			if ( termTotals[t] >= MIN_DOCIDS ) break;
-			//logf ( LOG_DEBUG, "query: Doc[%"INT32"] ibits=%"XINT32"  "
-			//		  "Term[%"INT32"] ebit=%"XINT32" ibits=%"XINT32"",
+			//logf ( LOG_DEBUG, "query: Doc[%" INT32 "] ibits=%"X INT32 "  "
+			//		  "Term[%" INT32 "] ebit=%"X INT32 " ibits=%"X INT32 "",
 			//		  i, (int32_t)ibits,
 			//		  t, (int32_t)term->m_explicitBit,
 			//		  (int32_t)term->m_implicitBits );
@@ -4744,10 +4744,10 @@ void IndexTable2::computeAffWeights    ( bool           rat          ,
 				int64_t d = getDocIdFromPtr(docIdPtrs[i]);
 				int32_t cb = 0;
 				if ( explicitBits[i] & ebits2 ) cb=1;
-				logf(LOG_DEBUG,"query: syn term #%"INT32" "
-				     "docid=%"INT64" "
-				     "hasSynTerm=%"INT32" "
-				     "dh=0x%"XINT32"",t,d,cb,(int32_t)dh);
+				logf(LOG_DEBUG,"query: syn term #%" INT32 " "
+				     "docid=%" INT64 " "
+				     "hasSynTerm=%" INT32 " "
+				     "dh=0x%"X INT32 "",t,d,cb,(int32_t)dh);
 			}
 
 			// and contain us?
@@ -4882,13 +4882,13 @@ void IndexTable2::computeAffWeights    ( bool           rat          ,
 		// print query term
 		logf ( LOG_DEBUG, "query: Term "
 		       "term=\"%s\" "
-		       "termId=%"INT64" "
-		       "synOfTermQnum#=%"INT32" "
+		       "termId=%" INT64 " "
+		       "synOfTermQnum#=%" INT32 " "
 		       "sign=%c "
-		       "qnum=%"INT32" inum=%"INT32" "
-		       "docsWithSingleTermsExplicitly(aANDb)=%"INT32" "
-		       "suchDocsAlsoWithPhrase(aADJb)=%"INT32" "
-		       //"freqWeight=%"INT32" "
+		       "qnum=%" INT32 " inum=%" INT32 " "
+		       "docsWithSingleTermsExplicitly(aANDb)=%" INT32 " "
+		       "suchDocsAlsoWithPhrase(aADJb)=%" INT32 " "
+		       //"freqWeight=%" INT32 " "
 		       "termFreq=%f "
 		       "freqWeight=%.04f "
 
@@ -4902,15 +4902,15 @@ void IndexTable2::computeAffWeights    ( bool           rat          ,
 		       "basePhrAff=%f " // preCorPhrAff
 		       //"affModTF=%f"
 		       "tfPhrAff=%f"
-		       "(scalar,midscore=%"INT32" nn=%"INT32") "
+		       "(scalar,midscore=%" INT32 " nn=%" INT32 ") "
 		       "corrAff=%f"
-		       "(corrtotal=%"UINT32") "
+		       "(corrtotal=%"U INT32 ") "
 		       "phrAffinity=%f "
 		       "phrWeight=%f "
 		       "synAffinity=%f "
 		       "synWeight=%f "
-		       "docsWithAll=%"INT32" "
-		       "docsWithAllAndSyn=%"INT32" "
+		       "docsWithAll=%" INT32 " "
+		       "docsWithAllAndSyn=%" INT32 " "
 		       "finalAffinity=%f "
 		       "finalAffWeight=%f "
 		       "FINALWEIGHT=%f"
@@ -4946,7 +4946,7 @@ void IndexTable2::computeAffWeights    ( bool           rat          ,
 	}
 	/*
 	int64_t endTime = gettimeofdayInMilliseconds();
-	logf ( LOG_DEBUG, "query: ComputeAffWeights took %"INT64" ms",
+	logf ( LOG_DEBUG, "query: ComputeAffWeights took %" INT64 " ms",
 			  endTime - startTime );
 	*/
 }
@@ -5023,13 +5023,13 @@ void IndexTable2::computeWeightedScores ( int32_t            numDocIds    ,
 	if ( m_isDebug || 1 == 1 ) {
 		// show the avg score for each term
 		for ( int32_t t = 0 ; numDocIds > 0 && t < nqt ; t++ ) 
-			logf(LOG_DEBUG,"query: term #%"INT32" avg score=%f",
+			logf(LOG_DEBUG,"query: term #%" INT32 " avg score=%f",
 			     t,m_avgs[t]);
 	}
 	*/
 /*
 	//int64_t startTime = gettimeofdayInMilliseconds();
-	//logf ( LOG_DEBUG, "query: ComputeWeightedScores nd=%"INT32" nqt=%"INT32"",
+	//logf ( LOG_DEBUG, "query: ComputeWeightedScores nd=%" INT32 " nqt=%" INT32 "",
 	//		  numDocIds, nqt );
 	/////////////////////////////////////
 	// compute final scores
@@ -5059,14 +5059,14 @@ void IndexTable2::computeWeightedScores ( int32_t            numDocIds    ,
 		d &= DOCID_MASK;
 		// log the score vec and the final score
 		char *p = tmp;
-		p += sprintf(p,"query: IndexTable2 - [%012"UINT64"] "
-			     "ebits=%"UINT32" vec=[ ",
+		p += sprintf(p,"query: IndexTable2 - [%012" UINT64 "] "
+			     "ebits=%"U INT32 " vec=[ ",
 			     d,(int32_t)explicitBits[i]);
 		float min = 9999999.0;
 		float phraseMin = 9999999.0;
 		for ( int32_t t = 0; t < nqt; t++ ) {
 			if ( pend - p < 32 ) break;
-			p += sprintf(p, "%03"INT32" ",
+			p += sprintf(p, "%03" INT32 " ",
 				     (int32_t)(255-scoresVec[i*nqt+t]));
 			float pre = 255 - scoresVec[i*nqt+t];
 			if ( affWeights[t] > 0.0 )
@@ -5123,13 +5123,13 @@ void IndexTable2::computeWeightedScores ( int32_t            numDocIds    ,
 		}
 		p += sprintf(p, "] "
 			     //"min=%f "
-			     "score=%"INT32"", 
+			     "score=%" INT32 "", 
 			     //min,
 			     finalScores[i]);
 		logf ( LOG_DEBUG, "%s", tmp );
 	}
 	//int64_t endTime = gettimeofdayInMilliseconds();
-	//logf ( LOG_DEBUG, "query: ComputeWeightedScores took %"INT64" ms",
+	//logf ( LOG_DEBUG, "query: ComputeWeightedScores took %" INT64 " ms",
 	//		  endTime - startTime );
 }
 */
@@ -5220,7 +5220,7 @@ int32_t IndexTable2::fillTopDocIds ( //char         **topp      ,
 	if ( i >= numTmp2 ) {
 		// this is because of doing a clockset? see comment in Timedb.h
 		if ( notFoundCount ) 
-			log("timedb: %"INT32" events not found in timedb",
+			log("timedb: %" INT32 " events not found in timedb",
 			    notFoundCount);
 		// all done
 		return m_topTree->m_numUsedNodes;
@@ -5335,7 +5335,7 @@ int32_t IndexTable2::fillTopDocIds ( //char         **topp      ,
 		}
 		// debug
 		//int64_t d = getDocIdFromPtr(tmpp2[i]);
-		//logf(LOG_DEBUG,"gb: docid=%012"UINT64" eventid=%03"INT32" score=%"UINT32"",  
+		//logf(LOG_DEBUG,"gb: docid=%012" UINT64 " eventid=%03" INT32 " score=%"U INT32 "",  
 		//     d, (int32_t)tmpeid2[i],score);
 		/*
 		// sanity checks
@@ -5354,8 +5354,8 @@ int32_t IndexTable2::fillTopDocIds ( //char         **topp      ,
 		if ( end   == -1 ) { char *xx=NULL;*xx=0; }
 		// debug
 		int64_t d = getDocIdFromPtr(tmpp2[i]);
-		logf(LOG_DEBUG,"gb: start=%"UINT32" end=%"UINT32" storehrs=%"INT32" "
-		     "end-start=%"INT32" docid=%"UINT64" eventid=%"INT32"",  
+		logf(LOG_DEBUG,"gb: start=%"U INT32 " end=%"U INT32 " storehrs=%" INT32 " "
+		     "end-start=%" INT32 " docid=%" UINT64 " eventid=%" INT32 "",  
 		     start,end,(end&0x01),end-start,
 		     d,
 		     (int32_t)tmpeid2[i]);
@@ -5377,12 +5377,12 @@ int32_t IndexTable2::fillTopDocIds ( //char         **topp      ,
 			// are left before it closes
 			score = ~(end - m_nowUTCMod);
 			// note score
-			//log(LOG_DEBUG,"gb: storescore=%"UINT32"",(end-m_nowUTC));
+			//log(LOG_DEBUG,"gb: storescore=%"U INT32 "",(end-m_nowUTC));
 		}
 		// set score otherwise
 		else {
 			score = ~(start - m_nowUTCMod);
-			//log(LOG_DEBUG,"gb: eventscore=%"UINT32"",start-m_nowUTC);
+			//log(LOG_DEBUG,"gb: eventscore=%"U INT32 "",start-m_nowUTC);
 		}
 		*/
 
@@ -5416,7 +5416,7 @@ int32_t IndexTable2::fillTopDocIds ( //char         **topp      ,
 	//if (m_isDebug)
 	//	logf(LOG_DEBUG, 
 	//	     "query: getBitScore3 "
-	//	     "queryId=%lld bits=0x%016"XINT64"",
+	//	     "queryId=%lld bits=0x%016" XINT64 "",
 	//	     m_r->m_queryId,
 	//	     (int64_t) ebits);
 	// set the bit score
@@ -5447,7 +5447,7 @@ int32_t IndexTable2::fillTopDocIds ( //char         **topp      ,
 			if ( qi == -1 )
 				pp += sprintf(pp,"-- ");
 			else
-				pp += sprintf(pp,"%"INT32" ",
+				pp += sprintf(pp,"%" INT32 " ",
 					      (int32_t)255-tmpsv2[i*nqt+qi]);
 		}
 		pp += sprintf(pp,"] affw=[");
@@ -5475,7 +5475,7 @@ int32_t IndexTable2::fillTopDocIds ( //char         **topp      ,
 			if ( qi == -1 )
 				pp += sprintf(pp,"-- ");
 			else
-				pp += sprintf(pp,"%"INT32" ",qi);
+				pp += sprintf(pp,"%" INT32 " ",qi);
 		}
 		pp += sprintf(pp,"]");
 		d = getDocIdFromPtr(tmpp2[i]);
@@ -5484,13 +5484,13 @@ int32_t IndexTable2::fillTopDocIds ( //char         **topp      ,
 		if ( m_searchingEvents ) {
 			// get event id
 			uint8_t eid = tmpeid2[i];
-			pp += sprintf(pp," eventid=%"UINT32"" ,(int32_t)eid );
+			pp += sprintf(pp," eventid=%"U INT32 "" ,(int32_t)eid );
 			// fix docid 
 			//d -= 33 * eid;
 		}
 		// print out score_t
-		logf(LOG_DEBUG,"query: T %"INT32") d=%"UINT64" %s s=%"UINT32" dh=0x%hhx "
-		     "bs=0x%02"XINT32" ebits=0x%"XINT32" required=0x%"XINT64"", i,d,tt,score,dh,
+		logf(LOG_DEBUG,"query: T %" INT32 ") d=%" UINT64 " %s s=%"U INT32 " dh=0x%hhx "
+		     "bs=0x%02"X INT32 " ebits=0x%"X INT32 " required=0x%" XINT64 "", i,d,tt,score,dh,
 		     (int32_t)t->m_bscore,(int32_t)ebits,
 		     (int64_t)m_q->m_requiredBits);
 	}

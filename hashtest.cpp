@@ -39,7 +39,7 @@ main ( ) {
 	// bail if we already called this
 	if ( s_initialized ) return true;
 	// show RAND_MAX
-	//printf("RAND_MAX = %"UINT32"\n", RAND_MAX ); it's 0x7fffffff
+	//printf("RAND_MAX = %"U INT32 "\n", RAND_MAX ); it's 0x7fffffff
 	// seed with same value so we get same rand sequence for all
 	srand ( 1945687 );
 	for ( int32_t i = 0 ; i < 256 ; i++ )
@@ -52,7 +52,7 @@ main ( ) {
         char *docIds2 = (char *) malloc ( 6 * nd );
 	// print start time
 	//fprintf (stderr,"hashtest:: randomizing begin."
-	//	 " %"INT32" 6-byte docIds.\n",nd);
+	//	 " %" INT32 " 6-byte docIds.\n",nd);
 	// randomize docIds
 	unsigned char *p = (unsigned char *)docIds1;
 	for ( int32_t i = 0 ; i < nd ; i++ ) {
@@ -73,7 +73,7 @@ main ( ) {
 #define numSlots 1024*2
 #define mask     (numSlots-1)
 	//int32_t numSlots = 1024*4;
-	fprintf(stderr,"numslots = %"INT32"k\n", numSlots/1024);
+	fprintf(stderr,"numslots = %" INT32 "k\n", numSlots/1024);
 	fslot1 *slots = (fslot1 *) calloc (sizeof(fslot1), numSlots );
 	// point to 6 byte docIds
 	p = (unsigned char *)docIds1;
@@ -87,7 +87,7 @@ main ( ) {
 	//uint32_t  mask = numSlots - 1;
 	int32_t scoreWeight = 13;
 	// debug msg
-	fprintf (stderr,"hashtest:: starting loop (nd=%"INT32")\n",nd);
+	fprintf (stderr,"hashtest:: starting loop (nd=%" INT32 ")\n",nd);
 	// time stamp
 	int64_t t   = gettimeofdayInMilliseconds();
  again:
@@ -138,16 +138,16 @@ main ( ) {
  finalDone:
 	// completed
 	int64_t now = gettimeofdayInMilliseconds();
-	fprintf (stderr,"hashtest:: addList took %"UINT64" ms\n" , now - t );
+	fprintf (stderr,"hashtest:: addList took %" UINT64 " ms\n" , now - t );
 	// how many did we hash
 	int32_t hashed = (p - (unsigned char *)docIds1) / 6;
-	fprintf(stderr,"hashtest:: hashed %"INT32" docids\n", hashed);
+	fprintf(stderr,"hashtest:: hashed %" INT32 " docids\n", hashed);
 	// stats
 	double d = (1000.0*(double)hashed) / ((double)(now - t));
 	fprintf (stderr,"hashtest:: each add took %f cycles\n" ,
 		 400000000.0 / d );
-	fprintf (stderr,"hashtest:: we can do %"INT32" adds per second\n" ,(int32_t)d);
-	fprintf (stderr,"hashtest:: collisions = %"INT32"\n", collisions);
+	fprintf (stderr,"hashtest:: we can do %" INT32 " adds per second\n" ,(int32_t)d);
+	fprintf (stderr,"hashtest:: collisions = %" INT32 "\n", collisions);
 
 	//////////////////////////////////////////////
 	//////////////////////////////////////////////
@@ -213,14 +213,14 @@ main ( ) {
 
 	// completed
 	now = gettimeofdayInMilliseconds();
-	fprintf (stderr,"hashtest:: 2 list MERGE took %"UINT64" ms\n" , now - t );
+	fprintf (stderr,"hashtest:: 2 list MERGE took %" UINT64 " ms\n" , now - t );
 	// how many did we hash
-	fprintf(stderr,"hashtest:: merged %"INT32" docids\n", nd*2);
+	fprintf(stderr,"hashtest:: merged %" INT32 " docids\n", nd*2);
 	// stats
 	d = (1000.0*(double)nd*2.0) / ((double)(now - t));
 	fprintf (stderr,"hashtest:: each add took %f cycles\n" ,
 		 400000000.0 / d );
-	fprintf (stderr,"hashtest:: we can do %"INT32" adds per second\n" ,(int32_t)d);
+	fprintf (stderr,"hashtest:: we can do %" INT32 " adds per second\n" ,(int32_t)d);
 
 	// exit gracefully
 	exit ( 0 );

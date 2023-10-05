@@ -265,7 +265,7 @@ class TagRec {
 		      char        *user       ,
 		      int32_t         ip         ,
 		      int32_t         dataAsLong ) {
-		char buf[16]; sprintf(buf,"%"INT32"",dataAsLong);
+		char buf[16]; sprintf(buf,"%" INT32 "",dataAsLong);
 		return addTag(tagTypeStr,timestamp,user,ip,buf,
 			      gbstrlen(buf)); };
 

@@ -20,7 +20,7 @@ int main ( int argc , char *argv[] ) {
 		printf("reindex2 [this hostnum]\n");
 		exit(-1);
 	}
-	printf("using hostnum %"INT32"\n",thishostnum);
+	printf("using hostnum %" INT32 "\n",thishostnum);
 
 	// map of dbname to index #
 	char *names[] = { "index" , "spider" , "url" , "checksum" , "title" };
@@ -42,7 +42,7 @@ int main ( int argc , char *argv[] ) {
 	for ( int32_t i = 4 ; i <= 7 ;i++ ) {
 		for ( char c ='a' ; c <= 'd' ; c++ ) {
 			char buf[128];
-			sprintf ( buf , "rsh host%"INT32" ls -1 /%c/new" , i, c );
+			sprintf ( buf , "rsh host%" INT32 " ls -1 /%c/new" , i, c );
 			//sprintf ( buf , "ls -1 /%c/new" , c );
 			// open pipe to read in
 			FILE *fd;
@@ -54,7 +54,7 @@ int main ( int argc , char *argv[] ) {
 			//char tmp[1024];
 			while ( fgets ( filenames[count] , 64 , fd ) ) {
 			  // get filename
-				//sscanf ( tmp,"%*s %*s %*s %*s %"INT32" %*s %*s %*s %s", 
+				//sscanf ( tmp,"%*s %*s %*s %*s %" INT32 " %*s %*s %*s %s", 
 				//   &filesize[count], filenames[count] );
 				// ref the filename
 				char *f = filenames[count];
@@ -105,7 +105,7 @@ int main ( int argc , char *argv[] ) {
 				next [ i ] [ c -'a'] [ dbnamenum[count]] = 1;
 				// print our reconstruction to verify
 				sprintf(buf,
-				"host%"INT32":/%c/new/%s%"INT32"db%04"INT32".%s",
+				"host%" INT32 ":/%c/new/%s%" INT32 "db%04" INT32 ".%s",
 					hosts  [count] , drives[count] ,
 					names[dbnamenum [count]] , 
 					prenum[count] , 
@@ -120,12 +120,12 @@ int main ( int argc , char *argv[] ) {
 
 	// print out all file names
 	//for ( int32_t i = 0 ; i < count ; i++ ) 
-	//	printf("host%"INT32":/%c/new/%s%"INT32"db%"INT32".%s (%"INT32",%"INT32")\n",
+	//	printf("host%" INT32 ":/%c/new/%s%" INT32 "db%" INT32 ".%s (%" INT32 ",%" INT32 ")\n",
 	//	       hosts[i],drives[i],
 	//	       dbname[i], prenum[i], 
 	//	       filenum[i] , ext[i]);
 	// print total
-	//printf("total files = %"INT32"\n", count);
+	//printf("total files = %" INT32 "\n", count);
 
 	printf("echo \"ls phase done. writing rcps now\"\n");
 
@@ -135,7 +135,7 @@ int main ( int argc , char *argv[] ) {
 		// . index*db0001.dat ...
 		char buf[128];
 		sprintf(buf,
-			"host%"INT32":/%c/new/%s%"INT32"db%04"INT32".%s",
+			"host%" INT32 ":/%c/new/%s%" INT32 "db%04" INT32 ".%s",
 			hosts  [i] , drives[i] ,
 			names [ dbnamenum [i]] , prenum[i] , 
 			filenum[i] , ext[i]    );
@@ -153,7 +153,7 @@ int main ( int argc , char *argv[] ) {
 		// print new filename
 		char buf2[128];
 		sprintf(buf2,
-			"host%"INT32":/%c/%sdb%04"INT32".%s",
+			"host%" INT32 ":/%c/%sdb%04" INT32 ".%s",
 			newhost , newdrive ,
 			names [ dbnamenum [i]] , 
 			newnext , ext[i]    );
@@ -161,7 +161,7 @@ int main ( int argc , char *argv[] ) {
 		// make the ls cmd first
 		/*
 		char buf3[128];
-		sprintf ( buf3 , "rsh host%"INT32" ls -la /%c/%sdb%04"INT32".%s",
+		sprintf ( buf3 , "rsh host%" INT32 " ls -la /%c/%sdb%04" INT32 ".%s",
 			newhost , newdrive ,
 			names [ dbnamenum [i]] , 
 			newnext , ext[i]    );
@@ -173,7 +173,7 @@ int main ( int argc , char *argv[] ) {
 		int32_t size = 0;
 		if ( fgets ( ttt , 1024 , fd ) ) {
 			char tmp[1024];
-			  sscanf ( tmp,"%*s %*s %*s %*s %"INT32" %*s %*s %*s %*s", 
+			  sscanf ( tmp,"%*s %*s %*s %*s %" INT32 " %*s %*s %*s %*s", 
 				   &size);
 			  if ( size == filesize[i] ) dorcp = 0;
 		}
@@ -185,7 +185,7 @@ int main ( int argc , char *argv[] ) {
 		//printf ( "%s --> %s\n", buf , buf2 );
 		// now copy file if we're src host
 		char buf4[128];
-		sprintf ( buf4 , "rcp /%c/new/%s%"INT32"db%04"INT32".%s %s",
+		sprintf ( buf4 , "rcp /%c/new/%s%" INT32 "db%04" INT32 ".%s %s",
 			  drives[i] ,
 			  names [ dbnamenum [i]] , prenum[i] , 
 			  filenum[i] , ext[i]    , buf2);

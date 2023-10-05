@@ -22,7 +22,7 @@ int main ( int argc , char *argv[] ) {
 	for ( int32_t i = 0 ; i < 10000000 ; i++ ) 
 		z = x * y;
 	int64_t end = gettod();
-	printf("float muls took %"INT64"ms\n",end-start);
+	printf("float muls took %" INT64 "ms\n",end-start);
 
 	int32_t xi = 14598;
 	int32_t yi = 134567;
@@ -31,7 +31,7 @@ int main ( int argc , char *argv[] ) {
 	for ( int32_t i = 0 ; i < 10000000 ; i++ ) 
 		zi = xi * yi;
 	end = gettod();
-	printf("int muls took %"INT64"ms\n",end-start);
+	printf("int muls took %" INT64 "ms\n",end-start);
 
 
 
@@ -40,28 +40,28 @@ int main ( int argc , char *argv[] ) {
 	for ( int32_t i = 0 ; i < 10000000 ; i++ ) 
 		z = x + y;
 	end = gettod();
-	printf("float adds took %"INT64"ms\n",end-start);
+	printf("float adds took %" INT64 "ms\n",end-start);
 
 
 	start = gettod();
 	for ( int32_t i = 0 ; i < 10000000 ; i++ ) 
 		zi = xi + yi;
 	end = gettod();
-	printf("int adds took %"INT64"ms\n",end-start);
+	printf("int adds took %" INT64 "ms\n",end-start);
 
 
 	start = gettod();
 	for ( int32_t i = 0 ; i < 10000000 ; i++ ) 
 		z = x / y;
 	end = gettod();
-	printf("float divs took %"INT64"ms\n",end-start);
+	printf("float divs took %" INT64 "ms\n",end-start);
 
 
 	start = gettod();
 	for ( int32_t i = 0 ; i < 10000000 ; i++ ) 
 		zi = xi / yi;
 	end = gettod();
-	printf("int divs took %"INT64"ms\n",end-start);
+	printf("int divs took %" INT64 "ms\n",end-start);
 
 
 

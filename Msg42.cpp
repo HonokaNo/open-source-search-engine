@@ -119,7 +119,7 @@ void handleRequest42 ( UdpSlot *slot , int32_t netnice ) {
 	//if ( netnice == 0 ) us = &g_udpServer2;
         // ensure it's size
         if ( requestSize <= 8 ) {
-		log("query: Got bad request size of %"INT32" for term frequency.",
+		log("query: Got bad request size of %" INT32 " for term frequency.",
 		    requestSize);
                 us->sendErrorReply ( slot , EBADREQUESTSIZE ); 
 		return;

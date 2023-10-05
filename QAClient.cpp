@@ -118,7 +118,7 @@ bool QAClient::init(char *s1, char * s2, char *pfile, char *qfile){
 		}
 		char *buf = (char*)mmalloc(len+1, "qaparse");
 		if (!buf){
-			fprintf(stderr, "can't alloc %"INT32" bytes for %s\n",
+			fprintf(stderr, "can't alloc %" INT32 " bytes for %s\n",
 				len+1, pfile);
 			close(fd);
 			return false;
@@ -128,7 +128,7 @@ bool QAClient::init(char *s1, char * s2, char *pfile, char *qfile){
 		int32_t n = read(fd, buf, len);
 		if (n && n != len){
 			fprintf(stderr, "error reading %s: "
-				"expected %"INT32" bytes got %"INT32".\n"
+				"expected %" INT32 " bytes got %" INT32 ".\n"
 				"(errno=%s)\n",
 				pfile, len, n, strerror(errno));
 			return false;
@@ -138,7 +138,7 @@ bool QAClient::init(char *s1, char * s2, char *pfile, char *qfile){
 		int32_t size = MAX_TEST_URLS*sizeof(char**);
 		char **ptrs = (char**) mmalloc(size, "qaparse");
 		if (!buf){
-			fprintf(stderr, "can't alloc %"INT32" bytes for %s\n",
+			fprintf(stderr, "can't alloc %" INT32 " bytes for %s\n",
 				size, pfile);
 			close(fd);
 			return false;
@@ -185,7 +185,7 @@ bool QAClient::init(char *s1, char * s2, char *pfile, char *qfile){
 		}
 		char *buf = (char*)mmalloc(len+1, "qaquery");
 		if (!buf){
-			fprintf(stderr, "can't alloc %"INT32" bytes for %s\n",
+			fprintf(stderr, "can't alloc %" INT32 " bytes for %s\n",
 				len+1, qfile);
 			close(fd);
 			return false;
@@ -195,7 +195,7 @@ bool QAClient::init(char *s1, char * s2, char *pfile, char *qfile){
 		int32_t n = read(fd, buf, len);
 		if (n && n != len){
 			fprintf(stderr, "error reading %s: "
-				"expected %"INT32" bytes got %"INT32".\n"
+				"expected %" INT32 " bytes got %" INT32 ".\n"
 				"(errno=%s)\n",
 				pfile, len, n, strerror(errno));
 			return false;
@@ -205,7 +205,7 @@ bool QAClient::init(char *s1, char * s2, char *pfile, char *qfile){
 		int32_t size = MAX_TEST_URLS*sizeof(char**);
 		char **ptrs = (char**) mmalloc(size, "qaquery");
 		if (!buf){
-			fprintf(stderr, "can't alloc %"INT32" bytes for %s\n",
+			fprintf(stderr, "can't alloc %" INT32 " bytes for %s\n",
 				size, qfile);
 			close(fd);
 			return false;
@@ -329,7 +329,7 @@ void QAClient::runNextTest(){
 		mnew(t, m_curTestSize, "qaclient");
 
 		char desc[256];
-		sprintf(desc, "parser_%"INT32"", i);
+		sprintf(desc, "parser_%" INT32 "", i);
 		t->set(desc,u1,u2, this, nextTestWrapper);
 		m_curTest = t;
 	}
@@ -359,7 +359,7 @@ void QAClient::runNextTest(){
 		m_curTestSize = sizeof(*t);
 		mnew(t, m_curTestSize, "qaclient");
 		char desc[256];
-		sprintf(desc, "query_%"INT32"", i);
+		sprintf(desc, "query_%" INT32 "", i);
 		t->set(desc,u1,u2, this, nextTestWrapper);
 		m_curTest = t;		
 	}
@@ -510,7 +510,7 @@ void QADiffTest::processResults(){
 	printf("doc1=%s\ndoc2=%s\n",
 	       m_doc1.m_url.getUrl(), 
 	       m_doc2.m_url.getUrl());
-	printf("status=(%d,%d) elapsed=(%lldms,%lldms) size=(%"INT32",%"INT32")\n",
+	printf("status=(%d,%d) elapsed=(%lldms,%lldms) size=(%" INT32 ",%" INT32 ")\n",
 	       m_doc1.m_httpStatus, m_doc2.m_httpStatus,
 	       m_doc1.m_elapsed, m_doc2.m_elapsed, 
 	       m_doc1.m_contentLen, m_doc2.m_contentLen);
@@ -618,12 +618,12 @@ void QADiffTest::xmlDiff() {
 		 false, 0, false,
 		 TITLEREC_CURRENT_VERSION);
 
-	log(LOG_INIT, "qa: doc1: charset=%d len=%"INT32" "
-	    "xml1: charset=%d len=%"INT32" nodes=%"INT32"\n",
+	log(LOG_INIT, "qa: doc1: charset=%d len=%" INT32 " "
+	    "xml1: charset=%d len=%" INT32 " nodes=%" INT32 "\n",
 	       m_doc1.m_charset, m_doc1.m_contentLen,
 	       xml1.getCharset(),xml1.getContentLen() , xml1.getNumNodes() );
-	log(LOG_INIT, "qa: doc2: charset=%d len=%"INT32" "
-	    "xml2: charset=%d len=%"INT32" nodes=%"INT32"\n",
+	log(LOG_INIT, "qa: doc2: charset=%d len=%" INT32 " "
+	    "xml2: charset=%d len=%" INT32 " nodes=%" INT32 "\n",
 	       m_doc2.m_charset, m_doc2.m_contentLen,
 	       xml2.getCharset(),xml2.getContentLen(), xml2.getNumNodes() );
 	DiffOpt opt;
@@ -640,21 +640,21 @@ void QADiffTest::xmlDiff() {
 	
 	int32_t lcsLen = longestCommonSubsequence(seq1, seq2, seqLen,4096, 
 					       &xml1, &xml2);
-	printf("lcs length: %"INT32"\n", lcsLen);
+	printf("lcs length: %" INT32 "\n", lcsLen);
 	lcsLen = lcsXml(seq1, seq2, seqLen,4096, 
 			&xml1, &xml2, opt);
-	printf("lcs length: %"INT32"\n", lcsLen);
+	printf("lcs length: %" INT32 "\n", lcsLen);
 	
 	int32_t start = -1;
 	printf("[ ");
 	for (int32_t i=0;i<lcsLen;i++){
 		int32_t n1 = lcs1[i];
 		int32_t n2 = lcs2[i];
-		printf("(%"INT32", %"INT32")", n1, n2);
+		printf("(%" INT32 ", %" INT32 ")", n1, n2);
 		if (i < lcsLen-1) printf(", ");
 		continue;
 		if (start < 0) {
-			printf("%"INT32"", n);
+			printf("%" INT32 "", n);
 			start = n;
 			continue;
 		}
@@ -664,12 +664,12 @@ void QADiffTest::xmlDiff() {
 			// more in the sequence
 			if (i < lcsLen-1 && lcs1[i+1] == n+1 ) continue;
 			// end of sequence
-			printf("-%"INT32"", lcs1[i]);
+			printf("-%" INT32 "", lcs1[i]);
 			continue;
 		}
 
 		// disconnected node
-		printf(", %"INT32"", n);
+		printf(", %" INT32 "", n);
 		start = n;
 	}
 	printf(" ]\n"); 
@@ -687,11 +687,11 @@ void QADiffTest::xmlDiff() {
 		int32_t len = seqLen[iLcs];
 		// Deletes
 		while (i < a){
-			printf("- %"INT32"\n", i++);
+			printf("- %" INT32 "\n", i++);
 		}
 		// Adds
 		while (j < b){
-			printf("+ %"INT32"\n", j++);
+			printf("+ %" INT32 "\n", j++);
 		}
 		// Same
 		if (i == a) i+=len;
@@ -700,11 +700,11 @@ void QADiffTest::xmlDiff() {
 
 	// Deletes
 	while (i < n1){
-		printf("- %"INT32"\n", i++);
+		printf("- %" INT32 "\n", i++);
 	}
 	// Adds
 	while (j < n2){
-		printf("+ %"INT32"\n", j++);
+		printf("+ %" INT32 "\n", j++);
 	}
 #endif
 }

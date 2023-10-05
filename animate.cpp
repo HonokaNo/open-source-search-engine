@@ -171,7 +171,7 @@ void main2 ( char *dirname ) {
 		// hash it
 		uint32_t h = hash32 ( filename , len );
 		// debug
-		//fprintf(stderr,"filename %s h=%"UINT32"\n",filename,
+		//fprintf(stderr,"filename %s h=%"U INT32 "\n",filename,
 		//(uint32_t)h);
 		// never allow 0, that means empty bucket
 		if ( h == 0LL ) h = 1LL;
@@ -299,7 +299,7 @@ void main2 ( char *dirname ) {
 		e->m_timestamp = timestamp;
 
 		// debug
-		//fprintf(stderr,"animate: timestamp %s = %"INT64"\n",filename,timestamp);
+		//fprintf(stderr,"animate: timestamp %s = %" INT64 "\n",filename,timestamp);
 
 		// store filename, might already be set
 		char *src = filename;
@@ -327,7 +327,7 @@ void main2 ( char *dirname ) {
 
 
 		// add it to the linked list
-		//fprintf(stderr,"animate: adding h=%"UINT32" file=%s ts=%"INT64"\n",
+		//fprintf(stderr,"animate: adding h=%"U INT32 " file=%s ts=%" INT64 "\n",
 		//	(int32_t)e->m_h,filename,e->m_timestamp);
 		if ( tail ) { tail->m_next = e; tail = e; }
 		else        head = tail  = e;
@@ -373,7 +373,7 @@ void main2 ( char *dirname ) {
 		e->m_flags |= HAS_ROOT;
 
 
-		//fprintf(stderr,"animate: ctime %s = %"INT32"\n",filename,e->m_ctime);
+		//fprintf(stderr,"animate: ctime %s = %" INT32 "\n",filename,e->m_ctime);
 	}
 
 	// sort the entries by their timestamp
@@ -440,7 +440,7 @@ void main2 ( char *dirname ) {
 	//   animating to avoid cutting animations int16_t!
 	for ( Entry *e = head ; e ; e = e->m_next ) {
 		// note it
-		//fprintf(stderr,"animate: file=%s ts=%"UINT64"\n",
+		//fprintf(stderr,"animate: file=%s ts=%" UINT64 "\n",
 		//	e->m_root,e->m_timestamp);
 
 		// skip if already done
@@ -668,7 +668,7 @@ void main2 ( char *dirname ) {
 	for ( Entry *e = head ; ! issubdir && e ; e = e->m_next ) {
 		// make the dirname for this entry
 		char subdir[128];
-		sprintf(subdir,"%"INT32"%02"INT32"%02"INT32"", e->m_year,
+		sprintf(subdir,"%" INT32 "%02" INT32 "%02" INT32 "", e->m_year,
 			e->m_month,e->m_day);
 		// hash it
 		uint32_t h = hash32 ( subdir , 8 );
@@ -717,7 +717,7 @@ void main2 ( char *dirname ) {
 		if ( ! (e->m_flags & IS_PARENT ) ) continue;
 		// make the dirname for this entry
 		char subdir[128];
-		sprintf(subdir,"%"INT32"%02"INT32"%02"INT32"", e->m_year,
+		sprintf(subdir,"%" INT32 "%02" INT32 "%02" INT32 "", e->m_year,
 			e->m_month,e->m_day);
 		// move it all!
 		char buf[128];
@@ -760,7 +760,7 @@ bool hashinit () {
 	// bail if we already called this
 	if ( s_initialized ) return true;
 	// show RAND_MAX
-	//printf("RAND_MAX = %"UINT32"\n", RAND_MAX ); it's 0x7fffffff
+	//printf("RAND_MAX = %"U INT32 "\n", RAND_MAX ); it's 0x7fffffff
 	// seed with same value so we get same rand sequence for all
 	srand ( 1945687 );
 	for ( int32_t i = 0 ; i < 256 ; i++ )

@@ -73,7 +73,7 @@ int main (int argc, char **argv) {
 	}
 	avg_time = total/test_count;
 
-	fprintf(stderr,"ICU size: %"INT32", count: %"INT32", avg: %"INT32", min: %"INT32", max: %"INT32"\n",
+	fprintf(stderr,"ICU size: %" INT32 ", count: %" INT32 ", avg: %" INT32 ", min: %" INT32 ", max: %" INT32 "\n",
 		newsize, test_count, avg_time, min_time, max_time);
 	int outfd = open("icu.out", O_CREAT|O_RDWR|O_TRUNC, 00666);
 	if (outfd < 0) {printf("Error creating output file: %s\n", 
@@ -95,7 +95,7 @@ int main (int argc, char **argv) {
 	}
 	avg_time = total/test_count;
 
-	fprintf(stderr,"iconv size: %"INT32", count: %"INT32", avg: %"INT32", min: %"INT32", max: %"INT32"\n",
+	fprintf(stderr,"iconv size: %" INT32 ", count: %" INT32 ", avg: %" INT32 ", min: %" INT32 ", max: %" INT32 "\n",
 		newsize, test_count, avg_time, min_time, max_time);
 	outfd = open("iconv.out", O_CREAT|O_RDWR|O_TRUNC, 00666);
 	if (outfd < 0) {printf("Error creating output file: %s\n", 
@@ -116,7 +116,7 @@ int main (int argc, char **argv) {
 	}
 	avg_time = total/test_count;
 
-	fprintf(stderr,"my size: %"INT32", count: %"INT32", avg: %"INT32", min: %"INT32", max: %"INT32"\n",
+	fprintf(stderr,"my size: %" INT32 ", count: %" INT32 ", avg: %" INT32 ", min: %" INT32 ", max: %" INT32 "\n",
 		newsize, test_count, avg_time, min_time, max_time);
 	outfd = open("my.out", O_CREAT|O_RDWR|O_TRUNC, 00666);
 	if (outfd < 0) {printf("Error creating output file: %s\n", 

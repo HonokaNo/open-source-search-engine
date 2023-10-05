@@ -296,28 +296,28 @@ void gotTransdbList ( State60 *st ) {
 			// then stats
 			if ( trans->m_actionType == AT_RECEIVE_DOC )
 				sb.safePrintf("<td>receive</td>"
-					      "<td>%"INT32" pts</td>"
-					      "<td>docid=%"UINT64"</td>",
+					      "<td>%" INT32 " pts</td>"
+					      "<td>docid=%" UINT64 "</td>",
 					      (int32_t)trans->m_number,
 					      trans->m_docId);
 			else if ( trans->m_actionType == AT_SUBMIT_DOC )
 				sb.safePrintf("<td>submit</td>"
-					      "<td>%"INT32" pts</td>"
-					      "<td>docid=%"UINT64"</td>",
+					      "<td>%" INT32 " pts</td>"
+					      "<td>docid=%" UINT64 "</td>",
 					      (int32_t)trans->m_number,
 					      trans->m_docId);
 			else if ( trans->m_actionType == AT_PASS_DOC )
 				sb.safePrintf("<td>verify</td>"
-					      "<td>%"INT32" pts</td>"
-					      "<td>docid=%"UINT64" was verified "
+					      "<td>%" INT32 " pts</td>"
+					      "<td>docid=%" UINT64 " was verified "
 					      "by user=\"%s\"</td>",
 					      (int32_t)trans->m_number,
 					      trans->m_docId,
 					      trans->m_desc);
 			else if ( trans->m_actionType == AT_FAIL_DOC )
 				sb.safePrintf("<td>verify</td>"
-					      "<td>%"INT32" pts</td>"
-					      "<td>docid=%"UINT64" was deemed to "
+					      "<td>%" INT32 " pts</td>"
+					      "<td>docid=%" UINT64 " was deemed to "
 					      "be incorrect "
 					      "by user=\"%s\"</td>",
 					      (int32_t)trans->m_number,
@@ -326,7 +326,7 @@ void gotTransdbList ( State60 *st ) {
 			else if ( trans->m_actionType == AT_ACCURACY_EVAL)
 				sb.safePrintf("<td>accuracy eval</td>"
 					      "<td>%.02f</td>"
-					      "<td>docid=%"UINT64"</td>",
+					      "<td>docid=%" UINT64 "</td>",
 					      trans->m_number,
 					      trans->m_docId);
 			else if ( trans->m_actionType == AT_CHARGE)
@@ -370,25 +370,25 @@ void gotTransdbList ( State60 *st ) {
 			// then stats
 			sb.safePrintf("<tr>"
 				      "<td>receive</td>"
-				      "<td>%"INT32"</td>"
+				      "<td>%" INT32 "</td>"
 				      "<td>Total received</td>"
 				      "</tr>\n",
 				      totalReceives);
 			sb.safePrintf("<tr>"
 				      "<td>submit</td>"
-				      "<td>%"INT32"</td>"
+				      "<td>%" INT32 "</td>"
 				      "<td>Total submitted</td>"
 				      "</tr>\n",
 				      totalSubmits);
 			sb.safePrintf("<tr>"
 				      "<td>pass</td>"
-				      "<td>%"INT32"</td>"
+				      "<td>%" INT32 "</td>"
 				      "<td>Total accuracy tests passed</td>"
 				      "</tr>\n",
 				      totalPasses);
 			sb.safePrintf("<tr>"
 				      "<td>fail</td>"
-				      "<td>%"INT32"</td>"
+				      "<td>%" INT32 "</td>"
 				      "<td>Total accuracy tests failed</td>"
 				      "</tr>\n",
 				      totalFails);
@@ -810,8 +810,8 @@ bool sendTurkPageReply ( State60 *st ) {
 				// back end? we need to send back the colors
 				// of the sections that have been activated
 				// i guess. just do a loop over them.
-				sb.safePrintf("<div nobreak gbsecid=%"UINT32" "
-					      "bgcolor=#%"XINT32" "
+				sb.safePrintf("<div nobreak gbsecid=%"U INT32 " "
+					      "bgcolor=#%"X INT32 " "
 					      "onclick=gbtogglecolor()>",
 					      (uint32_t)sj->m_tagHash,
 					      (uint32_t)sj->m_tagHash);

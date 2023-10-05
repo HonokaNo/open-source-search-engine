@@ -81,7 +81,7 @@ int main ( int argc , char *argv[] ) {
 
 	//srand(time(NULL));
 	//int32_t i = rand() % 30;
-	//fprintf(stderr,"sleep(%"INT32")\n",i);
+	//fprintf(stderr,"sleep(%" INT32 ")\n",i);
 	//sleep(i);
 
 	// if nothing came in then nothing goes out, we're done
@@ -232,7 +232,7 @@ int filterContent ( char *buf , int32_t n , int32_t mimeLen , char ctype , int32
 
 	// save the content to a file so pdftohtml,etc. can work with it
 	char in[64];
-	sprintf ( in , "%s/content.%"INT32"", wdir , id ); // (int32_t)getpid() );
+	sprintf ( in , "%s/content.%" INT32 "", wdir , id ); // (int32_t)getpid() );
 
 	//fprintf(stderr,"in=%s\n",in);
 

@@ -55,7 +55,7 @@ int main ( int argc , char *argv[] ) {
 	int32_t maxmem = (int32_t) ((fsize / PAGE_SIZE) * 14LL + 5000000LL);
 	g_mem.init ( maxmem ); 
 
-	fprintf(stderr,"convert: converting %s/%s to %s/%s (maxmem=%"INT32")\n",
+	fprintf(stderr,"convert: converting %s/%s to %s/%s (maxmem=%" INT32 ")\n",
 		olddir,iname,newdir,iname,maxmem);
 	
 	// always make the hash table
@@ -154,7 +154,7 @@ convert: hashinit failed" ); return 1; }
 		pend -= (b - a);
 		// count it
 		removed += (b-a)/12;
-		//fprintf(stderr,"removed %"INT32" bad keys\n",(int32_t)(b-a)/12);
+		//fprintf(stderr,"removed %" INT32 " bad keys\n",(int32_t)(b-a)/12);
 		goto again;
 	}
 	// reset p
@@ -191,7 +191,7 @@ convert: hashinit failed" ); return 1; }
 			// might be full
 			if ( trashTop == trashBot ) {
 				//fprintf(stderr,"TRASH FULL!\n");
-				//fprintf(stderr,"skip n1=%08"XINT32" n0=%016"XINT64"\n",
+				//fprintf(stderr,"skip n1=%08"X INT32 " n0=%016" XINT64 "\n",
 				//	*(int32_t *)(p+8),*(int64_t *)p);
 				trashTop -= 12;
 				if ( trashTop < trash )
@@ -305,9 +305,9 @@ convert: hashinit failed" ); return 1; }
 
 	// print final message
 	fprintf(stderr,"convert: done converting %s/%s\n",olddir,iname);
-	fprintf(stderr,"convert: recycled %"INT32" of the %"INT32" trashed\n",
+	fprintf(stderr,"convert: recycled %" INT32 " of the %" INT32 " trashed\n",
 		recycled,trashed);
-	fprintf(stderr,"convert: removed %"INT32" bad keys\n",removed);
+	fprintf(stderr,"convert: removed %" INT32 " bad keys\n",removed);
 }
 
 /*

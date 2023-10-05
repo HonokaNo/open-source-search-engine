@@ -269,7 +269,7 @@ bool SynonymInfo::addSynonym(char *syn, int32_t affinity,
 	// check for duplicates
 	uint64_t h = hash64Lower_utf8(syn, len);
 	if (h == m_h) {
-		return log(LOG_DEBUG, "query: Synonym dup hash %016"XINT64"", m_h);
+		return log(LOG_DEBUG, "query: Synonym dup hash %016" XINT64 "", m_h);
 	}
 
 	int64_t tids[MAX_STIDS];
@@ -289,7 +289,7 @@ bool SynonymInfo::addSynonym(char *syn, int32_t affinity,
 			if (m_termId[j] != tids[k]) break; // mismatch
 		}
 		if (j <= m_lastId[i]) continue; // mismatch, check next one
-		return log(LOG_DEBUG, "query: Synonym dup by tids %"INT32"", i);
+		return log(LOG_DEBUG, "query: Synonym dup by tids %" INT32 "", i);
 	}
 
 	// grow the buffers if need be
@@ -435,7 +435,7 @@ bool Thesaurus::getAllInfo(char *s, SynonymInfo *info, int32_t slen,
 	if (!slen) slen = gbstrlen(s);
 	if (slen > 256) return false;
 	if (!bits) return false;
-	log(LOG_DEBUG, "query: getAllInfo(%32s, %"INT32", %p, %"XINT32")", 
+	log(LOG_DEBUG, "query: getAllInfo(%32s, %" INT32 ", %p, %"X INT32 ")", 
 		s, slen, info, bits);
 	// do stems first so SYN_STEM overrides
 	if (bits & SYNBIT_STEM) r |= getStems(s, slen, info);
@@ -479,7 +479,7 @@ bool Thesaurus::getSynonymInfo(char *s, SynonymInfo *info,
 bool Thesaurus::getSynonymInfo(uint64_t h, SynonymInfo *info, int32_t bits) {
 	int32_t slot = m_synonymTable.getSlot(h);
 	if (slot < 0) return false;
-	log(LOG_DEBUG, "query: getSynonymInfo(%"XINT64", %p, %"XINT32")", h, info, bits);
+	log(LOG_DEBUG, "query: getSynonymInfo(%" XINT64 ", %p, %"X INT32 ")", h, info, bits);
 	// this is NOW the first synonym
 	//char *p = m_synonymText + OFFSET(m_synonymTable.
 	//				    getValueFromSlot(slot));
@@ -806,7 +806,7 @@ bool Thesaurus::getStems(char *s, int32_t slen, SynonymInfo *info) {
 				char buf3[256];
 				gbmemcpy(buf3, buf, bufLen);
 				buf3[bufLen] = '\0';
-				log(LOG_DEBUG, "query: maybe stem %s (%"INT32")", 
+				log(LOG_DEBUG, "query: maybe stem %s (%" INT32 ")", 
 					buf3, pop);
 			}
 			// if the replacement is empty, see if removing a
@@ -826,7 +826,7 @@ bool Thesaurus::getStems(char *s, int32_t slen, SynonymInfo *info) {
 				if (pop2 > pop) {
 					log(LOG_DEBUG, "query: Double "
 						"consonant removed \"%s\""
-						" (%"INT32")",
+						" (%" INT32 ")",
 						buf3, pop2);
 					gbmemcpy(buf, buf3, bufLen);
 					pop = pop2;
@@ -846,7 +846,7 @@ bool Thesaurus::getStems(char *s, int32_t slen, SynonymInfo *info) {
 
 	// if we found something, add it in
 	if (best >= 0) {
-		log(LOG_DEBUG, "query: Stemming %s to %s (%"INT32")", 
+		log(LOG_DEBUG, "query: Stemming %s to %s (%" INT32 ")", 
 			s, buf2, best);
 		r |= info->addSynonym(buf2, -1, -1, buf2Len, 
 				      SYN_STEM, 1, false, 0, 0);
@@ -900,13 +900,13 @@ bool Thesaurus::getStems(char *s, int32_t slen, SynonymInfo *info) {
 			}
 			if (pop) { // got a potential suffix
 				log(LOG_DEBUG, "query: adding unstem \"%s\" "
-					"%"INT32"", buf, pop);
+					"%" INT32 "", buf, pop);
 				r |= info->addSynonym(buf, -1, -1, bufLen,
 					         SYN_STEM, 1, false, 0, 0);
 			}
 			if (pop2) {
 				log(LOG_DEBUG, "query: adding unstem \"%s\" "
-					"%"INT32"", buf3, pop);
+					"%" INT32 "", buf3, pop);
 				r |= info->addSynonym(buf3, -1, -1, bufLen + 1,
 						 SYN_STEM, 1, false, 0, 0);
 			}
@@ -1520,16 +1520,16 @@ bool Thesaurus::rebuildSynonyms() {
 		totalPairs += w.m_n;
 	}
 
-	log(LOG_INFO, "build: Built %"INT32" synonym groups and %"INT32" pairs", 
+	log(LOG_INFO, "build: Built %" INT32 " synonym groups and %" INT32 " pairs", 
 		numSynonyms, totalPairs);
-	if (unknown) log(LOG_WARN, "build: %"INT32" synonyms pairs were missing "
+	if (unknown) log(LOG_WARN, "build: %" INT32 " synonyms pairs were missing "
 		"valid types, check your input files", unknown);
 
 	SafeBuf thesFile;
 
-	thesFile.safePrintf("|lastRebuild|%"INT32"\n", m_lastRebuild);
-	thesFile.safePrintf("|numSynonyms|%"INT32"\n", numSynonyms);
-	thesFile.safePrintf("|totalPairs|%"INT32"\n", totalPairs);
+	thesFile.safePrintf("|lastRebuild|%" INT32 "\n", m_lastRebuild);
+	thesFile.safePrintf("|numSynonyms|%" INT32 "\n", numSynonyms);
+	thesFile.safePrintf("|totalPairs|%" INT32 "\n", totalPairs);
 	thesFile.safePrintf("|totalSlots|0\n");
 
 	for (int32_t slot = 0; slot < linkTable.getNumSlots(); slot++) {
@@ -1546,10 +1546,10 @@ bool Thesaurus::rebuildSynonyms() {
 			if (w.m_aff[j] >= 0) aff = w.m_aff[j];
 			else                 aff = getAffinity(s1, s2);
 			if (aff >= 0) {
-				thesFile.safePrintf("%s|%s|0x%08"XINT32"|%"INT32"\n", 
+				thesFile.safePrintf("%s|%s|0x%08"X INT32 "|%" INT32 "\n", 
 					s1, s2, aff, (int32_t)w.m_type[j]);
 			} else {
-				thesFile.safePrintf("%s|%s|%"INT32"|%"INT32"\n",
+				thesFile.safePrintf("%s|%s|%" INT32 "|%" INT32 "\n",
 					s1, s2, aff, (int32_t)w.m_type[j]);
 			}
 		}
@@ -1558,7 +1558,7 @@ bool Thesaurus::rebuildSynonyms() {
 	snprintf(ff, PATH_MAX, "%s%sthesaurus.txt", g_hostdb.m_dir, s_dictDir);
 	if (!thesFile.dumpToFile(ff)) return log("build: Couldn't save %s", ff);
 
-	log(LOG_TIMING, "build: took %"INT64"ms to rebuild synonyms",
+	log(LOG_TIMING, "build: took %" INT64 "ms to rebuild synonyms",
 		gettimeofdayInMilliseconds() - startTime);
 	return true;
 }
@@ -1603,7 +1603,7 @@ static void buildAffinity(StateAffinity *aff) {
 	StateAffinityGroup *group = getNextAffinityGroup(aff);
 	do {
 		if (aff->m_n >= aff->m_next) {
-			log(LOG_INFO, "build: %"INT32" out of %"INT32" pairs built",
+			log(LOG_INFO, "build: %" INT32 " out of %" INT32 " pairs built",
 				aff->m_n, aff->m_oldTable->getNumSlotsUsed());
 			aff->m_next = aff->m_n + 1000;
 			QUICKPOLL(1);	// just in case we're hogging the cpu 
@@ -1699,7 +1699,7 @@ static StateAffinityGroup *buildAffinityGroup(StateAffinityGroup *group) {
 	b.safeMemcpy(g_conf.m_affinityParms, gbstrlen(g_conf.m_affinityParms)+1);
 	uint64_t *llp;
 	if (!aff->m_fullRebuild && i >= 0 && info->m_affinity[i] >= 0) {
-		log(LOG_DEBUG, "build: old value: (%s, %s, %08"XINT32")",
+		log(LOG_DEBUG, "build: old value: (%s, %s, %08"X INT32 ")",
 			s1, s2, info->m_affinity[i]);
 		aff->m_old++;
 	} else if (i == -1 && !group->m_sent && !group->m_cache) {
@@ -1727,10 +1727,10 @@ static StateAffinityGroup *buildAffinityGroup(StateAffinityGroup *group) {
 		}
 	} else {
 		if (i >= 0) {
-			log(LOG_DEBUG, "build: cache hit (%s, %s, %"INT64")", 
+			log(LOG_DEBUG, "build: cache hit (%s, %s, %" INT64 ")", 
 				s1, s2, *llp);
 		} else {
-			log(LOG_DEBUG, "build: cache hit (%s, %"INT64")", 
+			log(LOG_DEBUG, "build: cache hit (%s, %" INT64 ")", 
 				s1, *llp);
 		}
 		aff->m_cache++;
@@ -1815,7 +1815,7 @@ static void gotAffinityDoc(void *state, TcpSocket *socket) {
 		return;
 	} 
 	if (!xml.set(s, len, false, 0, false, 0)) {
-		log("build: len = %"INT32"", len);
+		log("build: len = %" INT32 "", len);
 		log("build: s = %32s", s);
 		affinityRetry(group, socket);
 		return;
@@ -1852,7 +1852,7 @@ static void gotAffinityDoc(void *state, TcpSocket *socket) {
 	// send the next request and/or do cleanup
 	do {
 		if (aff->m_n >= aff->m_next) {
-			log(LOG_INFO, "build: %"INT32" out of %"INT32" pairs built",
+			log(LOG_INFO, "build: %" INT32 " out of %" INT32 " pairs built",
 				aff->m_n, aff->m_oldTable->getNumSlotsUsed());
 			aff->m_next = aff->m_n + 1000;
 			QUICKPOLL(1);	// just in case we're hogging the cpu 
@@ -1871,7 +1871,7 @@ static void affinityRetry(StateAffinityGroup *group, TcpSocket *socket) {
 		return;
 	}
 	aff->m_errors++;
-	log(LOG_DEBUG, "build: affinity error #%"INT32"", aff->m_errors);
+	log(LOG_DEBUG, "build: affinity error #%" INT32 "", aff->m_errors);
 	// rebuild the url from the sendBuf
 	char buf[1024], *p; 
 	p = buf; 
@@ -1973,13 +1973,13 @@ static void gotGroupAffinityPairs(StateAffinityGroup *group) {
 		} else if (pk && pl) {
 			a = 0;
 		} else {
-			log(LOG_WARN, "build: hits=%s,%08"XINT32",%p,%"INT64","
-				"%s,%016"XINT64",%p,%"INT64"", 
+			log(LOG_WARN, "build: hits=%s,%08"X INT32 ",%p,%" INT64 ","
+				"%s,%016" XINT64 ",%p,%" INT64 "", 
 				s1, (uint32_t) hh1, pk, k, 
 				s2, hh, pl, l);
 			continue;
 		}
-		log(LOG_DEBUG, "build: affinity(%s,%s)=%"INT32"(%"INT64",%"INT64")",
+		log(LOG_DEBUG, "build: affinity(%s,%s)=%" INT32 "(%" INT64 ",%" INT64 ")",
 			s1, s2, a, k, l);
 //		if (a < MAX_AFFINITY * 0.01) {
 //			aff->m_skip++;
@@ -2009,7 +2009,7 @@ static int slotCmp(const void *p1, const void *p2) {
 	else if (v1 < v2) return  1;	// v2 has higher affinity, push it up
 	else {
 		// if this happens the code elsewhere is borked
-		log(LOG_LOGIC, "build: duplicate entry (%016"XINT64",%016"XINT64")",
+		log(LOG_LOGIC, "build: duplicate entry (%016" XINT64 ",%016" XINT64 ")",
 			s_cmpKey, v1);
 		return  0;
 	}
@@ -2054,11 +2054,11 @@ static void gotAllAffinityPairs(void *state) {
 	StateAffinity *aff = (StateAffinity *)state;
 	log(LOG_DEBUG, "build: gotAllAffinityPairs(%p)", state);
 	if (aff->m_thes->m_rebuilding) {
-		log(LOG_INFO, "build: Rebuilt %"INT32" affinity pairs, sent "
-			"%"INT32" total requests, hit cache %"INT32" times, used %"INT32" "
-//			"old values, had %"INT32" errors, dropped %"INT32" pairs for "
-//			"values below the threshold, and took %"INT64" seconds"
-			"old values, had %"INT32" errors, and took %"INT64" seconds"
+		log(LOG_INFO, "build: Rebuilt %" INT32 " affinity pairs, sent "
+			"%" INT32 " total requests, hit cache %" INT32 " times, used %" INT32 " "
+//			"old values, had %" INT32 " errors, dropped %" INT32 " pairs for "
+//			"values below the threshold, and took %" INT64 " seconds"
+			"old values, had %" INT32 " errors, and took %" INT64 " seconds"
 			"(%s rebuild)", 
 			aff->m_built, aff->m_sent, aff->m_cache,
 			aff->m_old, aff->m_errors, //aff->m_skip,
@@ -2250,10 +2250,10 @@ bool Thesaurus::save() {
 	
 	bool x = true;
 
-	//x &= b.safePrintf("|lastRebuild|%"INT32"\n", m_lastRebuild);
-	//x &= b.safePrintf("|numSynonyms|%"INT32"\n", m_numSynonyms);
-	//x &= b.safePrintf("|totalPairs|%"INT32"\n", m_totalPairs);
-	//x &= b.safePrintf("|totalSlots|%"INT32"\n", m_synonymTable.getNumSlots());
+	//x &= b.safePrintf("|lastRebuild|%" INT32 "\n", m_lastRebuild);
+	//x &= b.safePrintf("|numSynonyms|%" INT32 "\n", m_numSynonyms);
+	//x &= b.safePrintf("|totalPairs|%" INT32 "\n", m_totalPairs);
+	//x &= b.safePrintf("|totalSlots|%" INT32 "\n", m_synonymTable.getNumSlots());
 
 	while (p1 < p1end && x) {
 		SynonymInfo syn;
@@ -2264,10 +2264,10 @@ bool Thesaurus::save() {
 			float af = a / (float)MAX_AFFINITY;
 			int32_t f = syn.m_type[i];
 			if (a >= 0) {
-				x &= b.safePrintf("%s|%s|%f|%"INT32"\n", 
+				x &= b.safePrintf("%s|%s|%f|%" INT32 "\n", 
 					p1, p2, af, f);
 			} else {
-				x &= b.safePrintf("%s|%s|%"INT32"|%"INT32"\n", 
+				x &= b.safePrintf("%s|%s|%" INT32 "|%" INT32 "\n", 
 					p1, p2, a, f);
 			}
 		}
@@ -2365,7 +2365,7 @@ bool Thesaurus::initStems() {
 	}
 
 	int32_t used = m_stemTable.getNumSlotsUsed();
-	if (used) log(LOG_INIT, "query: Loaded %"INT32" stem exceptions", used);
+	if (used) log(LOG_INIT, "query: Loaded %" INT32 " stem exceptions", used);
 	else      log(LOG_INIT, "query: Couldn't load stem exceptions");
 
 	m_suffixBuffer.reset();
@@ -2584,10 +2584,10 @@ bool Thesaurus::load() {
 	if (!x) return log("build: Thesaurus loading failure, memory low?");
 
 	if (warn)
-		log(LOG_INIT, "build: %"INT32" invalid/missing affinity "
+		log(LOG_INIT, "build: %" INT32 " invalid/missing affinity "
 		    "values, recommend rebuild", warn);
 	if (unknown) 
-		log(LOG_INIT, "build: %"INT32" synonyms with missing/"
+		log(LOG_INIT, "build: %" INT32 " synonyms with missing/"
 		    "invalid type", unknown);
 	// this no longer resets m_synonymTable, why did we
 	// want to do that anyway??? MDW
@@ -2600,7 +2600,7 @@ bool Thesaurus::load() {
 	synonymTextB.detachBuf();	// we own this now
 	relabel(m_synonymText, m_synonymSize, "thesaurus");
 
-	log(LOG_INIT,"build: Loaded %"INT32" synonym pairs.",
+	log(LOG_INIT,"build: Loaded %" INT32 " synonym pairs.",
 	    m_synonymTable.m_numSlotsUsed);
 
 	// save it as "thesaurus.dat", and include the text buffer,

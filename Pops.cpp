@@ -20,7 +20,7 @@ bool Pops::readPopFiles ( ) {
 	int32_t n = g_hostdb.getNumGroups();
 	for ( int32_t i = 0 ; i < n ; i++ ) {
 		// note it
-		log(LOG_INIT,"db: Reading %s/pops.%"INT32" of %"INT32".",
+		log(LOG_INIT,"db: Reading %s/pops.%" INT32 " of %" INT32 ".",
 		    g_conf.m_dir,i,n);
 		// 
 	}
@@ -77,12 +77,12 @@ bool Pops::makeLocalPopFile ( char *coll ) {
 	// log it
 	log(LOG_INFO,"admin: Making popularity file from %s for coll \"%s\".",
 	    f->getFilename(),coll);
-	log(LOG_INFO,"admin: Using cutoff of %"INT32" docs.",minDocs);
+	log(LOG_INFO,"admin: Using cutoff of %" INT32 " docs.",minDocs);
 
 	// output the wordId/count pairs to this file
 	BigFile out;
 	char outFilename[256];
-	sprintf(outFilename,"%s/popout.%"INT32"",g_conf.m_dir,g_hostdb.m_hostId);
+	sprintf(outFilename,"%s/popout.%" INT32 "",g_conf.m_dir,g_hostdb.m_hostId);
 	out.set ( outFilename );
 
 	// store # of docs
@@ -178,11 +178,11 @@ bool Pops::makeLocalPopFile ( char *coll ) {
 	gbmemcpy ( tmp + ks-6 , top , 6 );
 	// print the key
 	//if ( ks == 12 )
-	//	fprintf(stdout,"%08lli) %08"XINT32" %016"XINT64"\n",
+	//	fprintf(stdout,"%08lli) %08"X INT32 " %016" XINT64 "\n",
 	//		off + (p - buf) ,
 	//		*(int32_t *)(tmp+8),*(int64_t *)tmp );
 	//else
-	//	fprintf(stdout,"%08lli) %016"XINT64" %016"XINT64"\n",
+	//	fprintf(stdout,"%08lli) %016" XINT64 " %016" XINT64 "\n",
 	//		off + (p - buf) ,
 	//		*(int64_t *)(tmp+8),*(int64_t *)tmp );
 

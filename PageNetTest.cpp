@@ -74,7 +74,7 @@ bool PageNetTest::init() {
 							"NT-HostRate" );
 		if( !m_hostRates[i] ) {
 			g_errno = ENOMEM;
-			log( "net: nettest: could not allocate %"INT32" bytes.",
+			log( "net: nettest: could not allocate %" INT32 " bytes.",
 			     sizeof(uint32_t *) * numHst);
 			return false;
 		}
@@ -141,8 +141,8 @@ bool PageNetTest::init() {
 	char buf2[16];
 	strcpy( buf2, iptoa(m_testIp[0]) );
 
-	log( LOG_DEBUG, "net: nettest: hostId %"INT32" (%s) is on switch %"INT32" and "
-	     "will test hostId %"INT32" (%s) as a %s on port %"INT32" first", m_hostId, 
+	log( LOG_DEBUG, "net: nettest: hostId %" INT32 " (%s) is on switch %" INT32 " and "
+	     "will test hostId %" INT32 " (%s) as a %s on port %" INT32 " first", m_hostId, 
 	     buf, m_switchId, (int32_t)m_testHostId, buf2, 
 	     (m_type[0] == TEST_SEND)?"sender":"receiver", m_port[0] );
 
@@ -240,7 +240,7 @@ bool PageNetTest::collectResults() {
 	int32_t ip = g_hostdb.getHost( m_numResultsSent )->m_ip;
 	int32_t port = g_hostdb.getHost( m_numResultsSent )->m_httpPort;
 	//int32_t len = 0;
-	sprintf(temp, "http://%s:%"INT32"/get?rnettest=1", iptoa(ip), port);
+	sprintf(temp, "http://%s:%" INT32 "/get?rnettest=1", iptoa(ip), port);
 	log( LOG_DEBUG, "net: nettest: queried results from: %s", temp );
 	
 	//Url u;
@@ -324,13 +324,13 @@ bool PageNetTest::gotResults( TcpSocket *s ) {
 
 		if( state == 0 ) {
 			hostId = atoi(&buf[i]);
-			log( LOG_DEBUG, "net: nettest: host id is %"INT32"",
+			log( LOG_DEBUG, "net: nettest: host id is %" INT32 "",
 			     hostId);
 			state = 1;
 		}
 		else if( state == 1 ) {
 			testId = atoi(&buf[i]);
-			log( LOG_DEBUG, "net: nettest: test id is %"INT32"",
+			log( LOG_DEBUG, "net: nettest: test id is %" INT32 "",
 			     testId);
 			state = 2;
 		}
@@ -438,10 +438,10 @@ bool PageNetTest::netTestStart_r( bool amThread, int32_t num ) {
 		float secs = (endTime - calcTime)/1000.0;
 		float mb   = (float)count * 8.0 / (1024.0 * 1024.0);
 		float mbps = mb/secs;
-		log( LOG_INFO, "net: nettest: took %"INT64" ms to %s %"INT32" bytes at "
+		log( LOG_INFO, "net: nettest: took %" INT64 " ms to %s %" INT32 " bytes at "
 		     "%.2f Mbps", endTime - calcTime, 
 		     (m_type[num] == TEST_READ)?"receive":"send", count, mbps );
-		log( LOG_INFO, "net: nettest: run time %"INT64" s", 
+		log( LOG_INFO, "net: nettest: run time %" INT64 " s", 
 		     (endTime-m_startTime)/1000 );
 
 		m_calcTable[num][index] = (uint32_t)mbps;
@@ -489,7 +489,7 @@ int PageNetTest::openSock( int32_t num, int32_t type, struct sockaddr_in *name,
         // bind this name to the socket
         if ( bind ( sock, (struct sockaddr *)name, sizeof(*name)) < 0) {
                 close ( sock );
-                log( "net: nettest: bind on port %"UINT32": %s", port, 
+                log( "net: nettest: bind on port %"U INT32 ": %s", port, 
 		     strerror(errno) );
 		return -1;
         }
@@ -501,7 +501,7 @@ int PageNetTest::openSock( int32_t num, int32_t type, struct sockaddr_in *name,
 		bzero ( &(m_to.sin_zero) , 8 );
 	}
 
-	log( LOG_DEBUG, "net: nettest: open socket for %s on port %"INT32" to %s", 
+	log( LOG_DEBUG, "net: nettest: open socket for %s on port %" INT32 " to %s", 
 	     (type == TEST_SEND)?"sending":"receiving", port, 
 	     iptoa(m_testIp[num]) );
 	return sock;
@@ -618,19 +618,19 @@ bool PageNetTest::controls( TcpSocket *s, HttpRequest *r ) {
 	sprintf( p, "<tr><td><span style=\"font-weight:bold;\">Test Duration"
 		 "</span><br><font size=-1>The number of seconds each test "
 		 "should last. Default: 10</font></td>"
-		 "<td><input name=ntd value=%"INT32" type=text></td></tr>"
+		 "<td><input name=ntd value=%" INT32 " type=text></td></tr>"
 		 "<tr><td><span style=\"font-weight:bold;\">Test Port 1"
 		 "</span><br><font size=-1>The port number to use for testing."
 		 " Default:5066</font></td>"
-		 "<td><input name=ntp1 value=%"INT32" type=text></td></tr>"
+		 "<td><input name=ntp1 value=%" INT32 " type=text></td></tr>"
 		 "<tr><td><span style=\"font-weight:bold;\">Test Port 2"
 		 "</span><br><font size=-1>The port number to use for testing."
 		 " Default:5067</font></td>"
-		 "<td><input name=ntp2 value=%"INT32" type=text></td></tr>"
+		 "<td><input name=ntp2 value=%" INT32 " type=text></td></tr>"
 		 "<tr><td><span style=\"font-weight:bold;\">Test Bytes"
 		 "</span><br><font size=-1>The number of bytes to test the "
 		 "transfer rate. Default:10000000</font></td>"
-		 "<td><input name=ntb value=%"INT32" type=text></td></tr>"
+		 "<td><input name=ntb value=%" INT32 " type=text></td></tr>"
 		 "<tr><td><span style=\"font-weight:bold;\">Test Full Duplex"
 		 "</span><br><font size=-1>Tests full duplex (transmit and "
 		 "receive simultaneously) otherwise runs half duplex.  "
@@ -732,34 +732,34 @@ bool PageNetTest::controls( TcpSocket *s, HttpRequest *r ) {
 				if ( g_hostdb.m_indexSplits > 1 )
 					switchGroup = h->m_shardNum %
 						g_hostdb.m_indexSplits;
-				sprintf( p, "<td>%"INT32"</td>", switchGroup );
+				sprintf( p, "<td>%" INT32 "</td>", switchGroup );
 			}
 			else if( i == 2 ) {
 				Host *h = g_hostdb.getHost(hids[j]);
 				sprintf( p, "<td>%d</td>", h->m_switchId );
 			}
 			else if( i == 0 ) {
-				sprintf( p, "<th bgcolor=#%s>%"UINT32"</th>",
+				sprintf( p, "<th bgcolor=#%s>%"U INT32 "</th>",
 					 DARK_BLUE, hids[j] );
 			}
 			else if( i == 3 ) {
 				int32_t tid = (hids[j]%2)?(hids[j]+1):(hids[j]-1);
 				if( tid < 0         ) tid = numHosts-1;
 				if( tid >= numHosts ) tid = 0;
-				sprintf( p, "<td>%"UINT32"</td>", tid );
+				sprintf( p, "<td>%"U INT32 "</td>", tid );
 			}
 			else if( i > 3 && i < 6 ) {
-				sprintf( p, "<td>%"UINT32"</td>",
+				sprintf( p, "<td>%"U INT32 "</td>",
 					 m_hostRates[i-4][hids[j]] );
 			}
 			else if( i == 6 ) {
 				int32_t tid = (hids[j]%2)?(hids[j]-1):(hids[j]+1);
 				if( tid < 0         ) tid = numHosts-1;
 				if( tid >= numHosts ) tid = 0;
-				sprintf( p, "<td>%"UINT32"</td>", tid );
+				sprintf( p, "<td>%"U INT32 "</td>", tid );
 			}
 			else if( i > 6 ) {
-				sprintf( p, "<td>%"UINT32"</td>",
+				sprintf( p, "<td>%"U INT32 "</td>",
 					 m_hostRates[i-5][hids[j]] );
 			}
 			p += gbstrlen( p );			
@@ -810,18 +810,18 @@ bool PageNetTest::resultsPage( TcpSocket *s ) {//, HttpRequest *r ) {
 	}
 
 	if( m_type[0] == TEST_SEND )
-		sprintf( p, "%"INT32" %"INT32" %"UINT64" %"UINT64"\r\n", m_hostId, m_testHostId[0],
+		sprintf( p, "%" INT32 " %" INT32 " %" UINT64 " %" UINT64 "\r\n", m_hostId, m_testHostId[0],
 			 avg[0], avg[1] );
 	else
-		sprintf( p, "%"INT32" %"INT32" %"UINT64" %"UINT64"\r\n", m_hostId, m_testHostId[0],
+		sprintf( p, "%" INT32 " %" INT32 " %" UINT64 " %" UINT64 "\r\n", m_hostId, m_testHostId[0],
 			 avg[1], avg[0] );
 	p += gbstrlen( p );
 
 	if( m_type[2] == TEST_SEND )
-		sprintf( p, "%"INT32" %"INT32" %"UINT64" %"UINT64"\r\n", m_hostId, m_testHostId[1],
+		sprintf( p, "%" INT32 " %" INT32 " %" UINT64 " %" UINT64 "\r\n", m_hostId, m_testHostId[1],
 			 avg[2], avg[3] );
 	else
-		sprintf( p, "%"INT32" %"INT32" %"UINT64" %"UINT64"\r\n", m_hostId, m_testHostId[1],
+		sprintf( p, "%" INT32 " %" INT32 " %" UINT64 " %" UINT64 "\r\n", m_hostId, m_testHostId[1],
 			 avg[3], avg[2] );
 	p += gbstrlen( p );
 

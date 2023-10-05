@@ -1026,7 +1026,7 @@ void getWordToPhraseRatioWeights ( int64_t   pid1 , // pre phrase
 			//if ( ww > 2.0 ) ww = 2.0;
 			g_wtab[i][k] = ww; 
 			g_ptab[i][k] = newPW;
-			//logf(LOG_DEBUG,"build: wc=%"INT32" pc=%"INT32" ww=%.2f "
+			//logf(LOG_DEBUG,"build: wc=%" INT32 " pc=%" INT32 " ww=%.2f "
 			//"pw=%.2f",i,k,g_wtab[i][k],g_ptab[i][k]);
 		}
 		}
@@ -1100,8 +1100,8 @@ void getWordToPhraseRatioWeights ( int64_t   pid1 , // pre phrase
 	if ( phrcountMax >= 0 ) {
 		int64_t sh = getPrefixHash ( (char *)NULL , 0 , NULL , 0 );
 		int64_t tid = g_indexdb.getTermId ( sh , wid1 );
-		logf(LOG_DEBUG,"build: phrcountMax=%"INT32" wrdCount1=%"INT32" "
-		     "*ww=%.4f for word with tid=%"UINT64"",
+		logf(LOG_DEBUG,"build: phrcountMax=%" INT32 " wrdCount1=%" INT32 " "
+		     "*ww=%.4f for word with tid=%" UINT64 "",
 		     phrcountMax,wrdcount1,(float)*ww,tid);
 		//if ( phrcountMax < 10 && tid == 16944700235015LL ) 
 		//	log("hey");
@@ -2476,7 +2476,7 @@ bool Weights::set4 ( ) {
 	if ( need > WTMPBUFSIZE ) {
 		tmp = (char *) mmalloc ( need , "Spam" );
 		if ( ! tmp ) 
-			return log("build: Failed to allocate %"INT32" more "
+			return log("build: Failed to allocate %" INT32 " more "
 				   "bytes for spam detection:  %s.",
 				   need,mstrerror(g_errno));
 	}

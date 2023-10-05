@@ -206,7 +206,7 @@ bool Msg24::generateTopics ( char       *coll                ,
 	else {
 		m_request = (char *)mmalloc ( need , "Msg24a" );
 		if ( ! m_request ) {
-			log("topics: Failed to allocate %"INT32" bytes.",need);
+			log("topics: Failed to allocate %" INT32 " bytes.",need);
 			return true;
 		}
 	}
@@ -272,7 +272,7 @@ bool Msg24::generateTopics ( char       *coll                ,
 			      RDB_NONE        , // TITLEDB // rdbId of titledb
 			      0             ) ){// minRecSizes avg
 		log("topics: Had error sending request for topics to host in "
-		    "group #%"INT32": %s.",groupId,mstrerror(g_errno));
+		    "group #%" INT32 ": %s.",groupId,mstrerror(g_errno));
 		return true;	
 	}
 	// otherwise, we blocked and gotReplyWrapper will be called
@@ -434,7 +434,7 @@ void handleRequest24 ( UdpSlot *slot , int32_t netnice ) {
 		st->m_msg20=(Msg20 *)mmalloc(sizeof(Msg20)*
 					     st->m_numDocIds,"Msg24c");
 		if ( ! st->m_msg20 ) {
-			log("Msg24: alloc of msg20s for %"INT32" bytes failed",
+			log("Msg24: alloc of msg20s for %" INT32 " bytes failed",
 			    sizeof(Msg20)*st->m_numDocIds);
 			// prevent a core dump in Msg24::~Msg24
 			st->m_numDocIds = 0;
@@ -554,7 +554,7 @@ void launchMsg20s ( State24 *st , bool callsample , int32_t sampleSize ) {
 		if ( g_errno ) {
 			// log it
 			log("topics: Received error when getting "
-			    "document with docId %"INT64": %s. Document will not "
+			    "document with docId %" INT64 ": %s. Document will not "
 			    "contribute to the topics generation.",
 			    st->m_docIds[st->m_i],mstrerror(g_errno));
 			// reset g_errno
@@ -619,7 +619,7 @@ void gotSampleWrapper ( void *state ) {
 	//		    0x008220ff  );
 	// timestamp log
 	//int64_t startTime = gettimeofdayInMilliseconds();
-	log(LOG_DEBUG,"topics: msg24: Got %"INT32" titleRecs.",// in %"INT64" ms",
+	log(LOG_DEBUG,"topics: msg24: Got %" INT32 " titleRecs.",// in %" INT64 " ms",
 	    st->m_numReplies );//, now - m_startTime );
 
 	// set query
@@ -691,10 +691,10 @@ void gotSampleWrapper ( void *state ) {
 	//if ( g_conf.m_timingDebugEnabled )
 	int64_t took = gettimeofdayInMilliseconds() - startTime ;
 	if ( took > 1 ) 
-		log(LOG_TIMING,"topics: Took %"INT64" ms to parse out topics.", 
+		log(LOG_TIMING,"topics: Took %" INT64 " ms to parse out topics.", 
 		     took );
 	// timing debug
-	else log(LOG_TIMING,"topics: Took %"INT64" ms to parse out topics.", took);
+	else log(LOG_TIMING,"topics: Took %" INT64 " ms to parse out topics.", took);
 }
 
 class DocIdLink {
@@ -822,7 +822,7 @@ bool getTopics ( State24       *st        ,
 		if ( sampleWords > 2048 ) {
 		    char *dbgBuf = NULL;
 		    log("topics: Unusually int32_t sample in Msg24: " 
-			"sampleWords=%"INT32" numExcerpts=%"INT32"", 
+			"sampleWords=%" INT32 " numExcerpts=%" INT32 "", 
 			sampleWords, numExcerpts);
 		    if ( (dbgBuf = (char *)mmalloc(slen+1, "DEBUG_MSG24")) ) {
 			int jjStep = 1;
@@ -842,14 +842,14 @@ bool getTopics ( State24       *st        ,
 		}
 		else {
 		    log("topics: Reasonable sample in Msg24: "
-			"sampleWords=%"INT32" numExcerpts=%"INT32"", 
+			"sampleWords=%" INT32 " numExcerpts=%" INT32 "", 
 			sampleWords, numExcerpts);
 		};
 #endif
 		if (maxWords + sampleWords > 0x08000000) {
 		    log("topics: too many words in samples. "
 			"Discarding the remaining samples "
-			"(maxWords=%"INT32")", maxWords);
+			"(maxWords=%" INT32 ")", maxWords);
 		    break;
 		}
 		else {
@@ -867,8 +867,8 @@ bool getTopics ( State24       *st        ,
 	// sanity check 
 	if ( need2 < 0 ) {
 		g_errno = EBADENGINEER;
-		return log("query: bad engineer in Msg24.cpp. need2=%"INT32" "
-			   "numSlots=%"INT32" maxWords=%"INT32" q=%s", need2,numSlots,maxWords,q->m_orig);
+		return log("query: bad engineer in Msg24.cpp. need2=%" INT32 " "
+			   "numSlots=%" INT32 " maxWords=%" INT32 " q=%s", need2,numSlots,maxWords,q->m_orig);
 	}
 	if ( need2 < 13000 ) rbuf = tmpBuf2;
 	else                  rbuf = (char *)mmalloc ( need2 , "WeightsSet3");
@@ -876,8 +876,8 @@ bool getTopics ( State24       *st        ,
 	// sanity check 
 	if ( numSlots * 8 > need2 || numSlots * 8 < 0 ) {
 		g_errno = EBADENGINEER;
-		return log("query: bad engineer in Msg24.cpp. need2=%"INT32" "
-			   "numSlots=%"INT32" q=%s", need2,numSlots,q->m_orig);
+		return log("query: bad engineer in Msg24.cpp. need2=%" INT32 " "
+			   "numSlots=%" INT32 " q=%s", need2,numSlots,q->m_orig);
 	}
 	// clear the keys in the hash table (empty it out)
 	memset ( rbuf , 0 , numSlots * 8 );
@@ -1027,7 +1027,7 @@ bool getTopics ( State24       *st        ,
 			     repeatTable , repeatTableNumSlots , language );
 	}
 
-	//log("did samples in %"INT64" ",gettimeofdayInMilliseconds()-start);
+	//log("did samples in %" INT64 " ",gettimeofdayInMilliseconds()-start);
 
 	int32_t  nt = master->getNumTerms();
 
@@ -1044,7 +1044,7 @@ bool getTopics ( State24       *st        ,
 		ff[len] = '\0';
 		// we can have html entities in here now
 		//if ( ! is_alnum(ff[0]) ) { char *xx = NULL; *xx = 0; }
-		log("%08"INT32" %s",score,ff);
+		log("%08" INT32 " %s",score,ff);
 	}
 	*/
 
@@ -1094,7 +1094,7 @@ bool getTopics ( State24       *st        ,
 			st->m_memPtr = NULL;
 		}
 		if ( vecs != vbuf ) mfree ( vecs , vneed , "Msg24" );
-		return log("topics: realloc to %"INT32" failed.",newSize);
+		return log("topics: realloc to %" INT32 " failed.",newSize);
 	}
 	tmpBuf   = newBuf;
 	tmpSize  = newSize;
@@ -1216,7 +1216,7 @@ bool getTopics ( State24       *st        ,
 		isunis [ minj ] = master->m_isunis[i];
 		pages  [ minj ] = count;
 		slots  [ minj ] = i;
-		//log("ptrs[%"INT32"]=%"XINT32"",j,ptrs[j]);
+		//log("ptrs[%" INT32 "]=%"X INT32 "",j,ptrs[j]);
 		// hopefully we increased the min score in our top set now
 		minScore = 0x7fffffff;
 		for ( int32_t j = 0 ; j < np ; j++ ) {
@@ -1761,7 +1761,7 @@ bool getTopics ( State24       *st        ,
 			st->m_memPtr = NULL;
 		}
 		if ( vecs != vbuf ) mfree ( vecs , vneed , "Msg24" );
-		return log("topics: Realloc reply buf to %"INT32" failed.",newSize);
+		return log("topics: Realloc reply buf to %" INT32 " failed.",newSize);
 	}
 	// we realloc'd successfully, use it
 	*buf = s;
@@ -1925,8 +1925,8 @@ bool hashSample ( Query *q, char *bigSampleBuf , int32_t bigSampleLen ,
 	    log("topics: Query stats in hashSample");
 	    int32_t numQT = q->getNumTerms();
 	    int32_t numQW = q->m_numWords;
-	    log("topics: \tnumQueryTerms = %"INT32"", numQT);
-	    log("topics: \tnumQueryWords = %"INT32"", numQW);
+	    log("topics: \tnumQueryTerms = %" INT32 "", numQT);
+	    log("topics: \tnumQueryWords = %" INT32 "", numQW);
 	    char *thisQT, *thisQW, iCode, tmpBuf[1024];
 	    int32_t qtLen, qwLen, i, j, k;
 	    for (i = 0; i < numQT; i++) {
@@ -1937,7 +1937,7 @@ bool hashSample ( Query *q, char *bigSampleBuf , int32_t bigSampleLen ,
 		    if (thisQT[j]) tmpBuf[k++] = thisQT[j];
 		};
 		tmpBuf[k] = '\0';
-		log ("topics: \tQT[%"INT32"] = %s", i, &tmpBuf[0]); 
+		log ("topics: \tQT[%" INT32 "] = %s", i, &tmpBuf[0]); 
 	    };	
 	    for (i = 0; i < numQW; i++) {
 		thisQW = q->m_qwords[i].m_word;
@@ -1948,7 +1948,7 @@ bool hashSample ( Query *q, char *bigSampleBuf , int32_t bigSampleLen ,
 		    if (thisQW[j]) tmpBuf[k++] = thisQW[j];
 		};
 		tmpBuf[k] = '\0';
-		log ("topics: \tQW[%"INT32"] = %s,\tignore = %i", i, &tmpBuf[0], iCode); 
+		log ("topics: \tQW[%" INT32 "] = %s,\tignore = %i", i, &tmpBuf[0], iCode); 
 	    };	
 	};
 #endif
@@ -2008,7 +2008,7 @@ bool hashSample ( Query *q, char *bigSampleBuf , int32_t bigSampleLen ,
 	char *pend = buf + bufLen;
 	while ( p < pend ) {
 		// debug
-		//log("docId=%"INT64" EXCERPT=%s",docId,p);
+		//log("docId=%" INT64 " EXCERPT=%s",docId,p);
 		int32_t plen ;
 		if ( isUnicode ) plen = ucStrNLen(p,pend-p);
 		else             plen = strlen(p);
@@ -2050,7 +2050,7 @@ bool hashSample ( Query *q, char *bigSampleBuf , int32_t bigSampleLen ,
 		*numVecs = *numVecs + 1;
 	}
 
-	//log("TOOK %"INT64" ms plen=%"INT32"",gettimeofdayInMilliseconds()-start,
+	//log("TOOK %" INT64 " ms plen=%" INT32 "",gettimeofdayInMilliseconds()-start,
 	//    bufLen);
 
 	// . this termtable carries two special buckets per slot in order
@@ -2059,7 +2059,7 @@ bool hashSample ( Query *q, char *bigSampleBuf , int32_t bigSampleLen ,
 	int32_t *heads = master->getHeads();
 	// . now hash the entries of this table, tt, into the master
 	// . the master contains entries from all the other tables
-	//log("have %"INT32" terms in termtable. adding to master.",
+	//log("have %" INT32 " terms in termtable. adding to master.",
 	//     tt.getNumTermsUsed());
 	int32_t nt = tt.getNumTerms();
 	int32_t pop = 0 ;
@@ -2138,8 +2138,8 @@ bool hashSample ( Query *q, char *bigSampleBuf , int32_t bigSampleLen ,
 			int32_t  wwlen = tt.getTermLen(i);
 			char c     = ww[wwlen];
 			ww[wwlen]='\0';
-			log(LOG_DEBUG,"topics: master termId=%"UINT32" "
-			    "score=%"INT32" cumscore=%"INT32" len=%"INT32" term=%s\n",
+			log(LOG_DEBUG,"topics: master termId=%"U INT32 " "
+			    "score=%" INT32 " cumscore=%" INT32 " len=%" INT32 " term=%s\n",
 			    (int32_t)tt.getTermId(i),
 			    score,master->getScoreFromTermId(tt.getTermId(i)),
 			    wwlen,ww);
@@ -2147,7 +2147,7 @@ bool hashSample ( Query *q, char *bigSampleBuf , int32_t bigSampleLen ,
 		}
 	}
 
-	//log("master has %"INT32" terms",master->getNumTermsUsed());
+	//log("master has %" INT32 " terms",master->getNumTermsUsed());
 	// clear any error
 	if ( g_errno ) {
 		log("topics: Had error getting topic candidates from document: "
@@ -2213,7 +2213,7 @@ void hashExcerpt ( Query *q , uint64_t *qids , int32_t *qpops, int32_t nqi,
 	};
 	if (! lrgBuf) {
 	    log("topics: could not allocate local buffer "
-		"(%"INT32" bytes required)", lrgBufSize);
+		"(%" INT32 " bytes required)", lrgBufSize);
 	    return;
 	};
 	char *lrgBufPtr = (char *)lrgBuf;
@@ -2333,7 +2333,7 @@ void hashExcerpt ( Query *q , uint64_t *qids , int32_t *qpops, int32_t nqi,
 		int32_t  slen = w->getWordLen(i);
 		char  c    = s[slen];
 		s[slen]='\0';
-		log("icw=%"INT32" %s",icw[i],s);
+		log("icw=%" INT32 " %s",icw[i],s);
 		s[slen]=c;
 		*/
 		// is it a query term? if so, record its word # in "pos" arry
@@ -2514,7 +2514,7 @@ void hashExcerpt ( Query *q , uint64_t *qids , int32_t *qpops, int32_t nqi,
 		// give a boost for multiple hits 
 		// the more terms in range, the bigger the boost
 		if ( nm > 1 ) {
-			//log("nm=%"INT32"",nm);
+			//log("nm=%" INT32 "",nm);
 			score += MULTIPLE_HIT_BOOST * nm;
 		};
 
@@ -2827,8 +2827,8 @@ void hashExcerpt ( Query *q , uint64_t *qids , int32_t *qpops, int32_t nqi,
 			// debug msg
 			//char c     = ww[wwlen];
 			//ww[wwlen]='\0';
-			//fprintf(stderr,"tid=%"UINT32" score=%"INT32" pop=%"INT32" len=%"INT32" "
-			// "repeat=%"INT32" term=%s\n",h,ss,pop,wwlen,
+			//fprintf(stderr,"tid=%"U INT32 " score=%" INT32 " pop=%" INT32 " len=%" INT32 " "
+			// "repeat=%" INT32 " term=%s\n",h,ss,pop,wwlen,
 			//	repeatScores[i],ww);
 			//ww[wwlen]=c;
 			// include any ending or starting ( or )
@@ -3157,7 +3157,7 @@ int32_t Msg24::serialize ( char *buf , int32_t bufLen ) {
 		//	}
 	}
 	// debug msg
-	//log("in nt=%"INT32"",*nt);
+	//log("in nt=%" INT32 "",*nt);
 	if ( p - buf > bufLen ) {
 		log("query: Msg24 serialize overflow.");
 		char *xx = NULL; *xx = 0;

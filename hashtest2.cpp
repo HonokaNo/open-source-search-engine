@@ -21,14 +21,14 @@ int64_t gettimeofdayInMilliseconds() {
 
 
 main ( ) {
-	fprintf(stderr,"sizeof fslot=%"INT32"\n",-sizeof(fslot));
+	fprintf(stderr,"sizeof fslot=%" INT32 "\n",-sizeof(fslot));
 	// fill our tbl
 	uint32_t g_hashtab[256];
 	static bool s_initialized = false;
 	// bail if we already called this
 	if ( s_initialized ) return true;
 	// show RAND_MAX
-	//printf("RAND_MAX = %"UINT32"\n", RAND_MAX ); it's 0x7fffffff
+	//printf("RAND_MAX = %"U INT32 "\n", RAND_MAX ); it's 0x7fffffff
 	// seed with same value so we get same rand sequence for all
 	srand ( 1945687 );
 	for ( int32_t i = 0 ; i < 256 ; i++ )
@@ -54,7 +54,7 @@ main ( ) {
 	unsigned char *p = (unsigned char *)docIds;
 	// print start time
 	fprintf (stderr,"hashtest:: randomizing begin."
-		 " %"INT32" 6-byte docIds.\n",nd);
+		 " %" INT32 " 6-byte docIds.\n",nd);
 	// space em out 1 million to simulate suburl:com
 	int64_t count = 1000000;
 	// random docIds
@@ -186,13 +186,13 @@ main ( ) {
 
 	// completed
 	int64_t now = gettimeofdayInMilliseconds();
-	fprintf (stderr,"hashtest:: addList took %"UINT64" ms\n" , now - t );
+	fprintf (stderr,"hashtest:: addList took %" UINT64 " ms\n" , now - t );
 	// stats
 	double d = (1000.0*(double)nd) / ((double)(now - t));
 	fprintf (stderr,"hashtest:: each add took %f cycles\n" ,
 		 400000000.0 / d );
-	fprintf (stderr,"hashtest:: we can do %"INT32" adds per second\n" ,(int32_t)d);
-	fprintf (stderr,"hashtest:: collisions = %"INT32"\n", collisions);
+	fprintf (stderr,"hashtest:: we can do %" INT32 " adds per second\n" ,(int32_t)d);
+	fprintf (stderr,"hashtest:: collisions = %" INT32 "\n", collisions);
 	// exit gracefully
 	exit ( 0 );
 }

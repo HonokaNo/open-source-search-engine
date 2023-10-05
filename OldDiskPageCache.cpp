@@ -112,10 +112,10 @@ void DiskPageCache::reset() {
 	for ( int32_t i = 0 ; m_useSHM && i < m_numShmids ; i++ ) {
 		int shmid = m_shmids[i];
 		if ( shmctl ( shmid , IPC_RMID , NULL) == -1 )
-			log("db: shmctlt shmid=%"INT32": %s",
+			log("db: shmctlt shmid=%" INT32 ": %s",
 			    (int32_t)shmid,mstrerror(errno));
 		else
-			log("db: shmctl freed shmid=%"INT32"",(int32_t)shmid);
+			log("db: shmctl freed shmid=%" INT32 "",(int32_t)shmid);
 	}
 #endif
 	*/
@@ -244,7 +244,7 @@ bool DiskPageCache::init ( const char *dbname ,
 		//if ( shmctl ( shmid , SHM_LOCK , NULL ) )
 		//	return log("db: shmctl: %s",mstrerror(errno));
 		// log it
-		log("db: allocated %"INT32" bytes shmid=%"INT32"",alloc,(int32_t)shmid);
+		log("db: allocated %" INT32 " bytes shmid=%" INT32 "",alloc,(int32_t)shmid);
 		// add it to our list
 		m_shmids    [ m_numShmids ] = shmid;
 		m_shmidSize [ m_numShmids ] = alloc;
@@ -252,7 +252,7 @@ bool DiskPageCache::init ( const char *dbname ,
 		// count it
 		g_mem.m_sharedUsed += alloc;
 		// log it for now
-		//logf(LOG_DEBUG,"db: new shmid id is %"INT32", size=%"INT32"",
+		//logf(LOG_DEBUG,"db: new shmid id is %" INT32 ", size=%" INT32 "",
 		//     (int32_t)shmid,(int32_t)alloc);
 		// subtract it
 		need -= alloc;
@@ -366,7 +366,7 @@ void DiskPageCache::getPages   ( int32_t       vfd         ,
 
 	// check for override function
 	//if ( m_isOverriden ) {
-	//	//log ( LOG_INFO, "cache: Get Pages [%"INT32"] [%"INT32"][%"INT64"]",
+	//	//log ( LOG_INFO, "cache: Get Pages [%" INT32 "] [%" INT32 "][%" INT64 "]",
 	//	//		vfd, numBytes, offset );
 	//	m_getPages2 ( this,
 	//		      vfd,
@@ -417,7 +417,7 @@ void DiskPageCache::getPages   ( int32_t       vfd         ,
 		// dumping more than what was end the tree because stuff was
 		// added to the tree while dumping!
 		log("db: pagecache: Caught get breach. "
-		    "ep=%"INT32" max=%"INT32" vfd=%"INT32""
+		    "ep=%" INT32 " max=%" INT32 " vfd=%" INT32 ""
 		    , ep,m_maxPagesInFile[vfd] ,vfd);
 		return;
 		//char *xx = NULL; *xx = 0; 
@@ -450,8 +450,8 @@ void DiskPageCache::getPages   ( int32_t       vfd         ,
 		readFromCache( &skip, poff, OFF_SKIP, sizeof(int32_t));
 		//int32_t skip = *(int32_t *)(s+OFF_SKIP);
 		// debug msg
-		// log("getPage: pageNum=%"INT32" poff=%"INT32" size=%"INT32" "
-		//     "skip=%"INT32"",
+		// log("getPage: pageNum=%" INT32 " poff=%" INT32 " size=%" INT32 " "
+		//     "skip=%" INT32 "",
 		//     sp,poff,(int32_t)size,(int32_t)skip);
 		// if this mem page data starts AFTER our offset, it is no good
 		if ( skip > start1 ) break;
@@ -672,14 +672,14 @@ void DiskPageCache::addPage(int32_t vfd,
 		// dumping more than what was end the tree because stuff was
 		// added to the tree while dumping!
 		log("db: pagecache: Caught add breach. "
-		    "pageNum=%"INT32" max=%"INT32" db=%s", 
+		    "pageNum=%" INT32 " max=%" INT32 " db=%s", 
 		    diskPageNum,m_maxPagesInFile[vfd],m_dbname);
 		return;
 	}
 
 	// debug msg
-	// log("addPage: vfd=%"INT32" diskPageNum=%"INT32" pageData[0]=%hhx "
-	//     "size=%"INT32" skip=%"INT32"",
+	// log("addPage: vfd=%" INT32 " diskPageNum=%" INT32 " pageData[0]=%hhx "
+	//     "size=%" INT32 " skip=%" INT32 "",
 	//     vfd,diskPageNum,pageData[0],size,(int32_t)skip);
 
 	// "poff" is the DISK page # for "vfd" (virtual file descriptor) and
@@ -695,7 +695,7 @@ void DiskPageCache::addPage(int32_t vfd,
 	// we may be able to supply it
 	if ( poff >= 0 ) {
 		// debug msg
-		//log("ENHANCING off=%"INT32"",poff);
+		//log("ENHANCING off=%" INT32 "",poff);
 		enhancePage ( poff , pageData , size , skip );
 		return;
 	}
@@ -710,7 +710,7 @@ void DiskPageCache::addPage(int32_t vfd,
 	if ( m_numAvailMemOffs > 0 ) {
 		poff = m_availMemOff [ --m_numAvailMemOffs ] ;
 		// debug msg
-		//log("RECYCLING off=%"INT32" numAvailMemOffs-1=%"INT32""
+		//log("RECYCLING off=%" INT32 " numAvailMemOffs-1=%" INT32 ""
 		//    ,poff,m_numAvailMemOffs);
 	}
 	// can we grab a page from memory without having to grow?
@@ -718,7 +718,7 @@ void DiskPageCache::addPage(int32_t vfd,
 		poff = m_nextMemOff;
 		m_nextMemOff += m_diskPageSize + HEADERSIZE;
 		// debug msg
-		// log("CLAIMING off=%"INT32" (nextmemoff=%"INT32"",poff,
+		// log("CLAIMING off=%" INT32 " (nextmemoff=%" INT32 "",poff,
 		//     m_nextMemOff);
 	}
 	// . we now grow everything at start
@@ -782,7 +782,7 @@ void DiskPageCache::addPage(int32_t vfd,
 		//char *xx=NULL; *xx=0;}
 		//**(int32_t **)(p+OFF_PTR) = -1;
 		// debug msg
-		//log("KICKINGTAIL off=%"INT32"",poff);
+		//log("KICKINGTAIL off=%" INT32 "",poff);
 	}
 	// sanity check
 	if ( poff < 0 ) { char *xx = NULL; *xx = 0; }
@@ -898,8 +898,8 @@ void DiskPageCache::enhancePage (int32_t poff, char *page, int32_t size,
 		//   middle of the page) and your second read starts somewhere
 		//   else.... mmmm... i dunno....
 		if ( skip + size < pskip || diff > size ) { 
-			log("db: Avoided cache gap in %s. diff=%"INT32" "
-			    "size=%"INT32" pskip=%"INT32" skip=%"INT32".",
+			log("db: Avoided cache gap in %s. diff=%" INT32 " "
+			    "size=%" INT32 " pskip=%" INT32 " skip=%" INT32 ".",
 			    m_dbname,diff,size,(int32_t)pskip,(int32_t)skip);
 			return;
 		}
@@ -1021,7 +1021,7 @@ int32_t DiskPageCache::getVfd ( int64_t maxFileSize, bool vfdAllowed ) {
 	/*
 	if ( m_useRAMDisk && maxFileSize > (m_maxMem * 2) ){
 		log (LOG_INFO,"db: getvfd: cannot cache on RAMDisk files that "
-		     "larger than twice the max mem value. fileSize=%"INT32"",
+		     "larger than twice the max mem value. fileSize=%" INT32 "",
 		     m_maxMem);
 		return -1;
 	}
@@ -1043,7 +1043,7 @@ int32_t DiskPageCache::getVfd ( int64_t maxFileSize, bool vfdAllowed ) {
 	// so for the parital file make sure its less than 1 GB
 	if ( m_minimizeDiskSeeks && !vfdAllowed ){
 		log (LOG_INFO,"db: getVfd: cannot cache because minimizing "
-		     "disk seeks. numPages=%"INT32"", numPages);
+		     "disk seeks. numPages=%" INT32 "", numPages);
 		return -1;
 	}
 			
@@ -1084,9 +1084,9 @@ int32_t DiskPageCache::getVfd ( int64_t maxFileSize, bool vfdAllowed ) {
 	int32_t  need     = numPages * sizeof(int32_t) ;
 	int32_t *buf      = (int32_t *)mmalloc ( need , m_memTag );
 	if ( ! buf ) {
-		log("db: Failed to allocate %"INT32" bytes for page cache "
-		    "structures for caching pages for vfd %"INT32". "
-		    "MaxfileSize=%"INT64". Not enough memory.",
+		log("db: Failed to allocate %" INT32 " bytes for page cache "
+		    "structures for caching pages for vfd %" INT32 ". "
+		    "MaxfileSize=%" INT64 ". Not enough memory.",
 		    need,i,maxFileSize);
 		return -1;
 	}
@@ -1106,7 +1106,7 @@ int32_t DiskPageCache::getVfd ( int64_t maxFileSize, bool vfdAllowed ) {
 	// add it in
 	m_memAlloced += need;
 	// debug msg
-	//log("%s adding %"INT32"",m_dbname,need);
+	//log("%s adding %" INT32 "",m_dbname,need);
 	// no pages are in memory yet, so set offsets to -1
 	for ( i = 0 ; i < numPages ; i++ ) 
 		m_memOffFromDiskPage [ vfd ] [ i ] = -1;
@@ -1119,7 +1119,7 @@ int32_t DiskPageCache::getVfd ( int64_t maxFileSize, bool vfdAllowed ) {
 			m_memFree = 0;
 	}
 	// debug msg
-	//log("ALLOCINGFILE pages=%"INT32"",numPages);
+	//log("ALLOCINGFILE pages=%" INT32 "",numPages);
 	return vfd;
 }
 
@@ -1148,12 +1148,12 @@ void DiskPageCache::rmVfd  ( int32_t vfd ) {
 		if ( m_numAvailMemOffs >= m_maxAvailMemOffs ) {
 			char *xx = NULL; *xx = 0; }
 		// debug msg
-		//log("MAKING off=%"INT32" available. na=%"INT32"",
+		//log("MAKING off=%" INT32 " available. na=%" INT32 "",
 		// off,m_numAvailMemOffs+1);
 		// store it in list of available memory offsets so some other
 		// file can use it
 		m_availMemOff [ m_numAvailMemOffs++ ] = off;
-		//log("disk: m_numAvailMemOffs+1 -> %"INT32,m_numAvailMemOffs);
+		//log("disk: m_numAvailMemOffs+1 -> %" INT32 ,m_numAvailMemOffs);
 		// set this to -1 i guess. it'll be freed below anyway.
 		m_memOffFromDiskPage [ vfd ] [i] = -1;
 		// remove that page from linked list, too
@@ -1165,7 +1165,7 @@ void DiskPageCache::rmVfd  ( int32_t vfd ) {
 	mfree ( m_memOffFromDiskPage [ vfd ] , size , "DiskPageCache" );
 	m_memOffFromDiskPage [ vfd ] = NULL;
 	// debug msg
-	//log("%s rmVfd: vfd=%"INT32" down %"INT32"",m_dbname,vfd,size);
+	//log("%s rmVfd: vfd=%" INT32 " down %" INT32 "",m_dbname,vfd,size);
 	m_memAlloced -= size;
 	if ( m_minimizeDiskSeeks ){
 		m_memFree += m_maxPagesPerFile[vfd] * m_diskPageSize;
@@ -1177,7 +1177,7 @@ void DiskPageCache::rmVfd  ( int32_t vfd ) {
 // use "mem" bytes of memory for the cache
 bool DiskPageCache::growCache ( int32_t mem ) {
 	// debug msg
-	//log("GROWING PAGE CACHE from %"INT32" to %"INT32" bytes (%"XINT64")" 
+	//log("GROWING PAGE CACHE from %" INT32 " to %" INT32 " bytes (%" XINT64 ")" 
 	//    ,m_upperMemOff, mem ,(uint64_t)this);
 	// don't exceed the max
 	if ( mem > m_maxMem ) mem = m_maxMem; 
@@ -1191,13 +1191,13 @@ bool DiskPageCache::growCache ( int32_t mem ) {
 	int32_t oldSize = m_maxAvailMemOffs * sizeof(int32_t) ;
 	int32_t newSize = npages            * sizeof(int32_t) ;
 	int32_t *a=(int32_t *)mrealloc(m_availMemOff,oldSize,newSize,m_memTag);
-	if ( ! a ) return log("db: Failed to regrow page cache from %"INT32" to "
-			      "%"INT32" bytes. Not enough memory.",oldSize,newSize);
+	if ( ! a ) return log("db: Failed to regrow page cache from %" INT32 " to "
+			      "%" INT32 " bytes. Not enough memory.",oldSize,newSize);
 	m_availMemOff     = a;
 	m_maxAvailMemOffs = npages;
 	m_memAlloced += (newSize - oldSize);
 	// debug msg
-	//log("%s growCache: up %"INT32"",m_dbname,(newSize - oldSize));
+	//log("%s growCache: up %" INT32 "",m_dbname,(newSize - oldSize));
 
 	// how much more mem do we need to alloc?
 	int32_t need = mem - m_upperMemOff ;
@@ -1232,7 +1232,7 @@ bool DiskPageCache::growCache ( int32_t mem ) {
 
 	char *s = (char *)mrealloc ( ptr , size , size + extra, 
 				     m_memTag);
-	if ( ! s ) return log("db: Failed to allocate %"INT32" bytes more "
+	if ( ! s ) return log("db: Failed to allocate %" INT32 " bytes more "
 			      "for pagecache.",extra);
 	m_pageSet     [ i ] = s;
 	m_pageSetSize [ i ] = size + extra;
@@ -1244,7 +1244,7 @@ bool DiskPageCache::growCache ( int32_t mem ) {
 	m_memAlloced  += extra;
 	m_upperMemOff += extra;
 	// debug msg
-	//log("%s growCache2: up %"INT32"",m_dbname,extra);
+	//log("%s growCache2: up %" INT32 "",m_dbname,extra);
 	// if we do not need more, we are done
 	if ( need == 0 ) return true;
 	// otherwise, alloc new page sets until we hit it
@@ -1259,7 +1259,7 @@ bool DiskPageCache::growCache ( int32_t mem ) {
 		m_upperMemOff    += size;
 		m_numPageSets++;
 		// debug msg
-		//log("%s growCache3: up %"INT32"",m_dbname,size);
+		//log("%s growCache3: up %" INT32 "",m_dbname,size);
 	}
 	// update upper bound
 	if ( need == 0 ) return true;
@@ -1277,7 +1277,7 @@ bool DiskPageCache::verifyData2 ( int32_t vfd ) {
 	// this vfd may have already been nuked by call to unlink!
 		if ( ! m_memOffFromDiskPage [ vfd ] ) continue;//return true;
 	// debug msg
-	//log("VERIFYING PAGECACHE vfd=%"INT32" fn=%s",vfd,f->getFilename());
+	//log("VERIFYING PAGECACHE vfd=%" INT32 " fn=%s",vfd,f->getFilename());
 	// read into here
 	// add valid offsets used by vfd into m_availMemOff
 	for ( int32_t i = 0 ; i < m_maxPagesInFile [ vfd ] ; i++ ) {
@@ -1315,7 +1315,7 @@ bool DiskPageCache::verifyData ( BigFile *f ) {
 	// this vfd may have already been nuked by call to unlink!
 	if ( ! m_memOffFromDiskPage [ vfd ] ) return true;
 	// debug msg
-	//log("VERIFYING PAGECACHE vfd=%"INT32" fn=%s",vfd,f->getFilename());
+	//log("VERIFYING PAGECACHE vfd=%" INT32 " fn=%s",vfd,f->getFilename());
 	// read into here
 	char buf [ 32 * 1024 ];//GB_PAGE_SIZE ]; //m_diskPageSize ];
 	// ensure threads disabled
@@ -1366,8 +1366,8 @@ bool DiskPageCache::verifyData ( BigFile *f ) {
 			// core if it did not complete
 			char *xx = NULL; *xx = 0; }
 		// compare to what we have in mem
-		log("checking vfd=%"INT32" "
-		    "diskpage # %"INT32" size=%"INT32" skip=%"INT32""
+		log("checking vfd=%" INT32 " "
+		    "diskpage # %" INT32 " size=%" INT32 " skip=%" INT32 ""
 		    , (int32_t)vfd , i, size, skip);
 		char buf2[32 * 1024];
 		readFromCache( buf2, off, HEADERSIZE + skip, size );
@@ -1432,8 +1432,8 @@ void DiskPageCache::writeToCache( int32_t memOff,
 			// time it
 			//int64_t took = gettimeofdayInMicroseconds() -start;
 			//if ( took > 1 ) 
-			//	logf(LOG_DEBUG,"disk: took %"INT64" us to write "
-			//	     "to shm page cache shmid=%"INT32".",took,
+			//	logf(LOG_DEBUG,"disk: took %" INT64 " us to write "
+			//	     "to shm page cache shmid=%" INT32 ".",took,
 			//	     (int32_t)shmid);
 		}
 		// store it into the cache
@@ -1502,8 +1502,8 @@ void DiskPageCache::readFromCache( void *outBuf,
 			// time it
 			//int64_t took = gettimeofdayInMilliseconds() -start;
 			//if ( took > 1 ) 
-			//	logf(LOG_DEBUG,"disk: took %"INT64" ms to read "
-			//	     "to shm page cache shmid=%"INT32".",took,
+			//	logf(LOG_DEBUG,"disk: took %" INT64 " ms to read "
+			//	     "to shm page cache shmid=%" INT32 ".",took,
 			//	     (int32_t)shmid);
 		}
 		// store it in outBuf
@@ -1571,10 +1571,10 @@ void freeAllSharedMem ( int32_t max ) {
 		int32_t status = shmctl ( shmid , IPC_RMID , NULL);
 		if ( status == -1 ) {
 			//if ( errno != EINVAL )
-			//	log("db: shctlt %"INT32": %s",(int32_t)shmid,mstrerror(errno));
+			//	log("db: shctlt %" INT32 ": %s",(int32_t)shmid,mstrerror(errno));
 		}
 		else
-			log("db: Removed shmid %"INT32"",i);
+			log("db: Removed shmid %" INT32 "",i);
 	}
 #endif
 	*/

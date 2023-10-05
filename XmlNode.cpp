@@ -693,7 +693,7 @@ nodeid_t XmlNode::setNodeInfo ( int64_t  nodeHash ){//  , char *hasBackTag ,
 		//int32_t b = (uint64_t)h % 512;
 		int32_t b = (uint64_t)h & 511;
 		// debug msg
-	     //fprintf(stderr,"node #%"INT32" has bucket #%"INT32", hash =%"INT64"\n",i,b,h);
+	     //fprintf(stderr,"node #%" INT32 " has bucket #%" INT32 ", hash =%" INT64 "\n",i,b,h);
 		while ( s_hash[b] ) if ( ++b == 512 ) b = 0;
 		s_hash [ b ] = h;
 		s_num  [ b ] = i;

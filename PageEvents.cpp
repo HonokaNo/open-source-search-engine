@@ -312,7 +312,7 @@ bool sendPageEvents2 ( TcpSocket *s ,
 		char *dir = g_hostdb.m_dir;
 		// make the filename
 		char filename[512];
-		sprintf(filename,"%s/html/email/email.%"UINT64".html", dir, fbId );
+		sprintf(filename,"%s/html/email/email.%" UINT64 ".html", dir, fbId );
 		// log it
 		log("email: emailing file %s", filename);
 		// alloc the state
@@ -334,7 +334,7 @@ bool sendPageEvents2 ( TcpSocket *s ,
 		// and we need the likedb list too!
 		// sometimes this does not exist
 		//
-		sprintf(filename,"%s/html/email/likedblist.%"UINT64"", dir,fbId);
+		sprintf(filename,"%s/html/email/likedblist.%" UINT64 "", dir,fbId);
 		es->m_emailLikedbListBuf.fillFromFile(filename);
 		// clear error if it did not exist
 		g_errno = 0;
@@ -371,7 +371,7 @@ bool sendPageEvents2 ( TcpSocket *s ,
 	catch ( ... ) {
 		g_errno = ENOMEM;
 		log("query: Query failed. "
-		    "Could not allocate %"INT32" bytes for query. "
+		    "Could not allocate %" INT32 " bytes for query. "
 		    "Returning HTTP status of 500.",(int32_t)sizeof(State7));
 		g_stats.m_numFails++;
 		if ( emailCallback ) return true;
@@ -667,7 +667,7 @@ bool getResults ( void *state ) {
 	// watch out for cowboys
 	if ( si->m_firstResultNum >= si->m_maxResults && ! si->m_emailFormat ){
 		char buf[256];
-		sprintf ( buf, "<html><b>Error. Only up to %"INT32" search results "
+		sprintf ( buf, "<html><b>Error. Only up to %" INT32 " search results "
 			  "permitted, cowbot.</b></html>\n", si->m_maxResults);
 		mdelete ( st , sizeof(State7) , "PageEvents2" );
 		delete ( st );
@@ -1001,8 +1001,8 @@ bool getResults ( void *state ) {
 	//if ( g_conf.m_logQueryTimes ) {
 	int64_t took = gettimeofdayInMilliseconds()-st->m_startTime;
 	if ( took >= g_conf.m_logQueryTimeThreshold ) {
-		//log(LOG_INFO,"query: Took %"INT64" ms for %s",took,ttq);
-		logf(LOG_TIMING,"query: Took %"INT64" ms for %s. results=%"INT32"",
+		//log(LOG_INFO,"query: Took %" INT64 " ms for %s",took,ttq);
+		logf(LOG_TIMING,"query: Took %" INT64 " ms for %s. results=%" INT32 "",
 		     took,si->m_sbuf1.getBufStart(),
 		     st->m_msg40.getNumResults());
 	}
@@ -1069,8 +1069,8 @@ void deleteState ( State7 *st ) {
 	st->m_took = took;
 	//if ( g_conf.m_logQueryTimes ) {
 	if ( took >= g_conf.m_logQueryTimeThreshold ) {
-		//log(LOG_INFO,"query: Took %"INT64" ms for %s",took,ttq);
-		logf(LOG_TIMING,"query: Took %"INT64" ms for %s. results=%"INT32"",took,
+		//log(LOG_INFO,"query: Took %" INT64 " ms for %s",took,ttq);
+		logf(LOG_TIMING,"query: Took %" INT64 " ms for %s. results=%" INT32 "",took,
 		     st->m_q.m_orig,//msg40.getCompoundQueryBuf(),
 		     st->m_msg40.getNumResults());
 	}
@@ -1247,7 +1247,7 @@ bool printLinks ( SafeBuf &sb , State7 *st ) {
 		timeZoneOffset = -5;
 	clockSet += timeZoneOffset * 3600;
 	sb.safePrintf ( "<tr class=hand onclick=\""
-			"window.location.href='/?clockset=%"UINT32"&'"
+			"window.location.href='/?clockset=%"U INT32 "&'"
 			"+getFormParms()\">"
 			"<td>"
 			"<img align=left height=32 width=32 border=0 "
@@ -1316,7 +1316,7 @@ bool printSimilarToTable ( SafeBuf &sb , State7 *st , Msg20Reply *mr ,
 		if ( count > maxPics ) continue;
 		if ( firstOne )
 			sb.safePrintf ( "<table cellpadding=0 cellspacing=0>" 
-					"<tr id=similar%"INT32"%s>"
+					"<tr id=similar%" INT32 "%s>"
 					"<td colspan=9>"
 					//"<img height=16 width=16 "
 					//"src=/invited16.png "
@@ -1330,8 +1330,8 @@ bool printSimilarToTable ( SafeBuf &sb , State7 *st , Msg20Reply *mr ,
 		firstOne = false;
 		// http://graph.facebook.com/502303355/picture shows pic 4 uid
 		if ( flags & LF_ISEVENTGURUID )
-			sb.safePrintf ( "<img width=%"INT32" height=%"INT32" "
-					"src=/frog16.png title=%"UINT64">"
+			sb.safePrintf ( "<img width=%" INT32 " height=%" INT32 " "
+					"src=/frog16.png title=%" UINT64 ">"
 					"&nbsp;"
 					, width
 					, height
@@ -1342,11 +1342,11 @@ bool printSimilarToTable ( SafeBuf &sb , State7 *st , Msg20Reply *mr ,
 					// facebook canvas puts us in an iframe
 					// so bust out with target=_parent
 					"target=_parent "
-					"href=http://www.facebook.com/%"UINT64""
+					"href=http://www.facebook.com/%" UINT64 ""
 					"%s>"
-					"<img width=%"INT32" height=%"INT32" "
+					"<img width=%" INT32 " height=%" INT32 " "
 					"src=\"http://graph.facebook.com/"
-					"%"UINT64"/picture\">"
+					"%" UINT64 "/picture\">"
 					"</a>"
 					"&nbsp;"
 					, uid
@@ -1372,8 +1372,8 @@ bool printPic ( SafeBuf &sb ,
 	sb.safePrintf ( 
 		       "<div style=\""
 		       "position:relative;"
-		       "width:%"INT32"px;"
-		       "height:%"INT32"px;"
+		       "width:%" INT32 "px;"
+		       "height:%" INT32 "px;"
 		       "padding-right:5px;"
 		       "display:inline-block;"
 		       "\">"
@@ -1381,9 +1381,9 @@ bool printPic ( SafeBuf &sb ,
 		       // facebook canvas puts us in an iframe
 		       // so bust out with target=_parent
 		       //"target=_parent "
-		       "href=http://www.facebook.com/%"UINT64""
+		       "href=http://www.facebook.com/%" UINT64 ""
 		       "%s>"
-		       "<img width=%"INT32" height=%"INT32" "
+		       "<img width=%" INT32 " height=%" INT32 " "
 		       , width
 		       , height
 		       , uid
@@ -1397,8 +1397,8 @@ bool printPic ( SafeBuf &sb ,
 			       "style=position:absolute; "
 			       "onmouseout=\""
 			       "this.style.zIndex=98;"
-			       "this.width=%"INT32";"
-			       "this.height=%"INT32";\" "
+			       "this.width=%" INT32 ";"
+			       "this.height=%" INT32 ";\" "
 			       "onmouseover=\""
 			       "this.style.zIndex=99;"
 			       "this.width=50;"
@@ -1407,7 +1407,7 @@ bool printPic ( SafeBuf &sb ,
 			       , height
 			       );
 	sb.safePrintf ( "src=\"http://graph.facebook.com/"
-			"%"UINT64"/picture\">"
+			"%" UINT64 "/picture\">"
 			"</a>"
 			"</div>"
 			//"&nbsp;"
@@ -1490,7 +1490,7 @@ bool printPics ( SafeBuf &sb ,
 	int32_t savedPos = sb.length();
 
 	// assume we will print something
-	sb.safePrintf ( "<tr id=%s%"INT32"%s>" // "going"
+	sb.safePrintf ( "<tr id=%s%" INT32 "%s>" // "going"
 			"<td>"
 			"<font size=-1>"
 			, idPrefix // "going" etc.
@@ -1582,7 +1582,7 @@ bool printPics ( SafeBuf &sb ,
 		// if that was 10th, print more like
 		sb.safePrintf("<a "
 			      "href=mor2.html><font size=-1>"
-			      "%"INT32" more</font></a>", count - maxPics );
+			      "%" INT32 " more</font></a>", count - maxPics );
 	if ( count )
 		sb.safePrintf ( "</td></tr>" );
 
@@ -1614,7 +1614,7 @@ bool printAttendeesAndLikers ( SafeBuf &sb , State7 *st , Msg20Reply *mr ,
 		s = " style=\"display:none;\"";
 	// reference the msg20 reply/summary
 	if ( mr->m_eventFlags & EV_HIDEGUESTLIST ) {
-		sb.safePrintf ( "<tr id=going%"INT32"%s>"
+		sb.safePrintf ( "<tr id=going%" INT32 "%s>"
 				"<td>"
 				"<font size=-1 color=gray><i>"
 				"Guest list is hidden"
@@ -1783,9 +1783,9 @@ bool printMatchingTerms ( SafeBuf &sb , State7 *st , Msg20Reply *mr ) {
 			      "showpersonal=1&"
 			      // show interest submenu
 			      "suggestions=1&"
-			      "ei=%"UINT64"&"
-			      "usefbid=%"UINT64"&"
-			      "fh=%"UINT32"&"
+			      "ei=%" UINT64 "&"
+			      "usefbid=%" UINT64 "&"
+			      "fh=%"U INT32 "&"
 			      "hi="
 			      , APPHOSTUNENCODED
 			      , fbId
@@ -1831,7 +1831,7 @@ bool printEventTitleLink ( SafeBuf &sb, SearchInput *si, Msg20Reply *mr ,
 	int64_t fbId = st->m_msgfb.m_fbId;
 
 	// print email fbid for tracking purposes
-	if ( si->m_emailFormat ) sb.safePrintf("ei=%"UINT64"&",fbId);
+	if ( si->m_emailFormat ) sb.safePrintf("ei=%" UINT64 "&",fbId);
 
 	//printEventCachedUrl ( sb , mr , m20 , qe, coll );
 	// no, now just do a gbdocid:X query with icc=1
@@ -1841,12 +1841,12 @@ bool printEventTitleLink ( SafeBuf &sb, SearchInput *si, Msg20Reply *mr ,
 	// set SummaryWidth (sw) to 100 characters.
 	// use gbresultset:3 otherwise it will be forced to 1
 	// and we might miss out!!
-	sb.safePrintf("id=%"UINT64".%"UINT64""
+	sb.safePrintf("id=%" UINT64 ".%" UINT64 ""
 		      , mr->m_docId
 		      , mr->m_eventHash64 
 		      );
 	/*
-	sb.safePrintf("q=gbdocid%%3A%"UINT64"+gbeventhash%%3A%"UINT64""
+	sb.safePrintf("q=gbdocid%%3A%" UINT64 "+gbeventhash%%3A%" UINT64 ""
 		      "&where=anywhere"
 		      // leave this off so it works on gk144 now
 		      // since it hasn't indexed this yet
@@ -1888,17 +1888,17 @@ bool printIcons2 ( SafeBuf &sb ,
 		//   docid/eventid. that function should
 		sb.safePrintf ( "<td>"
 				"<img "
-				"id=bullseye%"UINT32" "
+				"id=bullseye%"U INT32 " "
 				"title=\"insert into form\" "
 				"src=/bullseye.jpg "
 				"height=16 width=16 "
 				"style=padding-right:15px; "
 				"onclick=\""
 				//"document."
-				//"getElementById('formdocid').value = %"INT64";"
+				//"getElementById('formdocid').value = %" INT64 ";"
 				//"document."
-				//"getElementById('formeventid').value = %"INT32";"
-				"reloadPage(%"INT64",%"INT32",%"UINT32");"
+				//"getElementById('formeventid').value = %" INT32 ";"
+				"reloadPage(%" INT64 ",%" INT32 ",%"U INT32 ");"
 				// TODO: and make this image highlighted
 				"\""
 				">"
@@ -1986,7 +1986,7 @@ bool printIcons2 ( SafeBuf &sb ,
 
 		SafeBuf ttt;
 		if ( si->m_emailFormat )
-			ttt.safePrintf ( "<a href=\"%s?id=%"UINT64".%"UINT64"\">"
+			ttt.safePrintf ( "<a href=\"%s?id=%" UINT64 ".%" UINT64 "\">"
 					 , APPHOSTUNENCODED
 					 , mr->m_docId
 					 , mr->m_eventHash64
@@ -1998,10 +1998,10 @@ bool printIcons2 ( SafeBuf &sb ,
 		sb.safePrintf ( "<td>"
 				"%s"
 				"<img "
-				"id=img%"UINT32"a "
+				"id=img%"U INT32 "a "
 				"title=\"%s\" "
 				"src=%s%s "
-				"height=%"INT32" width=%"INT32"></a>"
+				"height=%" INT32 " width=%" INT32 "></a>"
 				"</td>"
 				, ttt.getBufStart()
 				, iconId
@@ -2018,10 +2018,10 @@ bool printIcons2 ( SafeBuf &sb ,
 		sb.safePrintf (	"<td>"
 				"%s"
 				"<img "
-				"id=img%"UINT32"b "
+				"id=img%"U INT32 "b "
 				"title=\"%s\" "
 				"src=%s%s "
-				"height=%"INT32" width=%"INT32"></a>"
+				"height=%" INT32 " width=%" INT32 "></a>"
 				"</td>"
 				, ttt.getBufStart()
 				, iconId
@@ -2038,10 +2038,10 @@ bool printIcons2 ( SafeBuf &sb ,
 			sb.safePrintf ( "<td>"
 					"%s"
 					"<img "
-					"id=img%"UINT32"c "
+					"id=img%"U INT32 "c "
 					"title=\"%s\" "
 					"src=%s%s "
-					"height=%"INT32" width=%"INT32"></a>"
+					"height=%" INT32 " width=%" INT32 "></a>"
 					"</td>"
 					, ttt.getBufStart()
 					, iconId
@@ -2059,18 +2059,18 @@ bool printIcons2 ( SafeBuf &sb ,
 
 	// "function tagEvent ( imgid, ev , st , d , evid ) {\n"
 	sb.safePrintf ( "<td>"
-			// we have to pass back the %"UINT64" guys as strings
+			// we have to pass back the %" UINT64 " guys as strings
 			// because the javascript on chrome doesn't support
 			// int64_t integers! it ends up zeroing out our
 			// last few bits!!!!!
 			"<a>"
 			"<img "
-			"id=img%"UINT32"a "
-			"onclick=\"tagEvent('img%"UINT32"a','%"UINT64"','%"UINT32"',"
-			"'%"UINT64"','%"INT32"');\" "
+			"id=img%"U INT32 "a "
+			"onclick=\"tagEvent('img%"U INT32 "a','%" UINT64 "','%"U INT32 "',"
+			"'%" UINT64 "','%" INT32 "');\" "
 			"title=\"%s\" "
 			"src=%s%s "
-			"height=%"INT32" width=%"INT32"></a>"
+			"height=%" INT32 " width=%" INT32 "></a>"
 			"</td>"
 			, iconId
 			, iconId
@@ -2092,12 +2092,12 @@ bool printIcons2 ( SafeBuf &sb ,
 	sb.safePrintf ( "<td>"
 			"<a>"
 			"<img "
-			"id=img%"UINT32"b "
-			"onclick=\"tagEvent('img%"UINT32"b','%"UINT64"','%"UINT32"',"
-			"'%"UINT64"','%"INT32"');\" "
+			"id=img%"U INT32 "b "
+			"onclick=\"tagEvent('img%"U INT32 "b','%" UINT64 "','%"U INT32 "',"
+			"'%" UINT64 "','%" INT32 "');\" "
 			"title=\"%s\" "
 			"src=%s%s "
-			"height=%"INT32" width=%"INT32"></a>"
+			"height=%" INT32 " width=%" INT32 "></a>"
 			"</td>"
 
 			//"<a href=""><img src=/twitter16.png "
@@ -2127,12 +2127,12 @@ bool printIcons2 ( SafeBuf &sb ,
 				"<td>"
 				"<a>"
 				"<img "
-				"id=img%"UINT32"c "
-				"onclick=\"tagEvent('img%"UINT32"c','%"UINT64"','%"UINT32"',"
-				"'%"UINT64"','%"INT32"');\" "
+				"id=img%"U INT32 "c "
+				"onclick=\"tagEvent('img%"U INT32 "c','%" UINT64 "','%"U INT32 "',"
+				"'%" UINT64 "','%" INT32 "');\" "
 				"title=\"%s\" "
 				"src=%s%s "
-				"height=%"INT32" width=%"INT32"></a>"
+				"height=%" INT32 " width=%" INT32 "></a>"
 				"</td>"
 				, iconId
 				, iconId
@@ -2158,12 +2158,12 @@ bool printIcons2 ( SafeBuf &sb ,
 		sb.safePrintf("<td>"
 			      "<a>"
 			      "<img "
-			      "id=img%"UINT32"d "
-			      "onclick=\"tagEvent('img%"UINT32"d','%"UINT64"',"
-			      "'%"UINT32"','%"UINT64"','%"INT32"');\" "
+			      "id=img%"U INT32 "d "
+			      "onclick=\"tagEvent('img%"U INT32 "d','%" UINT64 "',"
+			      "'%"U INT32 "','%" UINT64 "','%" INT32 "');\" "
 			      "title=\"Accept this event\" "
 			      "src=%s%s "
-			      "height=%"INT32" width=%"INT32"></a>"
+			      "height=%" INT32 " width=%" INT32 "></a>"
 			      "</td>"
 			      , iconId
 			      , iconId
@@ -2183,12 +2183,12 @@ bool printIcons2 ( SafeBuf &sb ,
 		sb.safePrintf("<td>"
 			      "<a>"
 			      "<img "
-			      "id=img%"UINT32"e "
-			      "onclick=\"tagEvent('img%"UINT32"e','%"UINT64"',"
-			      "'%"UINT32"','%"UINT64"','%"INT32"');\" "
+			      "id=img%"U INT32 "e "
+			      "onclick=\"tagEvent('img%"U INT32 "e','%" UINT64 "',"
+			      "'%"U INT32 "','%" UINT64 "','%" INT32 "');\" "
 			      "title=\"Reject this event\" "
 			      "src=%s%s "
-			      "height=%"INT32" width=%"INT32"></a>"
+			      "height=%" INT32 " width=%" INT32 "></a>"
 			      "</td>"
 			      , iconId
 			      , iconId
@@ -2236,13 +2236,13 @@ bool printIcons1 ( SafeBuf &sb ,
 	// get the date in the special format
 	char buf1[128];
 	char buf2[128];
-	sprintf(buf1,"%"INT32"%02"INT32"%02"INT32"T%02"INT32"%02"INT32"00"
+	sprintf(buf1,"%" INT32 "%02" INT32 "%02" INT32 "T%02" INT32 "%02" INT32 "00"
 		, (int32_t)er->m_year
 		, (int32_t)er->m_month
 		, (int32_t)er->m_dayNum
 		, (int32_t)er->m_hour1
 		, (int32_t)er->m_min1 );
-	sprintf(buf2,"%"INT32"%02"INT32"%02"INT32"T%02"INT32"%02"INT32"00"
+	sprintf(buf2,"%" INT32 "%02" INT32 "%02" INT32 "T%02" INT32 "%02" INT32 "00"
 		, (int32_t)er->m_year
 		, (int32_t)er->m_month
 		, (int32_t)er->m_dayNum
@@ -2257,7 +2257,7 @@ bool printIcons1 ( SafeBuf &sb ,
 	char *s = "";
 	if ( ! si->m_icons) s = " style=\"display:none\"";
 
-	sb.safePrintf ( "<td id=icons%"INT32"%s>" , iconId , s );
+	sb.safePrintf ( "<td id=icons%" INT32 "%s>" , iconId , s );
 
 	sb.safePrintf ( "<nobr>"
 			"<a onclick=\"thumbsup();\">"
@@ -2328,7 +2328,7 @@ bool printIcons1 ( SafeBuf &sb ,
 	sb.safePrintf ( "<a target=\"_blank\" "
 			"href=\"http://calendar.yahoo.com/?v=60&amp;"
 			"view=d&amp;type=20&amp;title=%s&"
-			"amp;st=%s&amp;dur=%"INT32"&amp;"
+			"amp;st=%s&amp;dur=%" INT32 "&amp;"
 			"desc=Details found here:+%s"
 			"&amp;in_loc=%s\">"
 			"<img border=0 height=32 width=32 src=/yahoo.png "
@@ -2390,7 +2390,7 @@ bool printMapUrl ( SafeBuf &sb , State7 *st , int32_t width , int32_t height ) {
 	Msg40 *msg40 = &(st->m_msg40);
 	SearchInput *si = &st->m_si;
 
-	sb.safePrintf ( "http://maps.google.com/maps/api/staticmap?size=%"INT32"x%"INT32"&maptype=roadmap&sensor=false" ,
+	sb.safePrintf ( "http://maps.google.com/maps/api/staticmap?size=%" INT32 "x%" INT32 "&maptype=roadmap&sensor=false" ,
 			width, height );
 
 	HashTableX dups;
@@ -2473,7 +2473,7 @@ bool printMapUrl ( SafeBuf &sb , State7 *st , int32_t width , int32_t height ) {
 	}
 	
 	if ( nr == 0 && lat != NO_LATITUDE && lon != NO_LONGITUDE )
-		sb.safePrintf("&zoom=%"INT32""
+		sb.safePrintf("&zoom=%" INT32 ""
 			      "&markers="
 			      "size:medium"
 			      "%%7Ccolor:%s"
@@ -2494,7 +2494,7 @@ bool printMapUrl ( SafeBuf &sb , State7 *st , int32_t width , int32_t height ) {
 // . print each expanded search result displayed on the map
 bool printMap ( SafeBuf &sb , State7 *st , int32_t width , int32_t height ) {
 	// init the start of img tag
-	sb.safePrintf ( "<img id=mapimg width=%"INT32" height=%"INT32" "
+	sb.safePrintf ( "<img id=mapimg width=%" INT32 " height=%" INT32 " "
 			"style=\""
 			"border-top:1px solid gray;"
 			"border-left:1px solid gray;"
@@ -2643,9 +2643,9 @@ bool printInterestCell ( SafeBuf &sb ,
 	if ( printX ) {
 		sb.safePrintf("<a "
 			      "onmouseover=\"document.getElementBy"
-			      "Id('idx_%"INT32"').src='/xon.png';\" "
+			      "Id('idx_%" INT32 "').src='/xon.png';\" "
 			      "onmouseout=\"document.getElementBy"
-			      "Id('idx_%"INT32"').src='/xoff.png';\" "
+			      "Id('idx_%" INT32 "').src='/xoff.png';\" "
 			      // delete it? 
 			      // nuke cookie for it
 			      "onclick=\""
@@ -2675,7 +2675,7 @@ bool printInterestCell ( SafeBuf &sb ,
 			      "width=11 "
 			      "height=11 "
 			      //"style=display:none "
-			      "id=idx_%"INT32">"
+			      "id=idx_%" INT32 ">"
 			      ,ie->m_count);
 		sb.safePrintf("</a>");
 	}
@@ -2706,7 +2706,7 @@ bool printInterestCell ( SafeBuf &sb ,
 	sb.urlEncode ( ie->m_topic, ie->m_topicLen );
 	sb.safePrintf("');"
 		      "\" "
-		      "id=cb_ixt%02"INT32"%s> "
+		      "id=cb_ixt%02" INT32 "%s> "
 		      , ie->m_count
 		      , checked );
 	// set the background to yellow if its highlighted
@@ -2958,7 +2958,7 @@ bool printMyInterests ( SafeBuf &sb , State7 *st , bool justPrintHiddens ) {
 		// skip if its a default that is not checked...
 		if ( ie[i].m_type == 2 && ie[i].m_valc != '1' ) continue;
 		// a hidden tag so we get these topics into the meta cookie
-		sb.safePrintf("<input type=hidden name=ixt%02"INT32" id=ixt%02"INT32" "
+		sb.safePrintf("<input type=hidden name=ixt%02" INT32 " id=ixt%02" INT32 " "
 			      "value=\"%c-"
 			      , ie[i].m_count
 			      , ie[i].m_count
@@ -2998,7 +2998,7 @@ bool printMyInterests ( SafeBuf &sb , State7 *st , bool justPrintHiddens ) {
 	int32_t fs = 16;
 	if ( si->m_widget ) fs = 12;
 	// print the facebook table
-	sb.safePrintf("<b style=font-size:%"INT32"px;>"
+	sb.safePrintf("<b style=font-size:%" INT32 "px;>"
 		      "Facebook Interests</b>"
 		      , fs
 		      );
@@ -3045,7 +3045,7 @@ bool printMyInterests ( SafeBuf &sb , State7 *st , bool justPrintHiddens ) {
 		      //"background-color:#e5c095;"
 		      "padding-top:10px;"
 		      "padding-bottom:10px;>"
-		      "<b style=font-size:%"INT32"px;>"
+		      "<b style=font-size:%" INT32 "px;>"
 		      "Entered Interests"
 		      "</b><br><br>"
 		      "<input type=text name=newinterest "
@@ -3074,7 +3074,7 @@ bool printMyInterests ( SafeBuf &sb , State7 *st , bool justPrintHiddens ) {
 
 	// print default interests
 	sb.safePrintf("<br>"
-		      "<b style=font-size:%"INT32"px;>Common Interests"
+		      "<b style=font-size:%" INT32 "px;>Common Interests"
 		      "</b><br>"
 		      , fs 
 		      );
@@ -3098,7 +3098,7 @@ bool printMyInterests ( SafeBuf &sb , State7 *st , bool justPrintHiddens ) {
 			"Click the X to permanently delete an "
 			"interest. "
 			);
-	sb.safePrintf(  "Event Guru limits you to %"INT32" "
+	sb.safePrintf(  "Event Guru limits you to %" INT32 " "
 			"interests total."
 			"<br>"
 			"<br>"
@@ -3480,7 +3480,7 @@ bool printSubMenu ( SafeBuf &sb , State7 *st, char subMenu ,
 			       //"bottom:6px;"
 			       "color:%s;"
 			       "padding:3px;"
-			       "font-size:%"INT32"px;"
+			       "font-size:%" INT32 "px;"
 			       //"height:27px;"
 			       "width:192px;"
 			       "cursor:hand;"
@@ -3552,7 +3552,7 @@ bool printSubMenu ( SafeBuf &sb , State7 *st, char subMenu ,
 	//if ( printHorizontal && subMenu == SUBMENU_SEARCH )
 	//	nbsp2 = "";
 
-	sb.safePrintf ( "<input type=hidden name=%s id=%s value=%"INT32">"
+	sb.safePrintf ( "<input type=hidden name=%s id=%s value=%" INT32 ">"
 			, m->m_scgi
 			, m->m_scgi
 			, (int32_t)isParmSet
@@ -3788,7 +3788,7 @@ bool printSubMenu ( SafeBuf &sb , State7 *st, char subMenu ,
 		// int32_ts = width,height
 		if ( m->m_type == TYPE_LONG ) {
 			sb.safePrintf ( "%c%s <input size=4 name=%s "
-					"type=text value=%"INT32"><br>"
+					"type=text value=%" INT32 "><br>"
 					, to_upper_a(m->m_title[0])
 					, m->m_title + 1
 					, m->m_scgi
@@ -3830,7 +3830,7 @@ bool printSubMenu ( SafeBuf &sb , State7 *st, char subMenu ,
 		// submit() and setting the checkbox value otherwise, so
 		// let's do this for all checkboxes now.
 		// NOW we need an "id" as well so setVal() function works!
-		sb.safePrintf("<input type=hidden id=%s name=%s value=%"INT32"",
+		sb.safePrintf("<input type=hidden id=%s name=%s value=%" INT32 "",
 			      m->m_scgi,
 			      m->m_scgi,
 			      (int32_t)isParmSet );
@@ -3983,7 +3983,7 @@ bool printLogoTD ( SafeBuf &sb , bool printSlogan ) {
 		       //"<br>"
 		       "<center>"
 		       "<a href=http://www.eventguru.com/>"
-		       "<img border=0 width=%"INT32"px height=%"INT32"px "
+		       "<img border=0 width=%" INT32 "px height=%" INT32 "px "
 		       "title=\"Event Guru Home\" "
 		       "src=%s></a>"
 		       , GURUDX
@@ -4184,7 +4184,7 @@ bool printSideBarNav ( SafeBuf &sb , State7 *st , bool printHorizontal ) {
 				"<img border=0 "
 				"title=\"Show events you like, are going to "
 				"or have been invited to.\" "
-				"src=http://graph.facebook.com/%"UINT64"/picture "
+				"src=http://graph.facebook.com/%" UINT64 "/picture "
 				"width=32 height=32>"
 				, st->m_msgfb.m_fbId );
 	}
@@ -4395,7 +4395,7 @@ bool printBlackBar ( SafeBuf &sb , Msgfb *msgfb , char *page , int32_t ip ,
 		sb.safePrintf(
 			      // div mask
 			      "<div style=\""
-			      "height:%"INT32"px;"
+			      "height:%" INT32 "px;"
 			      // added 5px for spacing
 			      "width:63px;"
 			      "vertical-align:top;"
@@ -4431,7 +4431,7 @@ bool printBlackBar ( SafeBuf &sb , Msgfb *msgfb , char *page , int32_t ip ,
 		sb.safePrintf(
 			      // div mask
 			      "<div style=\""
-			      "height:%"INT32"px;"
+			      "height:%" INT32 "px;"
 			      "width:51px;"
 			      "vertical-align:top;"
 			      "display:inline-block;"
@@ -4547,7 +4547,7 @@ bool printBlackBar ( SafeBuf &sb , Msgfb *msgfb , char *page , int32_t ip ,
 				      "href=/account.html>"
 				      "<img align=left border=0 "
 				      "src=http://graph.facebook.com/"
-				      "%"UINT64"/picture "
+				      "%" UINT64 "/picture "
 				      "width=20 height=20>"
 				      "<nobr>"
 				      " &nbsp; "
@@ -4703,7 +4703,7 @@ bool printUnsubscribedPopup2 ( SafeBuf &sb , Msgfb *msgfb ) {
 		      "<tr>"
 		      "<td width=25%% valign=center>"
 		      "<center>"
-		      "<img width=%"INT32"px height=%"INT32"px "
+		      "<img width=%" INT32 "px height=%" INT32 "px "
 		      "src=%s>"
 		      , SITTINGDX128
 		      , SITTINGDY128
@@ -4899,7 +4899,7 @@ bool printAddSearchProvider ( SafeBuf &sb ) {
 		      "<tr>"
 		      "<td width=25%% valign=top>"
 		      "<center>"
-		      "<img width=%"INT32"px height=%"INT32"px "
+		      "<img width=%" INT32 "px height=%" INT32 "px "
 		      "src=%s>"
 		      , SHADOWCOLOR
 		      , SITTINGDX96
@@ -4970,7 +4970,7 @@ bool printWelcomePopup ( SafeBuf &sb , Msgfb *msgfb ) {
 		      "<center>"
 		      "<img "
 		      "style=padding:20px; "
-		      "width=%"INT32"px height=%"INT32"px "
+		      "width=%" INT32 "px height=%" INT32 "px "
 		      "src=%s>"
 		      , SITTINGDXORIG
 		      , SITTINGDYORIG
@@ -5598,7 +5598,7 @@ bool printHtmlTail ( SafeBuf *sb , Msgfb *msgfb ,
 			"<tr>"
 			"<td width=25%% valign=center>"
 			"<center>"
-			"<img width=%"INT32"px height=%"INT32"px "
+			"<img width=%" INT32 "px height=%" INT32 "px "
 			"src=%s>"
 			, SITTINGDX128
 			, SITTINGDY128
@@ -5919,7 +5919,7 @@ bool printScripts1 ( SafeBuf &sb , State7 *st ) {
 		       // the eventid
 		       "'&evid='+evid+"
 		       // preserve result page
-		       "'&s=%"INT32""
+		       "'&s=%" INT32 ""
 		       // starttime=time_t
 		       "&starttime='+st+"			
 		       // ev=eventHash64
@@ -5939,7 +5939,7 @@ bool printScripts1 ( SafeBuf &sb , State7 *st ) {
 	//		"if(this.readyState != 4 ) return;\n"
 	//		//"alert(this.responseText);\n"
 	//		//"eval(this.responseText);\n"
-	//		"reloadFrame(false,'s=%"INT32"');\n"
+	//		"reloadFrame(false,'s=%" INT32 "');\n"
 	//		"}\n"
 	//		, msg40->getFirstResultNum()
 	//		);
@@ -6288,8 +6288,8 @@ bool printScripts1 ( SafeBuf &sb , State7 *st ) {
 			       // append starts with a '&'
 			       "var count = new Date().getTime();\n"
 			       //"var count=1;\n"
-			       "var url = '/?%swidgetheight=%"INT32"&"
-			       "widgetwidth=%"INT32"&page=' + count + append;\n"
+			       "var url = '/?%swidgetheight=%" INT32 "&"
+			       "widgetwidth=%" INT32 "&page=' + count + append;\n"
 			       //"alert('f1'+url);\n"
 			       "window.location.href = url;\n"
 			       "}\n"
@@ -6357,7 +6357,7 @@ bool printScripts1 ( SafeBuf &sb , State7 *st ) {
 			//"alert(document.myform.elements[i].value)\n"
 			"continue;\n"
 			"}\n"
-			// until we had def=%"INT32" to each input parm assume
+			// until we had def=%" INT32 " to each input parm assume
 			// default is 0. i guess if it has no def= attribute
 			// assume default is 0
 			"if ( elm.value == '0' ) {\n"
@@ -6434,7 +6434,7 @@ bool printScripts1 ( SafeBuf &sb , State7 *st ) {
 			"var e = document.getElementById(nombre);\n"
 			"e.style.color='black';\n"
 			"e.style.fontWeight='bold';\n"
-			"e.style.fontSize='%"INT32"px';\n"
+			"e.style.fontSize='%" INT32 "px';\n"
 			"}\n"
 			, fs );
 
@@ -6702,7 +6702,7 @@ bool printScripts1 ( SafeBuf &sb , State7 *st ) {
 		       // save newinterest=xxxx into cookie before the user
 		       // clicks a regular link and we fail to save it. we
 		       // can't really do this when they click on the interest
-		       // because we do not know what ixt%02"INT32" cookie name
+		       // because we do not know what ixt%02" INT32 " cookie name
 		       // it will be assigned to, if any! it might be a dup
 		       // and not added. these manual topics do not really
 		       // have any "onclick" code that is used to set them
@@ -6738,7 +6738,7 @@ bool printScripts1 ( SafeBuf &sb , State7 *st ) {
 		       // make arrow visible now
 		       "a.style.display='';\n"
 		       // it doesn't quite line up exactly right so force it!
-		       "document.getElementById('radiusbox').value = '%"INT32"';\n"
+		       "document.getElementById('radiusbox').value = '%" INT32 "';\n"
 		       "}\n"
 		       //, si->m_radius
 		       , radius
@@ -7125,7 +7125,7 @@ bool printQueryBoxes ( SafeBuf &sb, SearchInput *si ) {
 
 	sb.safePrintf ( 
 			"<td>"
-			"<input type=text style=\"font-size:%"INT32"px;"
+			"<input type=text style=\"font-size:%" INT32 "px;"
 		       "width:%s;height:25px;"
 		       "border: 3px inset #ff7070;" // red border!
 		       // without this msie allow text next to the input box
@@ -7136,7 +7136,7 @@ bool printQueryBoxes ( SafeBuf &sb, SearchInput *si ) {
 		       "this.value='';"//setBorders('q','on');\""
 		       "this.style.color='black';"
 		       "this.style.fontWeight='bold';"
-		       "this.style.fontSize='%"INT32"px';\""
+		       "this.style.fontSize='%" INT32 "px';\""
 
 		       "/>"
 		       //, si->m_displayQuery );
@@ -7238,7 +7238,7 @@ bool printQueryBoxes ( SafeBuf &sb, SearchInput *si ) {
 		       //"&nbsp; </font></td>"
 		       "<td>"
 		       "<input type=text "
-		       "style=\"font-size:%"INT32"px;width:%s;height:25px;"
+		       "style=\"font-size:%" INT32 "px;width:%s;height:25px;"
 		       "border: 3px inset #50ff50;"
 		       // without this msie allow text next to the input box
 		       "display:block;%s"
@@ -7248,7 +7248,7 @@ bool printQueryBoxes ( SafeBuf &sb, SearchInput *si ) {
 		       "this.value='';"//setBorders('where','on');\""
 		       "this.style.color='black';"
 		       "this.style.fontWeight='bold';"
-		       "this.style.fontSize='%"INT32"px';\""
+		       "this.style.fontSize='%" INT32 "px';\""
 		       ">"
 		       , fs
 		       , ws
@@ -7464,7 +7464,7 @@ bool printTopBarNav ( SafeBuf &sb , State7 *st ) {
 				"<img border=0 "
 				"title=\"Show events you like, are going to "
 				"or have been invited to.\" "
-				"src=http://graph.facebook.com/%"UINT64"/picture "
+				"src=http://graph.facebook.com/%" UINT64 "/picture "
 				"width=32 height=32>"
 				, st->m_msgfb.m_fbId );
 	}
@@ -7588,12 +7588,12 @@ bool printAdminLinks ( SafeBuf &sb , State7 *st ) {
 		// search ip back or forward
 		int32_t ip = atoip(buf,i);
 		sb.safePrintf ("&nbsp <b>"
-			       "<a href=\"/search?q=ip%%3A%s&c=%s&n=%"INT32"\">"
+			       "<a href=\"/search?q=ip%%3A%s&c=%s&n=%" INT32 "\">"
 			       "[prev %s]</a></b>" , 
 			       iptoa(ip-0x01000000),si->m_coll2,docsWanted,
 			       iptoa(ip-0x01000000));
 		sb.safePrintf ("&nbsp <b>"
-			       "<a href=\"/search?q=ip%%3A%s&c=%s&n=%"INT32"\">"
+			       "<a href=\"/search?q=ip%%3A%s&c=%s&n=%" INT32 "\">"
 			       "[next %s]</a></b>" , 
 			       iptoa(ip+0x01000000),si->m_coll2,docsWanted,
 			       iptoa(ip+0x01000000));
@@ -7610,9 +7610,9 @@ bool printAdminLinks ( SafeBuf &sb , State7 *st ) {
 		// get the filename directly
 		sb.safePrintf (" &nbsp; "
 			       "<font color=red><b>"
-			       //"<a href=\"/admin/tagdb?f=%"INT32"&c=%s&u=%s\">"
+			       //"<a href=\"/admin/tagdb?f=%" INT32 "&c=%s&u=%s\">"
 			       "<a href=\"/admin/tagdb?"
-			       //"tagid0=%"INT32"&"
+			       //"tagid0=%" INT32 "&"
 			       "tagtype0=manualban&"
 			       "tagdata0=1&"
 			       "c=%s\">"
@@ -7632,7 +7632,7 @@ bool printAdminLinks ( SafeBuf &sb , State7 *st ) {
 		sb.safePrintf (" &nbsp; "
 			       "<font color=red><b>"
 			       "<a href=\"/admin/tagdb?"
-			       //"tagid0=%"INT32"&"
+			       //"tagid0=%" INT32 "&"
 			       "tagtype0=manualban&"
 			       "tagdata0=1&"
 			       "c=%s"
@@ -7831,9 +7831,9 @@ void printAdminEventOptions ( SafeBuf* sb,
 		dbuf [ dlen ] = '\0';
 	}
 
-	sb->safePrintf(" - <a \"onclick=\"toggleDisplay('%"INT64"');\">"
+	sb->safePrintf(" - <a \"onclick=\"toggleDisplay('%" INT64 "');\">"
 		       "more &raquo;</a>"
-		       "<div id=\"%"INT64"\" style=\"display:none;\"><br>\n",
+		       "<div id=\"%" INT64 "\" style=\"display:none;\"><br>\n",
 		       docId, docId);
 
 
@@ -7912,7 +7912,7 @@ static bool printResult ( CollectionRec *cr,
 	// ensure not all cluster levels are invisible
 	if ( si->m_debug )
 		logf(LOG_DEBUG,
-		     "query: result #%"INT32" clusterlevel=%"INT32"",
+		     "query: result #%" INT32 " clusterlevel=%" INT32 "",
 		     ix,
 		     (int32_t)msg40->getClusterLevel(ix));
 
@@ -7960,7 +7960,7 @@ static bool printResult ( CollectionRec *cr,
 	}
 
 	if ( si->m_docIdsOnly ) {
-		sb.safePrintf("%"INT64"<br>\n", mr->m_docId );
+		sb.safePrintf("%" INT64 "<br>\n", mr->m_docId );
 		return true;
 	}
 	// skip if it is hidden due to clustering
@@ -8004,7 +8004,7 @@ static bool printResult ( CollectionRec *cr,
 		if ( si->m_isAssassin && !si->m_isFriend ) {
 			//if (si->m_cat_dirId > 0)
 			//	sb.safePrintf("</td><td>");
-			sb.safePrintf("<i>docId %"INT64" had error: "
+			sb.safePrintf("<i>docId %" INT64 " had error: "
 				      "%s</i><br><br>",
 				      mr->m_docId,//msg40->getDocId(i),
 				      mstrerror(err));
@@ -8012,38 +8012,38 @@ static bool printResult ( CollectionRec *cr,
 		//else if (si->m_cat_dirId > 0)
 		//	skipDirRow = true;
 		// log it too!
-		log("query: docId %"INT64" had error: %s.",
+		log("query: docId %" INT64 " had error: %s.",
 		    mr->m_docId,mstrerror(err));
 		return true;
 	}
 
-	// embody the result. give it the id 'res%"INT32"' so clicking on the
+	// embody the result. give it the id 'res%" INT32 "' so clicking on the
 	// trashbin will result in it being hidden?
-	//sb.safePrintf("<span class=result id=res%"INT32">", iconId );
+	//sb.safePrintf("<span class=result id=res%" INT32 ">", iconId );
 
 
 	// the score if admin
 	if ( si->m_isMasterAdmin && !si->m_isFriend ) {
 		int32_t level = (int32_t)msg40->getClusterLevel(ix);
 		char evs[1024];
-		sprintf(evs,"eventhash=%"UINT64" eventid=%"INT32" "
-			"sumhash=%"UINT32" ",
+		sprintf(evs,"eventhash=%" UINT64 " eventid=%" INT32 " "
+			"sumhash=%"U INT32 " ",
 			mr->m_eventHash64,
 			(int32_t)msg40->getEventId(ix),
 			(int32_t)mr->m_eventSummaryHash);
 		// print out score_t
 		sb.safePrintf ( "s=%.03f "
 				"%s"
-				"docid=%"UINT64" "
-				    "sitenuminlinks=%"INT32"%% "
-				    "tier=%"INT32" "
+				"docid=%" UINT64 " "
+				    "sitenuminlinks=%" INT32 "%% "
+				    "tier=%" INT32 " "
 				    "bitscore=0x%hhx "
-				    //"rs=%"INT32" "
-				    "hop=%"INT32" "
-				    "cluster=%"INT32" "
-				    //"sumryscore=%"INT32" "
+				    //"rs=%" INT32 " "
+				    "hop=%" INT32 " "
+				    "cluster=%" INT32 " "
+				    //"sumryscore=%" INT32 " "
 				    "prox=%.03f "
-				    //"sections=%"INT32" "
+				    //"sections=%" INT32 " "
 
 				    "oldscore=%.02f "
 				    "diversityfactor=%.02f "
@@ -8100,7 +8100,7 @@ static bool printResult ( CollectionRec *cr,
 		// is it visible or not?
 		char *s = "";
 		if ( ! si->m_images ) s = " style=\"display:none\"";
-		sb.safePrintf ("<span id=images%"INT32"%s>" , iconId , s );
+		sb.safePrintf ("<span id=images%" INT32 "%s>" , iconId , s );
 
 		sb.safePrintf ( "<a href=\"" );
 		printEventTitleLink ( sb , si, mr , st );
@@ -8236,7 +8236,7 @@ static bool printResult ( CollectionRec *cr,
 		// is it visible or not?
 		char *v = "";
 		if ( ! si->m_icons ) v = " style=\"display:none\"";
-		sb.safePrintf (" <span id=icons%"INT32"%s>" , iconId , v );
+		sb.safePrintf (" <span id=icons%" INT32 "%s>" , iconId , v );
 		sb.safePrintf("<table cellpadding=0 cellspacing=0 "
 			      "style=display:inline-block border=0>"
 			      "<tr>"
@@ -8312,7 +8312,7 @@ static bool printResult ( CollectionRec *cr,
 		uint32_t adh32 = hash32h ( ah32 , dh32 );
 		// print turk "edit" link
 		sb.safePrintf ( " - <a href=\"/eval?evaluser=%s&evalip=%s&"
-				"q=gbadch32%%3A%"UINT32""
+				"q=gbadch32%%3A%"U INT32 ""
 				"&c=%s\">edit</a>",
 				si->m_turkUser,
 				iptoa(st->m_socket->m_ip),
@@ -8515,17 +8515,17 @@ static bool printResult ( CollectionRec *cr,
 		goto skipDisplayIndexedDate;
 	// print the time of index
 	if      ( mins == 1 )
-		sb.safePrintf ( " - indexed: %"INT32" minute ago",mins);
+		sb.safePrintf ( " - indexed: %" INT32 " minute ago",mins);
 	else if ( mins < 60 ) 
-		sb.safePrintf ( " - indexed: %"INT32" minutes ago",mins);
+		sb.safePrintf ( " - indexed: %" INT32 " minutes ago",mins);
 	else if ( hrs == 1 )
-		sb.safePrintf ( " - indexed: %"INT32" hour ago",hrs);
+		sb.safePrintf ( " - indexed: %" INT32 " hour ago",hrs);
 	else if ( hrs < 24 )
-		sb.safePrintf ( " - indexed: %"INT32" hours ago",hrs);
+		sb.safePrintf ( " - indexed: %" INT32 " hours ago",hrs);
 	else if ( days == 1 )
-		sb.safePrintf ( " - indexed: %"INT32" day ago",days);
+		sb.safePrintf ( " - indexed: %" INT32 " day ago",days);
 	else if ( days < 7 )
-		sb.safePrintf ( " - indexed: %"INT32" days ago",days);
+		sb.safePrintf ( " - indexed: %" INT32 " days ago",days);
 	// do not show if more than 1 wk old! we want to seem as
 	// fresh as possible
 	else if ( ts > 0 && si->m_isMasterAdmin && !si->m_isFriend ) {
@@ -8550,8 +8550,8 @@ static bool printResult ( CollectionRec *cr,
 				// ip domain link
 		unsigned char *us = (unsigned char *)&mr->m_ip;//urlip;
 		sb.safePrintf (" - <a href=\"/search?c=%s&sc=1&dr=0&n=100&"
-					       "q=ip:%"INT32".%"INT32".%"INT32"&"
-			       "usecache=0\">%"INT32".%"INT32".%"INT32"</a>",
+					       "q=ip:%" INT32 ".%" INT32 ".%" INT32 "&"
+			       "usecache=0\">%" INT32 ".%" INT32 ".%" INT32 "</a>",
 			       coll,
 			       (int32_t)us[0],(int32_t)us[1],(int32_t)us[2],
 			       (int32_t)us[0],(int32_t)us[1],(int32_t)us[2]);
@@ -8562,13 +8562,13 @@ static bool printResult ( CollectionRec *cr,
 		//   there cuz it will mess up Global Spec's machine
 		//if ( h->m_groupId == g_hostdb.m_groupId ) 
 		sb.safePrintf(" - <a href=\"/admin/titledb?c=%s&"
-			      "d=%"INT64"",coll,mr->m_docId);
+			      "d=%" INT64 "",coll,mr->m_docId);
 		// then the [info] link to show the TitleRec
 		sb.safePrintf ( "\">[info]</a>" );
 		
 		// now the analyze link
 		sb.safePrintf (" - <a href=\"/admin/parser?c=%s&"
-			       "old=1&hc=%"INT32"&u=", 
+			       "old=1&hc=%" INT32 "&u=", 
 			       coll,
 			       (int32_t)mr->m_hopcount);
 		
@@ -8651,14 +8651,14 @@ static bool printResult ( CollectionRec *cr,
 		sb.safePrintf (" - [similar -"
 				   " <a href=\"/search?"
 				   "q="
-				   "gbtagvector%%3A%"UINT32""
+				   "gbtagvector%%3A%"U INT32 ""
 				   "&sc=1&dr=0&c=%s&n=100"
 				   "&rcache=0\">"
 				   "tag</a> " ,
 				   (int32_t)mr->m_tagVectorHash,  coll);
 		sb.safePrintf ("<a href=\"/search?"
 				   "q="
-				   "gbgigabitvector%%3A%"UINT32""
+				   "gbgigabitvector%%3A%"U INT32 ""
 				   "&sc=1&dr=0&c=%s&n=100"
 				   "&rcache=0\">"
 				   "topic</a> " ,
@@ -8679,7 +8679,7 @@ static bool printResult ( CollectionRec *cr,
 		int32_t urlFilterNum = (int32_t)mr->m_urlFilterNum;
 		
 		if(urlFilterNum != -1) {
-			sb.safePrintf (" - UrlFilter:%"INT32"", 
+			sb.safePrintf (" - UrlFilter:%" INT32 "", 
 				       urlFilterNum);
 		}					
 
@@ -8709,7 +8709,7 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 	// if docids only, print the docid only
 	if ( si->m_docIdsOnly ) {
 		sb.safePrintf ( "\t<result>\n"
-				"\t\t<docId>%"INT64"</docId>\n"
+				"\t\t<docId>%" INT64 "</docId>\n"
 				"\t</result>\n",
 				msg40->getDocId(ix) );
 		return true;
@@ -8734,7 +8734,7 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 	urlLen = uu.getUrlLen();
 	// if this msg20 had an error print "had error"
 	if ( err || urlLen <= 0 || ! url ) {
-		log("query: docId %"INT64" had error: %s",
+		log("query: docId %" INT64 " had error: %s",
 		    mr->m_docId,mstrerror(err));
 		return false;
 	}
@@ -8760,7 +8760,7 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 	sb.safePrintf ( "]]></eventTitle>\n" );
 	// so zak can dedup search results
 	sb.safePrintf ("\t\t<eventSummaryHash32>"
-		       "%"UINT32""
+		       "%"U INT32 ""
 		       "</eventSummaryHash32>\n",
 		       (int32_t)mr->m_eventSummaryHash);
 	// end tag and begin the summary
@@ -8848,7 +8848,7 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 	// or the one that is happening now i guess.
 	sb.safePrintf ( "\t\t<eventDateIntervalsUTC><![CDATA[" );
 	for ( int32_t k = 0 ; k < ni ; k++ ) 
-		sb.safePrintf("[%"UINT32",%"UINT32"],",
+		sb.safePrintf("[%"U INT32 ",%"U INT32 "],",
 			      ii[k].m_a,
 			      ii[k].m_b);
 	sb.safePrintf ( "]]></eventDateIntervalsUTC>\n" );
@@ -8918,7 +8918,7 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 	for ( next=mr; next ; next=next->m_nextMerged ) {
 		sb.safePrintf("\t\t<cachedUrl><![CDATA[");
 		// we got a much better format now!!!
-		sb.safePrintf ( "/?id=%"UINT64".%"UINT64"\">"
+		sb.safePrintf ( "/?id=%" UINT64 ".%" UINT64 "\">"
 				, mr->m_docId
 				, mr->m_eventHash64
 				);
@@ -8933,19 +8933,19 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 	// . docId for possible cached link
 	// . might have merged a bunch together
 	for ( next = mr; next ; next = next->m_nextMerged )
-		sb.safePrintf("\t\t<docId>%"INT64"</docId>\n",
+		sb.safePrintf("\t\t<docId>%" INT64 "</docId>\n",
 			      next->m_docId );
 	
 	// might have merged a bunch together
 	for ( next = mr; next ; next = next->m_nextMerged ) {
 		/*
-		sb.safePrintf("\t\t<eventHash64>%"UINT64""
+		sb.safePrintf("\t\t<eventHash64>%" UINT64 ""
 			      "</eventHash64>\n",
 			      next->m_eventHash64 );
-		sb.safePrintf("\t\t<eventDateHash64>%"UINT64""
+		sb.safePrintf("\t\t<eventDateHash64>%" UINT64 ""
 			      "</eventDateHash64>\n",
 			      next->m_eventDateHash64 );
-		sb.safePrintf("\t\t<eventTitleHash64>%"UINT64""
+		sb.safePrintf("\t\t<eventTitleHash64>%" UINT64 ""
 			      "</eventTitleHash64>\n",
 			      next->m_eventTitleHash64 );
 		// gbeventaddressdatetaghash32
@@ -8963,13 +8963,13 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 		uint32_t adth32 = next->m_adth32;
 		sb.safePrintf("\t\t"
 			      "<eventAddressDateContentHash32>"
-			      "%"UINT32""
+			      "%"U INT32 ""
 			      "</eventAddressDateContentHash32>"
 			      "\n",
 			      adch32);
 		sb.safePrintf("\t\t"
 			      "<eventAddressDateTagHash32>"
-			      "%"UINT32""
+			      "%"U INT32 ""
 			      "</eventAddressDateTagHash32>"
 			      "\n",
 			      adth32);
@@ -8977,7 +8977,7 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 		uint32_t ath32 = hash32h ( ah32 , th32 );
 		sb.safePrintf("\t\t"
 			      "<eventAddressTitleContentHash32>"
-			      "%"UINT32""
+			      "%"U INT32 ""
 			      "</eventAddressTitleContentHash32>"
 			      "\n",
 			      (int32_t)ath32);
@@ -8986,17 +8986,17 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 	// might have merged a bunch together
 	/*
 	for ( next = mr; next ; next = next->m_nextMerged )
-		sb.safePrintf("\t\t<docIdRelativeEventId>%"INT32""
+		sb.safePrintf("\t\t<docIdRelativeEventId>%" INT32 ""
 			      "</docIdRelativeEventId>\n",
 			      next->m_eventId);
 	*/
 
 	// get this
 	int32_t timeZoneOffset = mr->m_timeZoneOffset;
-	sb.safePrintf("\t\t<eventTimeZone>%"INT32""
+	sb.safePrintf("\t\t<eventTimeZone>%" INT32 ""
 		      "</eventTimeZone>\n",
 		      timeZoneOffset);
-	sb.safePrintf("\t\t<eventCityUsesDST>%"INT32""
+	sb.safePrintf("\t\t<eventCityUsesDST>%" INT32 ""
 		      "</eventCityUsesDST>\n",
 		      (int32_t)mr->m_useDST);
 	
@@ -9017,24 +9017,24 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 			      "</eventEndTimeUTC>");
 	}
 	else {
-		sb.safePrintf("\t\t<eventStartTimeUTC>%"UINT32""
+		sb.safePrintf("\t\t<eventStartTimeUTC>%"U INT32 ""
 			      "</eventStartTimeUTC>\n",
 			      displayStart );
-		sb.safePrintf("\t\t<eventEndTimeUTC>%"UINT32""
+		sb.safePrintf("\t\t<eventEndTimeUTC>%"U INT32 ""
 			      "</eventEndTimeUTC>\n",
 			      displayEnd );
 	}
 	
 	if ( er ) {
 		sb.safePrintf("\t\t<eventStartMonthDay>"
-			      "%"INT32"</eventStartMonthDay>\n",
+			      "%" INT32 "</eventStartMonthDay>\n",
 			      (int32_t)er->m_dayNum1);
 		sb.safePrintf("\t\t<eventStartMonth>"
-			      "%"INT32"</eventStartMonth>\n",
+			      "%" INT32 "</eventStartMonth>\n",
 			      // make it 1-12
 			      (int32_t)er->m_month1+1);
 		sb.safePrintf("\t\t<eventStartYear>"
-			      "%"INT32"</eventStartYear>\n",
+			      "%" INT32 "</eventStartYear>\n",
 			      (int32_t)er->m_year1);
 	}
 	
@@ -9065,7 +9065,7 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 			    mr );
 	
 	// address hash, normalized
-	//sb.safePrintf("\t\t<eventAddressHash64>%"UINT64""
+	//sb.safePrintf("\t\t<eventAddressHash64>%" UINT64 ""
 	//	      "</eventAddressHash64>\n",
 	//	      mr->m_eventAddressHash64);
 	// show geocoder lat/lon first since it is the best
@@ -9124,7 +9124,7 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 	// show the hostname hash (hostId)
 	//if ( showSensitiveStuff ) {
 	//	int32_t hh = uu.getHostHash32();
-	//	sb.safePrintf("\t\t<hostId>%"UINT32"</hostId>\n",hh);
+	//	sb.safePrintf("\t\t<hostId>%"U INT32 "</hostId>\n",hh);
 	//}
 	
 	// . show the site root
@@ -9160,25 +9160,25 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 	}
 	sb.safePrintf("</site>\n");
 	int32_t sh = hash32 ( site , siteLen );
-	sb.safePrintf ("\t\t<siteHash32>%"UINT32"</siteHash32>\n",sh);
+	sb.safePrintf ("\t\t<siteHash32>%"U INT32 "</siteHash32>\n",sh);
 	int32_t dh = uu.getDomainHash32 ();
-	sb.safePrintf ("\t\t<domainHash32>%"UINT32"</domainHash32>\n",dh);
+	sb.safePrintf ("\t\t<domainHash32>%"U INT32 "</domainHash32>\n",dh);
 	
 	// spider date
 	//if ( ! g_conf.m_isBuzzLogic ) 
-	sb.safePrintf ( "\t\t<spiderDate>%"UINT32"</spiderDate>\n",
+	sb.safePrintf ( "\t\t<spiderDate>%"U INT32 "</spiderDate>\n",
 			mr->m_lastSpidered);
 	// backwards compatibility for buzz
-	sb.safePrintf ( "\t\t<indexDate>%"UINT32"</indexDate>\n",
+	sb.safePrintf ( "\t\t<indexDate>%"U INT32 "</indexDate>\n",
 			mr->m_firstIndexedDate);
 	// . next scheduled spider date
 	// . this is now a variable based on the url filters
 	//if ( showSensitiveStuff ) // && ! g_conf.m_isBuzzLogic )
-	//	sb.safePrintf ( "\t\t<nextSpider>%"UINT32"</nextSpider>\n",
+	//	sb.safePrintf ( "\t\t<nextSpider>%"U INT32 "</nextSpider>\n",
 	//			mr->m_nextSpiderTime);
 	// last mod date, buzz likes this
 	//if ( g_conf.m_isBuzzLogic ) 
-	//	sb.safePrintf ( "\t\t<lastMod>%"UINT32"</lastMod>\n",
+	//	sb.safePrintf ( "\t\t<lastMod>%"U INT32 "</lastMod>\n",
 	//			msg40->getLastModified(i));
 	
 	// pub date
@@ -9193,7 +9193,7 @@ bool printXmlResult ( SafeBuf &sb , State7 *st, ExpandedResult *er ,
 	//if ( datedbDate-24*3600 > firstSpidered ) isModDate = true;
 	// show the datedb date as "<pubDate>" for now
 	if ( datedbDate != -1 )
-		sb.safePrintf ( "\t\t<pubdate>%"UINT32"</pubdate>\n",
+		sb.safePrintf ( "\t\t<pubdate>%"U INT32 "</pubdate>\n",
 				datedbDate);
 	
 	// doc type iff not html
@@ -9312,7 +9312,7 @@ bool printBox ( SafeBuf &sb ,
 			      "<div style=\""
 			      // these are up top where the gradient is darker
 			      // so make the shadows darker
-			      "background-color:#%06"XINT32";"
+			      "background-color:#%06"X INT32 ";"
 			      "width:100%%;"
 			      "border-radius:10px;"
 			      //"border:2px solid gray;"
@@ -9350,7 +9350,7 @@ bool printBox ( SafeBuf &sb ,
 			      // cartoon border
 			      //"border:2px solid black;"
 			      "border:1px solid black;"
-			      "box-shadow: 6px 6px 3px %s;" // #%06"XINT32";"
+			      "box-shadow: 6px 6px 3px %s;" // #%06"X INT32 ";"
 			      "position:relative;"
 
 			      "background-image:url('"
@@ -9382,7 +9382,7 @@ bool printBox ( SafeBuf &sb ,
 			// igoogle does not have widgetwidth, its dynamic
 			//int32_t ww = si->m_widgetWidth - -2-2-2-2-3-10-20;
 			//if ( ww < 0 ) ww = 0;
-			//sb.safePrintf("width:%"INT32"px;", ww);
+			//sb.safePrintf("width:%" INT32 "px;", ww);
 			sb.safePrintf("width:100%%;");
 			sb.safePrintf("padding-left:2px;");
 			sb.safePrintf("padding-right:2px;");
@@ -9423,7 +9423,7 @@ bool printBox ( SafeBuf &sb ,
 
 	sb.safePrintf ( "<tr>"
 			"<td width=99%%>"
-			"<span style=font-size:%"INT32"px>"
+			"<span style=font-size:%" INT32 "px>"
 			//, color
 			, fs
 			);
@@ -9466,9 +9466,9 @@ bool printBox ( SafeBuf &sb ,
 			      ">"
 			      "<a "
 			      "onmouseover=\"document.getElementBy"
-			      "Id('id_redbox%"INT32"').src='/xon.png';\" "
+			      "Id('id_redbox%" INT32 "').src='/xon.png';\" "
 			      "onmouseout=\"document.getElementBy"
-			      "Id('id_redbox%"INT32"').src='/xoff.png';\" "
+			      "Id('id_redbox%" INT32 "').src='/xoff.png';\" "
 			      "onclick=\"" 
 			      //, bgcolor
 			      , s_rbid
@@ -9485,7 +9485,7 @@ bool printBox ( SafeBuf &sb ,
 				"src=/xoff.png "
 				"width=11 "
 				"height=11 "
-				"id=id_redbox%"INT32">"
+				"id=id_redbox%" INT32 ">"
 				"</a>"
 				//"&nbsp;"
 				"</td>"
@@ -9693,7 +9693,7 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 		msg.reset();
 		msg.safePrintf("<table cellspacing=0 border=0><tr><td>"
 			       "<img src=%s "
-			       "width=%"INT32" height=%"INT32" "
+			       "width=%" INT32 " height=%" INT32 " "
 			       "style=padding-right:10px;>"
 			       , SITTING
 			       , SITTINGDX64
@@ -9731,9 +9731,9 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 				msg.safePrintf("style=padding-top:3px;"
 					       "padding-left:3px; "
 					       );
-			msg.safePrintf("width=%"INT32" height=%"INT32" align=left "
+			msg.safePrintf("width=%" INT32 " height=%" INT32 " align=left "
 				       "src=http://graph.facebook.com/"
-				       "%"INT64"/picture>"
+				       "%" INT64 "/picture>"
 				       "&nbsp;"
 				       , dim
 				       , dim
@@ -9901,7 +9901,7 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 
 		       "style=\""
 		       "vertical-align:text-bottom;"
-		       "width:%"INT32"px;"
+		       "width:%" INT32 "px;"
 		       //"width:100%%;"
 		       "height:18px;"
 		       "padding:0px;"
@@ -9912,7 +9912,7 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 		       "border:1px inset lightgray;"
 		       //"background-color:#eeffee;"
 		       "background-color:white;"
-		       "font-size:%"INT32"px;"
+		       "font-size:%" INT32 "px;"
 		       "\" "
 
 		       "value=\""
@@ -10087,7 +10087,7 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 		       // set it in tune with si->m_radius
 		       "display:none;"//inline-block;"
 		       "position:absolute;"//relative;"
-		       //"left:20px;"//%"INT32"px;"
+		       //"left:20px;"//%" INT32 "px;"
 		       "width:5px;"
 		       "height:18px;"
 		       "valign:center;"
@@ -10253,7 +10253,7 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 			 "vertical-align:text-bottom;"
 			 //"width:250px;"
 			 //"width:100%%;"
-			 "width:%"INT32"px;"
+			 "width:%" INT32 "px;"
 			 "height:18px;"
 			 "padding:0px;"
 			 "font-weight:bold;"
@@ -10264,7 +10264,7 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 			 //"display:none;" // start off invisible
 			 "border:1px inset lightgray;"
 			 "background-color:#ffffff;"
-			 "font-size:%"INT32"px;"
+			 "font-size:%" INT32 "px;"
 			 "\" "
 
 
@@ -10320,17 +10320,17 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 		msg.safePrintf ("<td style=padding-right:8px; "
 				//"class=grad%s "
 				"align=right>"
-				"<nobr style=font-size:%"INT32"px>"
+				"<nobr style=font-size:%" INT32 "px>"
 				"<font color=%s>Sort by: </font>"
 				//, scolor 
 				, fs 
 				, GRAYSUBTEXT
 				);
 		msg.safePrintf("<input type=hidden id=sortbydistance "
-			       "name=sortbydistance value=%"INT32">",
+			       "name=sortbydistance value=%" INT32 ">",
 			       (int32_t)si->m_sortEventsByDist);
 		msg.safePrintf("<input type=hidden id=sortbydate "
-			       "name=sortbydate value=%"INT32">",
+			       "name=sortbydate value=%" INT32 ">",
 			       (int32_t)si->m_sortEventsByDate);
 		char *da = "Distance";
 		if  ( si->m_igoogle ) da = "Dist";
@@ -10552,7 +10552,7 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 		msg.safePrintf ( // this determines whether the interests table
 				 // is hidden or not
 				 "<input type=hidden name=suggestions "
-				 "id=suggestions value=%"INT32">"
+				 "id=suggestions value=%" INT32 ">"
 				 // this link displays the interests or hides them
 				 "<a " // style=font-size:14px; "
 				 "onclick=\""
@@ -10609,7 +10609,7 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 	if ( si->m_firstResultNum ) {
 		msg.reset();
 		msg.safePrintf ( "<font color=%s>Showing results: </font>"
-				 "<b>%"INT32" to %"INT32"</b></td>"
+				 "<b>%" INT32 " to %" INT32 "</b></td>"
 				 , GRAYSUBTEXT
 				, si->m_firstResultNum+1
 				, si->m_firstResultNum+1+25
@@ -10635,7 +10635,7 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 		int32_t clockMonth = timeStruct->tm_mon;
 		msg.reset();
 		msg.safePrintf("<font color=%s>Starting after: </font>"
-			       "<b>%s %"INT32" 12am</b>"
+			       "<b>%s %" INT32 " 12am</b>"
 			       ,GRAYSUBTEXT
 			       ,s_months[clockMonth]
 			       ,clockDay);
@@ -10666,7 +10666,7 @@ bool printRedBoxes ( SafeBuf &sb , State7 *st ) {
 		msg.reset();
 		msg.safePrintf(
 			       "<img width=22 height=22 align=left "
-			       "src=http://graph.facebook.com/%"INT64"/picture>"
+			       "src=http://graph.facebook.com/%" INT64 "/picture>"
 			       "&nbsp;"
 			       "<b>My Events</b> - &nbsp; <font size=-1>"
 			       "Events you like, are going to or are "
@@ -11119,8 +11119,8 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 
 	// debug
 	//if ( si->m_debug )
-	//	logf(LOG_DEBUG,"query: Printing up to %"INT32" results. "
-	//	     "Docs wanted=%"INT32". bufStart=0x%"XINT32"", 
+	//	logf(LOG_DEBUG,"query: Printing up to %" INT32 " results. "
+	//	     "Docs wanted=%" INT32 ". bufStart=0x%"X INT32 "", 
 	//	     numResults,count,(int32_t)sb.getBuf());
 
 
@@ -11177,7 +11177,7 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 			       //"border:2px solid black;"
 			       "\" "
 			       "src=http://graph.facebook.com/"
-			       "%"INT64"/picture>"
+			       "%" INT64 "/picture>"
 			      "</td><td align=right>"
 			       , fbId );
 		sb.safePrintf("<b><nobr>Your Interests</nobr>"
@@ -11202,8 +11202,8 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 		}
 		sb.safePrintf("</font>"
 			      " - <a href=%s?showpersonal=1&suggestions=1&"
-			      "ei=%"UINT64"&"
-			      "usefbid=%"INT64"&fh=%"UINT32"#edit>"
+			      "ei=%" UINT64 "&"
+			      "usefbid=%" INT64 "&fh=%"U INT32 "#edit>"
 			      "<font size=-1>edit</font></a>"
 			      "</td></tr>"
 			      , APPHOSTUNENCODED 
@@ -11222,9 +11222,9 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 		// see the location
 		sb.safePrintf("</font> - <a href=%s?showpersonal=1&"
 			      "suggestions=0&"
-			      "ei=%"UINT64"&"
-			      "usefbid=%"INT64"&"
-			      "fh=%"UINT32"&"
+			      "ei=%" UINT64 "&"
+			      "usefbid=%" INT64 "&"
+			      "fh=%"U INT32 "&"
 			      // highlight "Location:" in YELLOW!! (&hi=)
 			      "hi=location>"
 			      , APPHOSTUNENCODED 
@@ -11247,8 +11247,8 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 				      "</font>"
 				      " - "
 				      "<a href=%s?showpersonal=1&"
-				      "ei=%"UINT64"&"
-				      "suggestions=0&usefbid=%"INT64"&fh=%"UINT32">"
+				      "ei=%" UINT64 "&"
+				      "suggestions=0&usefbid=%" INT64 "&fh=%"U INT32 ">"
 				      "<font size=-1>"
 				      "edit"
 				      "</font>"
@@ -11288,9 +11288,9 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 				      "href=\"%s?"
 				      "emailfreq=1&"
 				      "showpersonal=1&"
-				      "ei=%"UINT64"&"
-				      "usefbid=%"UINT64"&"
-				      "fh=%"UINT32""
+				      "ei=%" UINT64 "&"
+				      "usefbid=%" UINT64 "&"
+				      "fh=%"U INT32 ""
 				      "\">"
 				      "daily"
 				      "</a></i>"
@@ -11309,9 +11309,9 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 				      "href=\"%s?"
 				      "emailfreq=2&"
 				      "showpersonal=1&"
-				      "ei=%"UINT64"&"
-				      "usefbid=%"UINT64"&"
-				      "&fh=%"UINT32""
+				      "ei=%" UINT64 "&"
+				      "usefbid=%" UINT64 "&"
+				      "&fh=%"U INT32 ""
 				      "\">"
 				      "weekly"
 				      "</a></i>"
@@ -11329,9 +11329,9 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 				      "href=\"%s?"
 				      "emailfreq=3&"
 				      "showpersonal=1&"
-				      "ei=%"UINT64"&"
-				      "usefbid=%"UINT64"&"
-				      "fh=%"UINT32""
+				      "ei=%" UINT64 "&"
+				      "usefbid=%" UINT64 "&"
+				      "fh=%"U INT32 ""
 				      "\">"
 				      "monthly"
 				      "</a></i>"
@@ -11350,9 +11350,9 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 				      "href=\"%s?"
 				      "emailfreq=4&"
 				      "showpersonal=1&"
-				      "ei=%"UINT64"&"
-				      "usefbid=%"UINT64"&"
-				      "fh=%"UINT32""
+				      "ei=%" UINT64 "&"
+				      "usefbid=%" UINT64 "&"
+				      "fh=%"U INT32 ""
 				      "\">"
 				      "quarterly"
 				      "</a></i>" 
@@ -11369,9 +11369,9 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 			      "href=\"%s?unsubscribe=1&"
 			      "emailfreq=5&"
 			      "showpersonal=1&"
-			      "ei=%"UINT64"&"
-			      "usefbid=%"UINT64"&"
-			      "fh=%"UINT32""
+			      "ei=%" UINT64 "&"
+			      "usefbid=%" UINT64 "&"
+			      "fh=%"U INT32 ""
 			      "\">"
 			      "unsubscribe"
 			      "</a></i>" 
@@ -11473,7 +11473,7 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 	int32_t iconId = 0;
 	bool hitTimeEnd = false;
 
-	//log("Showing %"INT32" number of results", resultSize);
+	//log("Showing %" INT32 " number of results", resultSize);
 	for ( ; eix < numExpResults && count > 0; eix++ ) {
 		// result #
 		resultNum++;
@@ -11488,7 +11488,7 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 
 		// print out each one so we can see why Next 50 doesn't
 		// connect with prev 50!!!
-		//log("query: eix=%"INT32" origi=%"INT32" inta=%"INT32"",
+		//log("query: eix=%" INT32 " origi=%" INT32 " inta=%" INT32 "",
 		//    eix,er->m_mapi,er->m_timeStart);
 		// get the original search result #
 		int32_t ix = eix;
@@ -11539,7 +11539,7 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 			// get day of week
 			//int32_t dow = getDOW ( er->m_timeStart ) - 1;
 			// print the month
-			sb.safePrintf("%s, %s %"INT32"", 
+			sb.safePrintf("%s, %s %" INT32 "", 
 				      s_dows[(unsigned char)er->m_dow1],
 				      s_months[(unsigned char)er->m_month1],
 				      (int32_t)er->m_dayNum1 );
@@ -11556,7 +11556,7 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 			sb.safePrintf("%s",end);
 			// print year only if different than current
 			if ( er->m_year1 != thisYear )
-				sb.safePrintf(" %"INT32"", er->m_year1 );
+				sb.safePrintf(" %" INT32 "", er->m_year1 );
 			//sb.safePrintf(" -");
 			if ( si->m_widget ) sb.safePrintf("</span>");
 			if ( ! si->m_widget ) {
@@ -11583,10 +11583,10 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 		if ( si->m_raw == 0 ) 
 			sb.safePrintf("<tr><td width=%s>",widthStr);
 
-		// embody the result. give it the id 'res%"INT32"' so clicking on 
+		// embody the result. give it the id 'res%" INT32 "' so clicking on 
 		// the broom/trashbin will result in it being hidden
 		if ( si->m_raw == 0 ) 
-			sb.safePrintf("<span class=result id=res%"INT32">", iconId);
+			sb.safePrintf("<span class=result id=res%" INT32 ">", iconId);
 
 		//if ( si->m_raw == 0 && ! si->m_widget ) 
 		//	sb.safePrintf ("<br>\n" ); 
@@ -11738,7 +11738,7 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 		// if we are doing a post, use a button
 		if ( method[0]=='p' || method[0]=='P' ) {
 			char tmp[32];
-			sprintf ( tmp , "Prev %"INT32"", docsWanted );
+			sprintf ( tmp , "Prev %" INT32 "", docsWanted );
 			char *p;
 			p = printPost ( sb.getBuf(),sb.getBufEnd(), st, 
 					"PP", ss, docsWanted, si->m_qe, tmp);
@@ -11750,12 +11750,12 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 			sb.safePrintf("<span class=prevnext>");
 		//g_httpServer.getKey (&key,kname,q,qlen2,getTime(),ss,10);
 		// add the query
-	        //sb.safePrintf("<a href=\"/search?%s=%"INT32"&s=%"INT32"&",kname,key,ss)
+	        //sb.safePrintf("<a href=\"/search?%s=%" INT32 "&s=%" INT32 "&",kname,key,ss)
 		if ( si->m_emailFormat )
 			sb.safePrintf("<a href=\"%s?"
 				      "showpersonal=1&"
-				      "usefbid=%"UINT64"&"
-				      "fh=%"UINT32""
+				      "usefbid=%" UINT64 "&"
+				      "fh=%"U INT32 ""
 				      "\">"
 				      , APPHOSTUNENCODED 
 				      //, ss
@@ -11764,15 +11764,15 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 				      , hash32((char *)&fbId,8,0)
 				      );
 		else if ( passWidgetParms )
-			sb.safePrintf("<a href=\"/?s=%"INT32"&widget=1&%s\">"
+			sb.safePrintf("<a href=\"/?s=%" INT32 "&widget=1&%s\">"
 				      , ss
 				      , si->m_widgetParms.getBufStart() );
 		else
 			sb.safePrintf("<a onclick=\""
 				      //"document.getElementById('s')."
-				      //"value=%"INT32";\n"
+				      //"value=%" INT32 ";\n"
 				      //"window.scrollTo(0,0);\n"
-				      "reloadResults(0,'&s=%"INT32"');\">",
+				      "reloadResults(0,'&s=%" INT32 "');\">",
 				      ss);
 		// our current query parameters
 		//sb.utf8Encode ( si->m_urlParms , si->m_urlParmsLen );
@@ -11785,7 +11785,7 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 		//}
 		// close it up
 		sb.safePrintf (""
-			       "<nobr>Prev %"INT32" Results</nobr>"
+			       "<nobr>Prev %" INT32 " Results</nobr>"
 			       "</a>"
 			       , docsWanted );
 		if ( si->m_raw == 0 )
@@ -11807,7 +11807,7 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 		/*
 		if ( method[0]=='p' || method[0]=='P' ) {
 			char tmp[32];
-			sprintf ( tmp , "Next %"INT32"", docsWanted );
+			sprintf ( tmp , "Next %" INT32 "", docsWanted );
 			char *p = sb.getBuf();
 			char *pend = sb.getBufEnd();
 			char* ptmp = printPost ( p,pend,st ,"NN",ss,
@@ -11821,8 +11821,8 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 
 		//g_httpServer.getKey (&key,kname,q,qlen,getTime(),ss,10);
 		// add the query
-	        //sb.safePrintf("<a href=\"/search?%s=%"INT32"&s=%"INT32"&",kname,key,ss)
-		//sb.safePrintf ("<a href=\"/?s=%"INT32"&",ss);
+	        //sb.safePrintf("<a href=\"/search?%s=%" INT32 "&s=%" INT32 "&",kname,key,ss)
+		//sb.safePrintf ("<a href=\"/?s=%" INT32 "&",ss);
 
 		if ( si->m_raw == 0 )
 			sb.safePrintf("<span class=prevnext>");
@@ -11830,9 +11830,9 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 		if ( si->m_emailFormat )
 			sb.safePrintf("<a href=\"%s?"
 				      "showpersonal=1&"
-				      "ei=%"UINT64"&"
-				      "usefbid=%"UINT64"&"
-				      "fh=%"UINT32""
+				      "ei=%" UINT64 "&"
+				      "usefbid=%" UINT64 "&"
+				      "fh=%"U INT32 ""
 				      "\">"
 				      , APPHOSTUNENCODED 
 				      //, ss
@@ -11842,15 +11842,15 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 				      , hash32 ( (char *)&fbId , 8, 0 )
 				      );
 		else if ( passWidgetParms )
-			sb.safePrintf("<a href=\"/?s=%"INT32"&widget=1&%s\">"
+			sb.safePrintf("<a href=\"/?s=%" INT32 "&widget=1&%s\">"
 				      , ss
 				      , si->m_widgetParms.getBufStart() );
 		else
 			sb.safePrintf("<a onclick=\""
 				      //"document.getElementById('s')."
-				      //"value=%"INT32";\n"
+				      //"value=%" INT32 ";\n"
 				      //"window.scrollTo(0,0);\n"
-				      "reloadResults(0,'&s=%"INT32"');\">",
+				      "reloadResults(0,'&s=%" INT32 "');\">",
 				      ss);
 		// our current query parameters
 		//sb.utf8Encode ( si->m_urlParms, si->m_urlParmsLen );
@@ -11883,7 +11883,7 @@ bool printAllResults ( SafeBuf &sb , State7 *st , Query &qq ) {
 				      "</a>" , t1 , t2 );
 		else
 			sb.safePrintf(""
-				      "%sNext %"INT32" Results%s"
+				      "%sNext %" INT32 " Results%s"
 				      "</a>", 
 				      t1, docsWanted , t2 );
 		if ( si->m_raw == 0 )
@@ -11937,7 +11937,7 @@ bool printXmlHeader ( SafeBuf &sb , State7 *st ) {
 	//   an error. one summary might have failed to generate
 	//   because the document was not found or not enough memory.
 	if ( msg40->m_errno ) {
-		sb.safePrintf ( "\t<errno>%"INT32"</errno>\n",
+		sb.safePrintf ( "\t<errno>%" INT32 "</errno>\n",
 				msg40->m_errno);
 	}
 	if ( g_errno ) {
@@ -11947,7 +11947,7 @@ bool printXmlHeader ( SafeBuf &sb , State7 *st ) {
 
 
 	int32_t nowUTC = getTimeGlobal();
-	sb.safePrintf("<currentTimeUTC>%"UINT32"</currentTimeUTC>\n",
+	sb.safePrintf("<currentTimeUTC>%"U INT32 "</currentTimeUTC>\n",
 		      nowUTC);
 	// print time now in utc
 	if ( si->m_cityLat != 999.0 )
@@ -12007,7 +12007,7 @@ bool printXmlHeader ( SafeBuf &sb , State7 *st ) {
         //if ( (ip&0x0000ffff) == (g_hostdb.m_myIp&0x0000ffff)) isLocal = true;
 
 	// show response time
-	sb.safePrintf("\t<responseTime>%"INT64"</responseTime>\n",st->m_took);
+	sb.safePrintf("\t<responseTime>%" INT64 "</responseTime>\n",st->m_took);
 
 	// save how many docs are in it
 	int64_t docsInColl = -1;
@@ -12017,8 +12017,8 @@ bool printXmlHeader ( SafeBuf &sb , State7 *st ) {
 
 	int64_t totalHits  = msg40->getNumTotalHits();
 	sb.safePrintf(
-		      "\t<hits>%"INT64"</hits>\n"
-		      "\t<moreResultsFollow>%"INT32"</moreResultsFollow>\n", 
+		      "\t<hits>%" INT64 "</hits>\n"
+		      "\t<moreResultsFollow>%" INT32 "</moreResultsFollow>\n", 
 		      (int64_t)totalHits ,
 		      (int32_t)msg40->moreResultsFollow() );
 	// was the query dirty?
@@ -12027,7 +12027,7 @@ bool printXmlHeader ( SafeBuf &sb , State7 *st ) {
 			      "</queryCensored>\n");
 	// how many results were censored, if any?
 	if ( st->m_msg40.getNumCensored() )
-		sb.safePrintf("\t<resultsCensored>%"INT32""
+		sb.safePrintf("\t<resultsCensored>%" INT32 ""
 			      "</resultsCensored>\n",
 			      (int32_t)st->m_msg40.getNumCensored() );
 	// . did he get a spelling recommendation?
@@ -12065,7 +12065,7 @@ bool sendPageBack ( TcpSocket *s ,
 
 	// debug
 	if ( si && si->m_debug )
-		logf(LOG_DEBUG,"query: Sending back page of %"INT32" bytes.",
+		logf(LOG_DEBUG,"query: Sending back page of %" INT32 " bytes.",
 		     sb->length());
 
 	// the cookie is the where box
@@ -12104,18 +12104,18 @@ bool sendPageBack ( TcpSocket *s ,
 		userId = hash32h ( now , userId );
 		// keep positive
 		userId >>= 1;
-		cb.safePrintf("Set-Cookie: userid=%"UINT64";expires=2000000000;\r\n"
+		cb.safePrintf("Set-Cookie: userid=%" UINT64 ";expires=2000000000;\r\n"
 			     ,userId);
 	}
 	*/
 
 	//if ( hr->getLong("logout",0) ) 
-	//	cb.safePrintf("Set-Cookie: fbid=%"UINT64";expires=2000000000;\r\n",
+	//	cb.safePrintf("Set-Cookie: fbid=%" UINT64 ";expires=2000000000;\r\n",
 	//		      0LL);
 	if ( msgfb->m_fbId ) {
 		// msie doesn't like expires? or at least not that big a #
 		// and it should have been max-age anyway
-		cb.safePrintf("Set-Cookie: fbid=%"UINT64";\r\n",msgfb->m_fbId);
+		cb.safePrintf("Set-Cookie: fbid=%" UINT64 ";\r\n",msgfb->m_fbId);
 	}
 
 	// . include widgetid now for payments.
@@ -12130,7 +12130,7 @@ bool sendPageBack ( TcpSocket *s ,
 		// if all else fails, assume no referral. so set it to 1
 		// so it can not be overwritten
 		if ( ! widgetId ) widgetId = 1;
-		cb.safePrintf ( "Set-Cookie: widgetid=%"UINT64";\r\n",widgetId );
+		cb.safePrintf ( "Set-Cookie: widgetid=%" UINT64 ";\r\n",widgetId );
 	}
 
 	//if ( interestCookies && interestCookies->length() )
@@ -12150,7 +12150,7 @@ bool sendPageBack ( TcpSocket *s ,
 	// is set. fo categories we might want to delete the cookie if it
 	// is disabled to save cookie space.
 
-	logf(LOG_DEBUG,"gb: sending back %"INT32" bytes",sb->length());
+	logf(LOG_DEBUG,"gb: sending back %" INT32 " bytes",sb->length());
 
 	char *charset;
 	if (sb->getEncoding() == csISOLatin1) charset = "ISO-8859-1";
@@ -12417,7 +12417,7 @@ bool gotResults ( void *state ) {
 	// debug msg
  	int32_t numResults = msg40->getNumResults();
 	log ( LOG_TIMING ,
-	     "query: Got %"INT32" search results in %"INT64" ms for q=%s",
+	     "query: Got %" INT32 " search results in %" INT64 " ms for q=%s",
 	      numResults,gettimeofdayInMilliseconds()-st->m_startTime,
 	      qq.getQuery());
 
@@ -12515,9 +12515,9 @@ bool gotResults ( void *state ) {
 			      //"background-repeat:repeat;"
 			      "\">"
 			      "<table><tr><td>"
-			      "<a href=\"%s?ei=%"UINT64"\">"
+			      "<a href=\"%s?ei=%" UINT64 "\">"
 			      "<img src=\"%s/eventguru.png\" "
-			      "border=0 width=%"INT32"px height=%"INT32"px>"
+			      "border=0 width=%" INT32 "px height=%" INT32 "px>"
 			      "</td><td>"
 			      "<h2 style=\"line-height:30px;"
 			      //"color:white;"
@@ -12529,7 +12529,7 @@ bool gotResults ( void *state ) {
 			      "text-shadow: 2px 4px 10px white;"
 			      "\">Personalized<br>"
 			      "Recommendations<br>from "
-			      "<a href=\"http://www.eventguru.com/?ei=%"UINT64"\">"
+			      "<a href=\"http://www.eventguru.com/?ei=%" UINT64 "\">"
 			      "EventGuru.com</a></h2></td></tr></table>" 
 			      , APPHOSTUNENCODED
 			      , fbId
@@ -12582,10 +12582,10 @@ bool gotResults ( void *state ) {
 			      "top:0px;"
 			      "right:0px;"
 			      "left:0px;"
-			      "height:%"INT32"px;"
+			      "height:%" INT32 "px;"
 			      // this bottom does not work!
 			      //"bottom:0px;"
-			      //"width:%"INT32"px;"
+			      //"width:%" INT32 "px;"
 			      "\">"
 			      ,widgetHeight
 			      //,widgetWidth
@@ -12736,7 +12736,7 @@ bool gotResults ( void *state ) {
 		// . use this form variable to store meta cookie
 		// . meta cookie concatenates all the form variables
 		//sb.safePrintf("<input type=hidden id=addedse "
-		//	      "name=addedse value=%"INT32">",
+		//	      "name=addedse value=%" INT32 ">",
 		//	      (int32_t)si->m_addedse);
 		// print the invisible div that will slide up
 		printAddSearchProvider ( sb );
@@ -13016,10 +13016,10 @@ bool gotResults ( void *state ) {
 		sb.safePrintf("<input type=hidden id=forform "
 			      "value=1>");
 		sb.safePrintf("<input type=hidden id=formdocid "
-			      "value=%"INT64">",
+			      "value=%" INT64 ">",
 			      si->m_formDocId);
 		sb.safePrintf("<input type=hidden id=formeventid "
-			      "value=%"INT32">",
+			      "value=%" INT32 ">",
 			      si->m_formEventId );
 		if ( si->m_formUrl )
 			sb.safePrintf("<input type=hidden id=formurl "
@@ -13030,7 +13030,7 @@ bool gotResults ( void *state ) {
 	if ( printMenuJunk || si->m_widget ) {
 		
 		sb.safePrintf("<input type=hidden id=emailfreq "
-			      "name=emailfreq value=%"INT32">",si->m_emailFreq);
+			      "name=emailfreq value=%" INT32 ">",si->m_emailFreq);
 
 		sb.safePrintf("<input type=hidden name=radius id=radius "
 			      "value=\"%.0f\">", si->m_radius);
@@ -13045,15 +13045,15 @@ bool gotResults ( void *state ) {
 		sb.safePrintf("<input type=hidden name=c value=%s>",
 			      si->m_coll2 );
 		sb.safePrintf("<input type=hidden name=showpersonal "
-			      "id=showpersonal value=%"INT32">",
+			      "id=showpersonal value=%" INT32 ">",
 			      (int32_t)si->m_showPersonal );
 		sb.safePrintf("<input type=hidden name=showwidget "
-			      "id=showwidget value=%"INT32">",
+			      "id=showwidget value=%" INT32 ">",
 			      (int32_t)si->m_showWidget );
 		// since we moved it to redbox only we don't have this now 
 		// because we do not call pritnSubMenu() on SUBMENU_CATEGORIES
 		sb.safePrintf("<input type=hidden name=categories "
-			      "id=categories value=%"INT32">",
+			      "id=categories value=%" INT32 ">",
 			      (int32_t)si->m_categories);
 		// put all the input boxes for the recommendation interests
 		// here, but only if not logged into facebook! otherwise
@@ -13068,20 +13068,20 @@ bool gotResults ( void *state ) {
 		//	      "id=mylocation value=\"%s\">",
 		//	      si->m_myLocation);
 		// search result # to start at
-		//sb.safePrintf("<input type=hidden name=s id=s value=%"INT32">",
+		//sb.safePrintf("<input type=hidden name=s id=s value=%" INT32 ">",
 		//	      si->m_firstResultNum );
 		// we need to remember these since they have no checkboxes
 		// otherwise we lose the values moving to another page.
 		// only transfer them via cookies for now. add "name=" if
 		// they should be in url?
 		sb.safePrintf("<input type=hidden id=showmystuff "
-			      "name=showmystuff value=%"INT32">",
+			      "name=showmystuff value=%" INT32 ">",
 			      (int32_t)si->m_showMyStuff);
 		sb.safePrintf("<input type=hidden id=showfriends "
-			      "name=showfriends value=%"INT32">",
+			      "name=showfriends value=%" INT32 ">",
 			      (int32_t)si->m_showFriends);
 		//sb.safePrintf("<input type=hidden "
-		//	      "name=ig value=%"INT32">",
+		//	      "name=ig value=%" INT32 ">",
 		//	      (int32_t)si->m_igoogle);
 	}
 
@@ -13120,7 +13120,7 @@ bool gotResults ( void *state ) {
 		char *dir = g_hostdb.m_dir;
 		// save this file
 		char filename[512];
-		sprintf(filename,"%s/html/email/email.%"UINT64".html", dir,fbId);
+		sprintf(filename,"%s/html/email/email.%" UINT64 ".html", dir,fbId);
 		// save the buf to email
 		if ( sb.dumpToFile ( filename ) ) {
 			// a link to send it. not included in the sent email
@@ -13141,7 +13141,7 @@ bool gotResults ( void *state ) {
 		//
 		SafeBuf *ll = &st->m_likedbListBuf;//st->m_emailLikedbListBuf;
 		if ( ll ) {
-			sprintf(filename,"%s/html/email/likedblist.%"UINT64"",
+			sprintf(filename,"%s/html/email/likedblist.%" UINT64 "",
 				dir,fbId);
 			ll->dumpToFile ( filename );
 		}
@@ -13188,14 +13188,14 @@ bool gotResults ( void *state ) {
 			      "position:absolute;"
 			      "background-color:transparent;"
 			      "top:245px;"
-			      "width:%"INT32"px;"
+			      "width:%" INT32 "px;"
 			      "left:15px;"
-			      "height:%"INT32"px;"
+			      "height:%" INT32 "px;"
 			      "z-index:8;"
 			      "\""
 			      ">"
 			      "<a href=/>"
-			      "<img width=%"INT32"px height=%"INT32"px "
+			      "<img width=%" INT32 "px height=%" INT32 "px "
 			      "src=%s>"
 			      "</a>"
 			      "</div>"
@@ -13315,10 +13315,10 @@ bool gotResults ( void *state ) {
 		//SafeBuf qe(qebuf,512);
 		//qe.urlEncode(si->m_query);
 		msg.safePrintf("Just wanted to let you know I was going to "
-			       "\"%s\" on %s %"INT32" at %"INT32":%02"INT32" %s."
+			       "\"%s\" on %s %" INT32 " at %" INT32 ":%02" INT32 " %s."
 			       "\n\nPlease join me!\n\n"
 			       "More info at \n\n"
-			       "%s?id=%"UINT64".%"UINT64""
+			       "%s?id=%" UINT64 ".%" UINT64 ""
 			       , tb.getBufStart()
 			       , getMonthName(er->m_month1)
 			       //,(int32_t)er->m_month1+1
@@ -13359,7 +13359,7 @@ bool gotResults ( void *state ) {
 		//
 		msg.reset();
 		msg.safePrintf("I am going to "
-			       "\"%s\" on %s %"INT32" at %"INT32":%02"INT32" %s."
+			       "\"%s\" on %s %" INT32 " at %" INT32 ":%02" INT32 " %s."
 			       , tb.getBufStart()
 			       , getMonthName(er->m_month1)
 			       ,(int32_t)er->m_dayNum1
@@ -13372,7 +13372,7 @@ bool gotResults ( void *state ) {
 		// a special format that we need to understand
 		SafeBuf link;
 		//"%s?q=%s&where=anywhere&icc=1"
-		link.safePrintf ("%s?id=%"UINT64".%"UINT64""
+		link.safePrintf ("%s?id=%" UINT64 ".%" UINT64 ""
 				 , APPHOSTUNENCODED
 				 , mr->m_docId
 				 , mr->m_eventHash64
@@ -13403,8 +13403,8 @@ bool gotResults ( void *state ) {
 		//
 		msg.reset();
 		msg.safePrintf("I am going to "
-			       "\"%s\" on %s %"INT32" at %"INT32":%02"INT32" %s. "
-			       "Join me! ... Info link: %s?id=%"UINT64".%"UINT64""
+			       "\"%s\" on %s %" INT32 " at %" INT32 ":%02" INT32 " %s. "
+			       "Join me! ... Info link: %s?id=%" UINT64 ".%" UINT64 ""
 			       , tb.getBufStart()
 			       , getMonthName(er->m_month1)
 			       ,(int32_t)er->m_dayNum1
@@ -13671,7 +13671,7 @@ char *printPost ( char *p , char *pend, State7 *st , char *name , int32_t s ,
 	if ( p + gbstrlen(name) + gbstrlen(qe) + 200 >= pend ) return p;
 	p += sprintf ( p , 
 		       "<form method=post action=/search name=%s>\n"
-		       "<input type=hidden name=s value=%"INT32">\n"
+		       "<input type=hidden name=s value=%" INT32 ">\n"
 		       "<input type=hidden name=q value=\"%s\">\n"
 		       ,name,s, qe);
 
@@ -14059,7 +14059,7 @@ bool printEventCountdown2 ( SafeBuf &sb ,
 	//	sb.safePrintf("Event is over.");
 	// otherwise, close, might be able to make it late
 	//else if ( nextStart < nowUTC )
-	//	sb.safePrintf("Event started %"INT32" minutes ago",
+	//	sb.safePrintf("Event started %" INT32 " minutes ago",
 	//		      (nextStart-nowUTC)/60);
 	if ( nextStart == -1 && prevEnd <= nowUTC )
 		sb.safePrintf("Event is over.");
@@ -14181,18 +14181,18 @@ bool printEventCountdown2 ( SafeBuf &sb ,
 		char *ms = "minute";
 		if ( mins != 1 ) ms = "minutes";
 		if ( days >= 10 )
-			sb.safePrintf("in %"INT32" %s",days,ds);
+			sb.safePrintf("in %" INT32 " %s",days,ds);
 		else if ( days >= 1 && hours )
-			sb.safePrintf("in %"INT32" %s %"INT32" "
+			sb.safePrintf("in %" INT32 " %s %" INT32 " "
 				      "%s", days,ds,hours,hs);
 		else if ( days >= 1 && hours==0 )
-			sb.safePrintf("in %"INT32" %s",
+			sb.safePrintf("in %" INT32 " %s",
 				      days,ds);
 		else if ( hours > 0 )
-			sb.safePrintf("in %"INT32" %s %"INT32" %s",
+			sb.safePrintf("in %" INT32 " %s %" INT32 " %s",
 				      hours,hs,mins,ms);
 		else
-			sb.safePrintf("in %"INT32" %s",
+			sb.safePrintf("in %" INT32 " %s",
 				      mins,ms);
 		
 		// print end tod
@@ -14267,15 +14267,15 @@ void printCountdown3 ( int32_t togo , SafeBuf& sb , bool onlyPrintIfSoon ) {
 	if ( hours < 0 ) return;
 
 	if ( days >= 10 )
-		sb.safePrintf("%"INT32" %s",days,ds);
+		sb.safePrintf("%" INT32 " %s",days,ds);
 	else if ( days >= 1 )
-		sb.safePrintf("%"INT32" %s %"INT32" "
+		sb.safePrintf("%" INT32 " %s %" INT32 " "
 			      "%s", days,ds,hours,hs);
 	else if ( hours >= 1 )
-		sb.safePrintf("%"INT32" %s %"INT32" %s",
+		sb.safePrintf("%" INT32 " %s %" INT32 " %s",
 			      hours,hs,mins,ms);
 	else
-		sb.safePrintf("%"INT32" %s",
+		sb.safePrintf("%" INT32 " %s",
 			      mins,ms);
 }
 
@@ -14534,7 +14534,7 @@ bool printEventCachedUrl ( SafeBuf &sb , Msg20Reply *mr , Msg20 *m ,
 	binToHex((uint8_t *)m->m_eventIdBits.m_bits,32,ebuf);
 	ebuf[64] = '\0';
 	sb.safePrintf(	"/get?"
-			"q=%s&c=%s&d=%"INT64"&cnsp=0&eb=%s",
+			"q=%s&c=%s&d=%" INT64 "&cnsp=0&eb=%s",
 			qe , coll , 
 			mr->m_docId , ebuf ); 
 	return true;
@@ -14797,13 +14797,13 @@ bool printCalendar ( SafeBuf &sb , State7 *st ) {
 
 	// the clockset input parm
 	sb.safePrintf("<input type=hidden name=clockset "
-		      "id=clockset value=%"INT32">",
+		      "id=clockset value=%" INT32 ">",
 		      si->m_clockSet );
 	sb.safePrintf("<input type=hidden id=displayyear "
-		      "name=displayyear value=%"INT32">",
+		      "name=displayyear value=%" INT32 ">",
 		      si->m_displayYear );
 	sb.safePrintf("<input type=hidden id=displaymonth "
-		      "name=displaymonth value=%"INT32">",
+		      "name=displaymonth value=%" INT32 ">",
 		      si->m_displayMonth );
 
 	int32_t prevYear  = showYear;
@@ -14827,21 +14827,21 @@ bool printCalendar ( SafeBuf &sb , State7 *st ) {
 	}
 
 	// print out calendar header
-	sb.safePrintf("<table cellspacing=0 cellpadding=%"INT32" style=color:%s;"
-		      "font-size:%"INT32"px;>"
+	sb.safePrintf("<table cellspacing=0 cellpadding=%" INT32 " style=color:%s;"
+		      "font-size:%" INT32 "px;>"
 		      "<tr>"
 		      "<td><font size=-2>"
 		      "<a "
 		      "style=\"color:black\" "
 		      "onclick=\"reloadResults(1,"
-		      "'&displayyear=%"INT32"&displaymonth=%"INT32"');\">%s</a>"
+		      "'&displayyear=%" INT32 "&displaymonth=%" INT32 "');\">%s</a>"
 		      "</font></td>"
-		      "<td colspan=5><center>%s %"INT32"</center></td>"
+		      "<td colspan=5><center>%s %" INT32 "</center></td>"
 		      "<td><font size=-2>"
 		      "<a "
 		      "style=\"color:black\" "
 		      "onclick=\"reloadResults(1,"
-		      "'&displayyear=%"INT32"&displaymonth=%"INT32"');\">%s</a>"
+		      "'&displayyear=%" INT32 "&displaymonth=%" INT32 "');\">%s</a>"
 		      "</font></td>"
 		      "</tr>\n"
 		      "<tr>"
@@ -14900,14 +14900,14 @@ bool printCalendar ( SafeBuf &sb , State7 *st ) {
 				      // set hidden tag clockset val
 				      // set all to gray if not yellow
 				      // set clicked to red if not yellow
-				      "setClock(this,'clockset',%"UINT32");"
+				      "setClock(this,'clockset',%"U INT32 ");"
 				      "reloadResults(1);"
 				      "\">",
 				      clockSet2);
 			// add two hours cuz i'm not sure!
 			//clockSet += 2 * 3600;
-			//sb.safePrintf("<a href=/?clockset=%"UINT32">%"INT32"</a>"
-			sb.safePrintf("<a>%"INT32"</a>"
+			//sb.safePrintf("<a href=/?clockset=%"U INT32 ">%" INT32 "</a>"
+			sb.safePrintf("<a>%" INT32 "</a>"
 				      "</td>" 
 				      //, clockSet
 				      , count );
@@ -14959,14 +14959,14 @@ bool printBalloon ( SafeBuf &sb,SearchInput *si,char letter,int32_t balloonId ) 
 	char *s = "";
 	if ( si->m_map == 0 ) s = "display:none;";
 	// use googles individual imgs for now
-	return sb.safePrintf("<img id=balloon%"INT32" "
+	return sb.safePrintf("<img id=balloon%" INT32 " "
 			     "style=\"padding-right:10px;%s\" "
 			     "align=left width=20 height=34 src=\"http://maps.google.com/mapfiles/marker_%s%c.png\">",
 			     balloonId,s,s_mapColors[ci],letter);
 	// offset into the sprite
 	//return sb.safePrintf("<img width=20 height=30 src=/markers.png "
 	//		     // is this sprites?
-	//		     "xpos=%"INT32">",
+	//		     "xpos=%" INT32 ">",
 	//		     (int32_t)(letter - 'A') * 20);
 }
 
@@ -15095,7 +15095,7 @@ bool printPageContent ( SafeBuf &sb , State7 *st ) {
 	//	sb.safePrintf("%s", mr->ptr_ubuf );
 	//else {
 	sb.safePrintf("/get?"
-		      "c=%s&d=%"INT64"&qh=1&cnsp=1&eb=%s&q="
+		      "c=%s&d=%" INT64 "&qh=1&cnsp=1&eb=%s&q="
 		      ,si->m_coll2
 		      ,mr->m_docId 
 		      ,ebuf  );
@@ -15179,13 +15179,13 @@ bool printTodRange ( SafeBuf &sb , State7 *st , ExpandedResult *er ) {
 
 	// print the first tod
 	if ( ! sameDay )
-		sb.safePrintf ( "%s %s %"INT32", "
+		sb.safePrintf ( "%s %s %" INT32 ", "
 				, getDOWName   ( er->m_dow1 )
 				, getMonthName ( er->m_month1 )
 				, (int32_t)er->m_dayNum1 );
 
-	if ( er->m_min1 == 0 ) sb.safePrintf("%"INT32"%s",(int32_t)hour1,s1);
-	else sb.safePrintf("%"INT32":%02"INT32"%s",(int32_t)hour1,(int32_t)er->m_min1,s1);
+	if ( er->m_min1 == 0 ) sb.safePrintf("%" INT32 "%s",(int32_t)hour1,s1);
+	else sb.safePrintf("%" INT32 ":%02" INT32 "%s",(int32_t)hour1,(int32_t)er->m_min1,s1);
 
 	// if the 2nd date is exactly the same?
 	bool hasEndPoint = false;
@@ -15200,7 +15200,7 @@ bool printTodRange ( SafeBuf &sb , State7 *st , ExpandedResult *er ) {
 
 	// otherwise print next day time
 	if ( ! sameDay ) {
-		sb.safePrintf ( "%s %s %"INT32", "
+		sb.safePrintf ( "%s %s %" INT32 ", "
 				, getDOWName   ( er->m_dow2 )
 				, getMonthName ( er->m_month2 )
 				, (int32_t)er->m_dayNum2 );
@@ -15208,8 +15208,8 @@ bool printTodRange ( SafeBuf &sb , State7 *st , ExpandedResult *er ) {
 
 	if ( hasEndPoint ) {
 		if ( er->m_min2 == 0 ) 
-			sb.safePrintf("%"INT32"%s",(int32_t)hour2,s2);
-		else sb.safePrintf("%"INT32":%02"INT32"%s",(int32_t)hour2,
+			sb.safePrintf("%" INT32 "%s",(int32_t)hour2,s2);
+		else sb.safePrintf("%" INT32 ":%02" INT32 "%s",(int32_t)hour2,
 				   (int32_t)er->m_min2,s2);
 	}
 
@@ -16803,8 +16803,8 @@ bool printWidgetFrame ( SafeBuf &sb , State7 *st ) {
 		       "<div "
 		       "id=scrollerxyz "
 		       "style=\""
-		       //"width:%"INT32"px;" // 200;"
-		       //"height:%"INT32"px;" // 400;"
+		       //"width:%" INT32 "px;" // 200;"
+		       //"height:%" INT32 "px;" // 400;"
 		       //"overflow:hidden;"
 		       "padding:0px;"
 		       "margin:0px;"
@@ -16818,7 +16818,7 @@ bool printWidgetFrame ( SafeBuf &sb , State7 *st ) {
 		       "\">"
 		       */
 
-			"<iframe width=\"%"INT32"px\" height=\"%"INT32"px\" "
+			"<iframe width=\"%" INT32 "px\" height=\"%" INT32 "px\" "
 			//"scrolling=yes "
 			"style=\"background-color:white;"
 			"padding-right:0px;"
@@ -16826,7 +16826,7 @@ bool printWidgetFrame ( SafeBuf &sb , State7 *st ) {
 			"scrolling=no "
 			"frameborder=no "
 			"src=\"%s/?widget=1&"
-			"widgetwidth=%"INT32"&widgetheight=%"INT32"&"
+			"widgetwidth=%" INT32 "&widgetheight=%" INT32 "&"
 		       //, si->m_width
 		       //, si->m_height
 			//, fb
@@ -16845,9 +16845,9 @@ bool printWidgetFrame ( SafeBuf &sb , State7 *st ) {
 	if ( st->m_msgfb.m_fbrecPtr && st->m_msgfb.m_fbId )
 		fbId = st->m_msgfb.m_fbId;
 
-	// print extra parm "&usefbid=%"UINT64"" if we have showpersona;=1
+	// print extra parm "&usefbid=%" UINT64 "" if we have showpersona;=1
 	if ( si->m_showPersonal )
-		sb.safePrintf("usefbid=%"UINT64"&" // fh=%"UINT32"&"
+		sb.safePrintf("usefbid=%" UINT64 "&" // fh=%"U INT32 "&"
 			      , fbId 
 			      // this is like the password
 			      //, hash32 ( (char *)&fbId , 8, 0 )
@@ -16857,10 +16857,10 @@ bool printWidgetFrame ( SafeBuf &sb , State7 *st ) {
 	// . if they are logged into facebook
 	// . tag the widget with this so we can pay the webmasters!!!
 	if ( fbId ) 
-		sb.safePrintf("widgetid=%"UINT64"&" , fbId );
+		sb.safePrintf("widgetid=%" UINT64 "&" , fbId );
 	// otherwise, use matt wells' id
 	else
-		sb.safePrintf("widgetid=%"UINT64"&" , MATTWELLS );
+		sb.safePrintf("widgetid=%" UINT64 "&" , MATTWELLS );
 
 
 	char *wp = si->m_widgetParms.getBufStart();
@@ -16910,7 +16910,7 @@ bool printWidgetFrame ( SafeBuf &sb , State7 *st ) {
 	
 	char *p = sb.getBufStart() + start;
 
-	sb.safePrintf("<textarea rows=30 cols=%"INT32" "
+	sb.safePrintf("<textarea rows=30 cols=%" INT32 " "
 		      "style=\"border:2px solid black;\">", cols);
 	sb.htmlEncode ( p           ,
 			end - start ,
@@ -17123,7 +17123,7 @@ bool sendPageSiteMap ( TcpSocket *s , HttpRequest *r ) {
 	}
 	sb.safePrintf("</urlset>\n");
 
-	logf(LOG_DEBUG,"gb: sending back sitemap %"INT32" bytes",sb.length());
+	logf(LOG_DEBUG,"gb: sending back sitemap %" INT32 " bytes",sb.length());
 
 	char *charset = "utf-8";
 	char *ct = "text/xml";
@@ -17599,7 +17599,7 @@ bool gotCaptchaReply ( State9 *st9 , TcpSocket *s ) {
 		// and make the fake url so its highly searchable
 		sprintf(fakeUrl,
 			"http://www.eventguru.com/events/"
-			"y%"INT32"/m%"INT32"/d%"INT32"/h%"INT32"/i%"INT32"/s%"INT32"/%"UINT32".xml"
+			"y%" INT32 "/m%" INT32 "/d%" INT32 "/h%" INT32 "/i%" INT32 "/s%" INT32 "/%"U INT32 ".xml"
 			,(int32_t)timeStruct->tm_year+1900-2000
 			,(int32_t)timeStruct->tm_mon+1 // make it 1-12
 			,(int32_t)timeStruct->tm_mday
@@ -17731,7 +17731,7 @@ bool sendReply ( void *state ) {
 		       "where=&"
 		       "q=url%%3A");
 	sb->urlEncode ( url2 );
-	sb->safePrintf("\">%"INT32" events</a>.",ne );
+	sb->safePrintf("\">%" INT32 " events</a>.",ne );
 
 	// show iframe of the search results of events we added either
 	// from the xml form or the submitted url that was scraped
@@ -17757,7 +17757,7 @@ bool sendReply ( void *state ) {
 	
 	sb->safePrintf(" (all events added by you "
 		       "<a href=\"/?showexpiredevents=1&restrict=0&"
-		       "q=inurl%%3A%"UINT32"\">"
+		       "q=inurl%%3A%"U INT32 "\">"
 		       "here</a>.)"
 		       "<br><br>",
 		       st9->m_hashedUID32 );
@@ -18404,9 +18404,9 @@ bool sendPageAbout2 ( State3 *st3 ) {
 			else if ( parm->m_type == TYPE_IP ) 
 				sb.safePrintf ( "IP" );
 			else if ( parm->m_type == TYPE_LONG ) 
-				sb.safePrintf ( "INT32" );
+				sb.safePrintf ( " INT32 " );
 			else if ( parm->m_type == TYPE_LONG_LONG ) 
-				sb.safePrintf ( "INT64" );
+				sb.safePrintf ( " INT64 " );
 			else if ( parm->m_type == TYPE_STRING ) 
 				sb.safePrintf ( "STRING" );
 			else if ( parm->m_type == TYPE_STRINGBOX ) 
@@ -18847,7 +18847,7 @@ bool sendPageAbout2 ( State3 *st3 ) {
 				       "events. "
 				       "Plus, if you login to Event Guru "
 				       "I make a buck.',\n"
-				       "data: '%"UINT64"',\n"
+				       "data: '%" UINT64 "',\n"
 				       "title: 'Event Guru Invitation'\n"
 				       "}, requestCallback);\n"
 				       "}\n"
@@ -19045,7 +19045,7 @@ bool printCategoryTable ( SafeBuf &sb , SearchInput *si ) {
 		// submit() and setting the checkbox value otherwise, so
 		// let's do this for all checkboxes now.
 		// NOW we need an "id" as well so setVal() function works!
-		//sb.safePrintf("<input type=hidden id=%s name=%s value=%"INT32"",
+		//sb.safePrintf("<input type=hidden id=%s name=%s value=%" INT32 "",
 		//	      m->m_scgi,
 		//	      m->m_scgi,
 		//	      (int32_t)isParmSet );
@@ -19117,7 +19117,7 @@ bool printCategoryInputs ( SafeBuf &sb , SearchInput *si ) {
 		// submit() and setting the checkbox value otherwise, so
 		// let's do this for all checkboxes now.
 		// NOW we need an "id" as well so setVal() function works!
-		sb.safePrintf("<input type=hidden id=%s name=%s value=%"INT32"",
+		sb.safePrintf("<input type=hidden id=%s name=%s value=%" INT32 "",
 			      m->m_scgi,
 			      m->m_scgi,
 			      (int32_t)isParmSet );
@@ -19391,21 +19391,21 @@ bool printFacebookRecsOut ( State66 *st ) {
 		// store
 		// print out the juicy stuff
 		sb->safePrintf("<tr>"
-			       "<td>%"INT32"</td>"
-			       "<td><a href=\"http://www.facebook.com/%"INT64"\">"
+			       "<td>%" INT32 "</td>"
+			       "<td><a href=\"http://www.facebook.com/%" INT64 "\">"
 			       "<img src=\"%s\"></a></td>"
-			       "<td><a href=\"http://www.facebook.com/%"INT64"\">"
+			       "<td><a href=\"http://www.facebook.com/%" INT64 "\">"
 			       "%s</a></td>" // name
-			       "<td>%"UINT64"</td>" // fbid
+			       "<td>%" UINT64 "</td>" // fbid
 			       "<td>%s</td>" // sex
 			       "<td>%s</td>" // bday
-			       "<td>%"INT32"</td>" // appuser?
-			       "<td>%"INT32"</td>" // myradius
+			       "<td>%" INT32 "</td>" // appuser?
+			       "<td>%" INT32 "</td>" // myradius
 			       "<td>%s</td>" // mylocation
 			       "<td>%s</td>" // iplocation
 			       "<td>%.05f,%.05f</td>" // gps
-			       "<td>%"INT32"</td>" // timezone
-			       "<td>%"UINT64"</td>" // widgetid
+			       "<td>%" INT32 "</td>" // timezone
+			       "<td>%" UINT64 "</td>" // widgetid
 			       , st->m_printCount++
 			       , rec->m_fbId
 			       , rec->ptr_pic_square
@@ -19450,11 +19450,11 @@ bool printFacebookRecsOut ( State66 *st ) {
 		char *p = rec->ptr_mergedInterests;
 		int32_t count = 0;
 		for ( ; p && *p ; p++ ) if ( *p == ';' ) count++;
-		sb->safePrintf("<td>%"INT32"</td>", count ); // # interests
-		sb->safePrintf("<td>%"INT32"</td>", rec->m_friend_count );
+		sb->safePrintf("<td>%" INT32 "</td>", count ); // # interests
+		sb->safePrintf("<td>%" INT32 "</td>", rec->m_friend_count );
 		// the showemail link
 		sb->safePrintf("<td>"
-			       "<a href=/?usefbid=%"UINT64"&fh=%"UINT32"&uip=%s&"
+			       "<a href=/?usefbid=%" UINT64 "&fh=%"U INT32 "&uip=%s&"
 			       "emailformat=1&"
 			       "map=0&"
 			       "usecookie=0&showpersonal=1>showemail</a>"
@@ -19465,7 +19465,7 @@ bool printFacebookRecsOut ( State66 *st ) {
 			       );
 		// edit link
 		sb->safePrintf("<td>"
-			       "<a href=/?usefbid=%"UINT64"&fh=%"UINT32"&uip=%s&"
+			       "<a href=/?usefbid=%" UINT64 "&fh=%"U INT32 "&uip=%s&"
 			       "emailformat=0&"
 			       "map=0&"
 			       "usecookie=0&showpersonal=1>edit</a>"

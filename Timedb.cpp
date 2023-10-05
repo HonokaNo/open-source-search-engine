@@ -172,8 +172,8 @@ bool Timedb::verify ( char *coll ) {
 		if ( groupId == g_hostdb.m_groupId ) got++;
 	}
 	if ( got != count ) {
-		log ("db: Out of first %"INT32" records in timedb, "
-		     "only %"INT32" belong to our group.",count,got);
+		log ("db: Out of first %" INT32 " records in timedb, "
+		     "only %" INT32 " belong to our group.",count,got);
 		// exit if NONE, we probably got the wrong data
 		if ( count > 10 && got == 0 ) 
 			log("db: Are you sure you have the right "
@@ -184,7 +184,7 @@ bool Timedb::verify ( char *coll ) {
 		return g_conf.m_bypassValidation;
 	}
 
-	log ( LOG_INFO, "db: Timedb passed verification successfully for %"INT32""
+	log ( LOG_INFO, "db: Timedb passed verification successfully for %" INT32 ""
 			" recs.", count );
 	// DONE
 	g_threads.enableThreads();
@@ -238,13 +238,13 @@ key128_t Timedb::makeKey ( time_t    startTime ,
 
 	// sanity check. no old dates allowed! we can't go negative
 	if ( startTime < START2009 ) { 
-		log("timedb: starttime min breach %"INT32"",startTime);
+		log("timedb: starttime min breach %" INT32 "",startTime);
 		startTime = START2009;
 		//char *xx=NULL;*xx=0; }
 	}
 	// don't want to breach our 26 bits either
 	if ( startTime > START2030 ) { 
-		log("timedb: starttime max breach %"INT32"",startTime);
+		log("timedb: starttime max breach %" INT32 "",startTime);
 		startTime = START2030;
 		//char *xx=NULL;*xx=0; }
 	}
@@ -524,7 +524,7 @@ bool gotTimeList ( collnum_t collnum ) {
 		list->getCurrentKey(&k);
 		// show it
 		//if ( g_conf.m_logDebugTimedb )
-		//	log("timedb: key.n1=0x%"XINT64" n0=0x%"XINT64"",
+		//	log("timedb: key.n1=0x%" XINT64 " n0=0x%" XINT64 "",
 		//	    k.n1,k.n0);
 		// use this
 		addTimedbKey ( &k , nowGlobal , ht );
@@ -583,8 +583,8 @@ bool addTimedbKey ( key128_t *kp , uint32_t nowGlobal , HashTableX *ht ) {
 		if ( isDelete ) {
 			if ( g_conf.m_logDebugTimedb )
 				log("timedb: missed delete "
-				    "key docid=%012"UINT64" evid=%03"INT32" "
-				    "start=%"UINT32" end=%"UINT32" nxtstr=%"UINT32"",
+				    "key docid=%012" UINT64 " evid=%03" INT32 " "
+				    "start=%"U INT32 " end=%"U INT32 " nxtstr=%"U INT32 "",
 				    docId,(int32_t)eventId,stime,etime,
 				    g_timedb.getNextStartTime32 ( kp ) );
 			return true;
@@ -596,8 +596,8 @@ bool addTimedbKey ( key128_t *kp , uint32_t nowGlobal , HashTableX *ht ) {
 		ts.m_nextStartTime = g_timedb.getNextStartTime32 ( kp );
 		// note it for debug
 		if ( g_conf.m_logDebugTimedb )
-			log("timedb: adding key docid=%012"UINT64" evid=%03"INT32" "
-			    "start=%"UINT32" end=%"UINT32" nxtstr=%"UINT32" key=%"UINT64"",
+			log("timedb: adding key docid=%012" UINT64 " evid=%03" INT32 " "
+			    "start=%"U INT32 " end=%"U INT32 " nxtstr=%"U INT32 " key=%" UINT64 "",
 			    docId,(int32_t)eventId,stime,etime,
 			    ts.m_nextStartTime,(uint64_t)key64);
 		// otherwise, good to add it
@@ -610,8 +610,8 @@ bool addTimedbKey ( key128_t *kp , uint32_t nowGlobal , HashTableX *ht ) {
 		     old->m_startTime != stime ) {
 			if ( g_conf.m_logDebugTimedb )
 				log("timedb: unmatched delete "
-				    "key docid=%012"UINT64" evid=%03"INT32" "
-				    "start=%"UINT32" end=%"UINT32" nxtstr=%"UINT32" key=%"UINT64"",
+				    "key docid=%012" UINT64 " evid=%03" INT32 " "
+				    "start=%"U INT32 " end=%"U INT32 " nxtstr=%"U INT32 " key=%" UINT64 "",
 				    docId,(int32_t)eventId,stime,etime,
 				    g_timedb.getNextStartTime32 ( kp ) ,
 				    (uint64_t)key64);
@@ -619,8 +619,8 @@ bool addTimedbKey ( key128_t *kp , uint32_t nowGlobal , HashTableX *ht ) {
 		}
 		// note it for debug
 		if ( g_conf.m_logDebugTimedb )
-			log("timedb: removing key docid=%012"UINT64" evid=%03"INT32" "
-			    "start=%"UINT32" end=%"UINT32" nxtstr=%"UINT32" key=%"UINT64"",
+			log("timedb: removing key docid=%012" UINT64 " evid=%03" INT32 " "
+			    "start=%"U INT32 " end=%"U INT32 " nxtstr=%"U INT32 " key=%" UINT64 "",
 			    docId,(int32_t)eventId,stime,etime,
 			    g_timedb.getNextStartTime32 ( kp ) ,
 			    (uint64_t)key64);
@@ -640,9 +640,9 @@ bool addTimedbKey ( key128_t *kp , uint32_t nowGlobal , HashTableX *ht ) {
 	    old->m_startTime < stime ) {
 		// note that we failed
 		if ( g_conf.m_logDebugTimedb )
-			log("timedb: tossing key docid=%012"UINT64" evid=%03"INT32" "
-			    "start=%"UINT32" end=%"UINT32" nxtstr=%"UINT32" "
-			    "oldstart=%"UINT32" oldend=%"UINT32" key=%"UINT64"",
+			log("timedb: tossing key docid=%012" UINT64 " evid=%03" INT32 " "
+			    "start=%"U INT32 " end=%"U INT32 " nxtstr=%"U INT32 " "
+			    "oldstart=%"U INT32 " oldend=%"U INT32 " key=%" UINT64 "",
 			    docId,(int32_t)eventId,stime,etime,
 			    g_timedb.getNextStartTime32 ( kp ) ,
 			    old->m_startTime,
@@ -662,9 +662,9 @@ bool addTimedbKey ( key128_t *kp , uint32_t nowGlobal , HashTableX *ht ) {
 	if ( old->m_startTime == stime && old->m_endTime < etime ) {
 		// note that we failed
 		if ( g_conf.m_logDebugTimedb )
-			log("timedb: tossing2 key docid=%012"UINT64" evid=%03"INT32" "
-			    "start=%"UINT32" end=%"UINT32" nxtstr=%"UINT32" "
-			    "oldstart=%"UINT32" oldend=%"UINT32" key=%"UINT64"",
+			log("timedb: tossing2 key docid=%012" UINT64 " evid=%03" INT32 " "
+			    "start=%"U INT32 " end=%"U INT32 " nxtstr=%"U INT32 " "
+			    "oldstart=%"U INT32 " oldend=%"U INT32 " key=%" UINT64 "",
 			    docId,(int32_t)eventId,stime,etime,
 			    g_timedb.getNextStartTime32 ( kp ) ,
 			    old->m_startTime,
@@ -676,9 +676,9 @@ bool addTimedbKey ( key128_t *kp , uint32_t nowGlobal , HashTableX *ht ) {
 
 	// log the update
 	if ( g_conf.m_logDebugTimedb )
-		log("timedb: updating key docid=%012"UINT64" evid=%03"INT32" "
-		    "start=%"UINT32" end=%"UINT32" nxtstr=%"UINT32" oldstart=%"UINT32" oldend=%"UINT32" "
-		    "key=%"UINT64"",
+		log("timedb: updating key docid=%012" UINT64 " evid=%03" INT32 " "
+		    "start=%"U INT32 " end=%"U INT32 " nxtstr=%"U INT32 " oldstart=%"U INT32 " oldend=%"U INT32 " "
+		    "key=%" UINT64 "",
 		    docId,(int32_t)eventId,stime,etime,
 		    g_timedb.getNextStartTime32 ( kp ) ,
 		    old->m_startTime,

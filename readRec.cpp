@@ -54,14 +54,14 @@ int main ( int argc , char *argv[] ) {
 		if(recSize > rbufSize) {
 			char* tmpBuf = (char*)realloc(rbuf, recSize);
 			if(!tmpBuf) {
-				fprintf(stderr, "no memory, needed %"INT32".", recSize);
+				fprintf(stderr, "no memory, needed %" INT32 ".", recSize);
 				exit(1);
 			}
 			rbuf = tmpBuf;
 		}
 		int32_t bytesRead2 = read(fileno, rbuf, recSize);
 		if (bytesRead2 != recSize) {
-			printf("couldn't read %"INT32"", recSize);
+			printf("couldn't read %" INT32 "", recSize);
 			exit(1);
 		}
 
@@ -78,14 +78,14 @@ int main ( int argc , char *argv[] ) {
 		if( need > cbufSize) {
 			char* tmpBuf = (char*)realloc(cbuf, need);
 			if(!tmpBuf) {
-				fprintf(stderr, "no memory, needed %"INT32"", need);
+				fprintf(stderr, "no memory, needed %" INT32 "", need);
 				exit(1);
 			}
 			cbuf = tmpBuf;
 			cbufSize = need;
 		}
 		char* writeBuf = cbuf;
-		int32_t writeLen = sprintf(writeBuf, "%s\n%"INT32"\n", url, docSize);
+		int32_t writeLen = sprintf(writeBuf, "%s\n%" INT32 "\n", url, docSize);
 		writeBuf += writeLen;
 		uint32_t destLen = docSize;
 		int stat = uncompress((unsigned char*)writeBuf, 
@@ -97,11 +97,11 @@ int main ( int argc , char *argv[] ) {
 		if(stat != Z_OK) fprintf(stderr, "bad record.");
 		p += compressedDocSize;
 
-		//fprintf(stdout, "%s\n%"INT32"\n", url, docSize);
+		//fprintf(stdout, "%s\n%" INT32 "\n", url, docSize);
 		write(STDOUT_FILENO, cbuf, writeLen+destLen);
 		if(printUpdates) {
 			totalRead += bytesRead + bytesRead2;
-			fprintf(stderr, "%"INT32" bytes read...\n",totalRead);
+			fprintf(stderr, "%" INT32 " bytes read...\n",totalRead);
 		}
 	}
 }

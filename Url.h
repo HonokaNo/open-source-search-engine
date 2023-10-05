@@ -143,7 +143,9 @@ public:
 	int32_t  getDefaultPort    () { return m_defPort;};
 	//int32_t  getSiteLen         () {return m_siteLen;};
 	int32_t  getPathLenWithCgi () {
-		if ( ! m_query ) return m_plen;	return m_plen + 1 + m_qlen; };
+		if ( ! m_query ) return m_plen;
+		return m_plen + 1 + m_qlen;
+	};
 	bool  isHttp            () { 
 		if ( m_ulen  < 4 ) return false;
 		if ( m_slen != 4 ) return false;

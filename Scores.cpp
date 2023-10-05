@@ -442,7 +442,7 @@ bool Scores::setScoresBySection ( Words *words,
 	else     
 		tmp = tstack;
 	// bail if alloc failed
-	if ( ! tmp ) return log("build: Scores failed to alloc %"INT32" bytes.",
+	if ( ! tmp ) return log("build: Scores failed to alloc %" INT32 " bytes.",
 				  need);
 	char *p = (char *)tmp;
 	int32_t   *wnext   = (int32_t  *)p ; p += 4 * nw;
@@ -547,7 +547,7 @@ bool Scores::setScoresBySection ( Words *words,
 				continue; 
 			}
 			if ( g_conf.m_logDebugBuild ) 
-				log(LOG_DEBUG,"build: Scored section %"INT32": %"INT32"",
+				log(LOG_DEBUG,"build: Scored section %" INT32 ": %" INT32 "",
 				    level, score);
 			// push old info onto the stack
 			ids    [level] = tids[i];
@@ -600,7 +600,7 @@ bool Scores::setScoresBySection ( Words *words,
 			//int32_t  slen = words->m_wordLens[j];
 			//printstring(s,slen);
 			// then score of it
-			//fprintf(stderr,"(%"INT32") ",(int32_t)wscores[j]);
+			//fprintf(stderr,"(%" INT32 ") ",(int32_t)wscores[j]);
 		}
 		// save accumulation, not average
 		cumscore = bscore;
@@ -687,8 +687,8 @@ bool Scores::setScoresBySection ( Words *words,
 					fscores[j] = 0;
 			}
 			// this section is the new winning section
-			log(LOG_DEBUG, "build: Winning section: %"INT32", "
-			    "score: %"INT32"", level, score);
+			log(LOG_DEBUG, "build: Winning section: %" INT32 ", "
+			    "score: %" INT32 "", level, score);
 			max  = score;
 			maxa = sj; // starts[level];
 			maxb = i; // our section's last word # is < i
@@ -724,7 +724,7 @@ bool Scores::setScoresBySection ( Words *words,
 		int32_t  slen = words->m_wordLens[i];
 		printstring(s,slen);
 		// then score of it
-		fprintf(stderr,"(%"INT32") ",(int32_t)m_scores[i]);
+		fprintf(stderr,"(%" INT32 ") ",(int32_t)m_scores[i]);
 	}
 	*/
 

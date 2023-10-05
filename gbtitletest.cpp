@@ -21,7 +21,7 @@ loop:
 		if ( count == 0 )
 			printf ( "\nFound All Urls.\n" );
 		else
-			printf ( "\n Did Not Find %"INT32" Urls.\n", count );
+			printf ( "\n Did Not Find %" INT32 " Urls.\n", count );
 		exit(1);
 	}
 	printf("\n\n%s",s);

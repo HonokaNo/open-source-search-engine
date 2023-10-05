@@ -38,7 +38,7 @@ OBJS =  UdpSlot.o Rebalance.o \
 	Indexdb.o Posdb.o Clusterdb.o IndexList.o Revdb.o \
 	HttpServer.o HttpRequest.o \
 	HttpMime.o Hostdb.o \
-	Highlight.o File.o Errno.o Entities.o \
+	Highlight.o File.o gbErrno.o Entities.o \
 	Dns.o Dir.o Conf.o Bits.o \
 	Stats.o BigFile.o Msg17.o \
 	Speller.o \
@@ -98,7 +98,7 @@ XMLDOCOPT := -O2
 endif
 
 # Onlyjob: -O3 is _very_ unstable and causes segfaults all over (e.g. #172).
-CC_OPT_ARG ?= -O2
+CC_OPT_ARG ?= -O0
 
 
 ifeq ("titan","$(HOST)")
@@ -129,7 +129,7 @@ else
 # Use -Wpadded flag to indicate padded structures.
 #
 ## FIXME: update standards to "-std=c++11", see #164.
-CPPFLAGS = -g -Wall -pipe -fno-stack-protector -Wno-write-strings -Wstrict-aliasing=0 -Wno-uninitialized -DPTHREADS -Wno-unused-but-set-variable $(STATIC)
+CPPFLAGS = -g -Wall -pipe -fno-stack-protector -Wno-write-strings -Wstrict-aliasing=0 -Wno-uninitialized -DPTHREADS -Wno-unused-but-set-variable -std=c++11 -mtune=native -march=native -mfpmath=both $(STATIC)
 #LIBS= -L. ./libssl.a ./libcrypto.a ./libiconv.a ./libm.a ./libstdc++.a -lpthread
 # apt-get install libssl-dev (to provide libssl and libcrypto)
 # to build static libiconv.a do a './configure --enable$(STATIC)' then 'make'

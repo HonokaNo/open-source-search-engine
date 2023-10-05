@@ -128,7 +128,7 @@ void handleRequest3e ( UdpSlot *slot , int32_t netnice ) {
 		replySize = g_parms.getStoredSize ();
 		reply = (char *)mmalloc( replySize, "parms serialized buf" );
 		if ( ! reply ) {
-			log( LOG_WARN, "Cannot alloc %"INT32" bytes for sync"
+			log( LOG_WARN, "Cannot alloc %" INT32 " bytes for sync"
 			               "reply buffer", replySize );
 			return;
 		}

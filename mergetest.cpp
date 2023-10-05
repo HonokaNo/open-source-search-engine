@@ -149,7 +149,7 @@ void test1 ( int arg ) {
 	// get # lists to merge
 	int32_t numToMerge = arg ; 
 	// print start time
-	fprintf (stderr,"smt:: randomizing begin. %"INT32" lists of %"INT32" keys.\n",
+	fprintf (stderr,"smt:: randomizing begin. %" INT32 " lists of %" INT32 " keys.\n",
 		 numToMerge, nk);
 	// make a list of compressed (6 byte) docIds
         key_t *keys0 = (key_t *) malloc ( sizeof(key_t) * nk );
@@ -273,7 +273,7 @@ void test1 ( int arg ) {
 	*/
 	// completed
 	int64_t now = gettimeofdayInMilliseconds();
-	fprintf(stderr,"smt:: %"INT32" list NEW MERGE took %"UINT64" ms\n",
+	fprintf(stderr,"smt:: %" INT32 " list NEW MERGE took %" UINT64 " ms\n",
 		numToMerge,now-t);
 	// time per key
 	int32_t size = list.getListSize() / sizeof(key_t);
@@ -284,9 +284,9 @@ void test1 ( int arg ) {
 	double d = (1000.0*(double)(size)) / ((double)(now - t));
 	fprintf (stderr,"smt:: %f cycles per final key\n" ,
 		 400000000.0 / d );
-	fprintf (stderr,"smt:: we can do %"INT32" adds per second\n" ,(int32_t)d);
+	fprintf (stderr,"smt:: we can do %" INT32 " adds per second\n" ,(int32_t)d);
 	
-	fprintf (stderr,"smt:: final list size = %"INT32"\n",list.getListSize());
+	fprintf (stderr,"smt:: final list size = %" INT32 "\n",list.getListSize());
 	// now get list from the old merge routine
 	/*
 	RdbList listOld;
@@ -295,7 +295,7 @@ void test1 ( int arg ) {
 	listOld.merge_r ( lists , numToMerge , true , minKey , maxKey , false ,
 		       numKeysWanted * sizeof(key_t));
 	now = gettimeofdayInMilliseconds();
-	fprintf(stderr,"smt:: %"INT32" list OLD MERGE took %"UINT64" ms\n",
+	fprintf(stderr,"smt:: %" INT32 " list OLD MERGE took %" UINT64 " ms\n",
 		numToMerge,now-t);
 	*/
 	// then compare

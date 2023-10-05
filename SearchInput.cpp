@@ -133,7 +133,7 @@ key_t SearchInput::makeKey ( ) {
 	//k.n0 = hash64(m_defaultSortCountry , m_defaultSortCountryLen , k.n0);
 
 	// debug
-	//logf(LOG_DEBUG,"query: q=%s k.n0=%"UINT64"",m_q.getQuery(),k.n0);
+	//logf(LOG_DEBUG,"query: q=%s k.n0=%" UINT64 "",m_q.getQuery(),k.n0);
 
 	//Msg1aParms* m1p = msg40->getReferenceParms();
 	//if( m1p ) {
@@ -172,7 +172,7 @@ void SearchInput::test ( ) {
 		}
 		if ( ! name ) continue;
 		log("query: Got uncovered SearchInput parm at offset "
-		    "%"INT32" in SearchInput. name=%s.",off,name);
+		    "%" INT32 " in SearchInput. name=%s.",off,name);
 	}
 }
 
@@ -671,7 +671,7 @@ bool SearchInput::setQueryBuffers ( HttpRequest *hr ) {
 	if( qp && qp[0] ) {
 		//if( p > pstart ) *p++ =  ' ';
 		if ( m_sbuf1.length() ) m_sbuf1.pushChar(' ');
-		//p += sprintf( p, "+gblang:%"INT32" |", m_gblang );
+		//p += sprintf( p, "+gblang:%" INT32 " |", m_gblang );
 		m_sbuf1.safePrintf( "%s", qp );
 	}
 
@@ -717,7 +717,7 @@ bool SearchInput::setQueryBuffers ( HttpRequest *hr ) {
 		timestamp -= m_secsBack;
 		if ( timestamp <= 0 ) timestamp = 0;
 		if ( m_sbuf1.length() ) m_sbuf1.pushChar(' ');
-		m_sbuf1.safePrintf("gbminint:gbspiderdate:%"UINT32"",timestamp);
+		m_sbuf1.safePrintf("gbminint:gbspiderdate:%" UINT32 "",timestamp);
 	}
 
 	if ( m_sortBy == 1 ) {
@@ -746,7 +746,7 @@ bool SearchInput::setQueryBuffers ( HttpRequest *hr ) {
 	// facet prepend en masse
 	// for ( int32_t i = 1 ; i <= 6 ; i++ ) {
 	// 	char tmp[12];
-	// 	sprintf(tmp,"facet%"INT32"",i);
+	// 	sprintf(tmp,"facet%" INT32 "",i);
 	// 	char *ff = hr->getString(tmp,NULL);
 	// 	if ( ! ff ) continue;
 	// 	if ( m_sbuf1.length() ) m_sbuf1.pushChar(' ');
@@ -789,8 +789,8 @@ bool SearchInput::setQueryBuffers ( HttpRequest *hr ) {
 	if( gblang >= 0 ) {
 	 	if ( m_sbuf1.length() ) m_sbuf1.pushChar(' ');
 	 	if ( m_sbuf2.length() ) m_sbuf2.pushChar(' ');
-	 	m_sbuf1.safePrintf( "+gblang:%"INT32"", gblang );
-	 	m_sbuf2.safePrintf( "+gblang:%"INT32"", gblang );
+	 	m_sbuf1.safePrintf( "+gblang:%" INT32 "", gblang );
+	 	m_sbuf2.safePrintf( "+gblang:%" INT32 "", gblang );
 		if ( ! boolq ) {
 			m_sbuf1.safeStrcpy(" |");
 			m_sbuf2.safeStrcpy(" |");
@@ -1105,8 +1105,8 @@ bool SearchInput::setQueryBuffers ( HttpRequest *hr ) {
 	// get the final query
 	char *q =m_sbuf1.getBufStart();
 
-	if ( q ) sscanf(q,"gbpcatid:%"INT32"",&pcatId);
-	if ( q ) sscanf(q,"gbcatid:%"INT32"",&dcatId);
+	if ( q ) sscanf(q,"gbpcatid:%" INT32 "",&pcatId);
+	if ( q ) sscanf(q,"gbcatid:%" INT32 "",&dcatId);
 	// pick the one that is valid
 	int32_t catId = -1;
 	if ( pcatId >= 0 ) catId = pcatId;

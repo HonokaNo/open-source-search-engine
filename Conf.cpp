@@ -431,7 +431,7 @@ bool Conf::init ( char *dir ) { // , int32_t hostId ) {
 	/*
 	if ( g_hostdb.getNumGroups() != g_hostdb.m_indexSplits ) {
 		log("db: Cannot do full split where indexdb split "
-		    "is not %"INT32".",(int32_t)g_hostdb.getNumGroups());
+		    "is not %" INT32 ".",(int32_t)g_hostdb.getNumGroups());
 		g_conf.m_fullSplit = false;
 	}
 	// if only one host, make it fully split regardless
@@ -538,7 +538,7 @@ void Conf::setRootIps ( ) {
 	for ( int32_t i = 0 ; i < n ; i++ ) {
 		m_rnsIps  [i] = atoip(rootIps[i],gbstrlen(rootIps[i]));
 		m_rnsPorts[i] = 53;
-		log(LOG_INIT,"dns: Using root nameserver #%"INT32" %s.",
+		log(LOG_INIT,"dns: Using root nameserver #%" INT32 " %s.",
 		    i,iptoa(m_rnsIps[i]));
 	}
 }

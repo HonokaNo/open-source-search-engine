@@ -107,7 +107,7 @@ void *startUp ( void *state ) {
 		else         niceness = 1;
 		sigval_t svt; 
 		svt.sival_int = (int)niceness ; //(int)(t->m_state); // fd;
-		fprintf(stderr,"queuing niceness of %"INT32"\n",niceness);
+		fprintf(stderr,"queuing niceness of %" INT32 "\n",niceness);
 		sigqueue ( s_pid , GB_SIGRTMIN + 1 + niceness, svt );
 	}
 }

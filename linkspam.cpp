@@ -1510,7 +1510,7 @@ bool isLinkSpam2 ( Url *linkee, TitleRec *tr, Xml *xml, Links *links ,
 	goto goRight; 
 
  goLeft:
-	//log(LOG_WARN, "links: numinarow %"INT32" linkee %s , linker %s",
+	//log(LOG_WARN, "links: numinarow %" INT32 " linkee %s , linker %s",
 	//numInARow, linkee->getUrl(), tr->getUrl()->getUrl());
 	if(numInARow >= needInARow) return true;
 

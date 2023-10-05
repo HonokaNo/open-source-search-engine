@@ -30,7 +30,7 @@ int main ( int argc , char *argv[] ) {
 		// same as last?
 		if ( strcmp(s,last) == 0 ) { count++; continue; }
 		// print out the old last
-		fprintf(stdout,"%"INT32" %s\n",count,last);
+		fprintf(stdout,"%" INT32 " %s\n",count,last);
 		// otherwise, we become last
 		strcpy ( last , s );
 		// and count is reset

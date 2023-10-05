@@ -56,7 +56,7 @@ private:
 				      float factor,
 				      char *method, char *reason ) {
 		//log( LOG_DEBUG, "query: rerankLowerDemotesMore -- "
-		//     "score:%"INT32", value:%3.3f, maxValue:%3.3f, factor:%3.3f AWL",
+		//     "score:%" INT32 ", value:%3.3f, maxValue:%3.3f, factor:%3.3f AWL",
 		//     score, value, maxValue, factor );
 
 		if ( value >= maxValue ) return score;
@@ -80,7 +80,7 @@ private:
 				       float factor,
 				       char *method, char *reason ) {
 		//log( LOG_DEBUG, "query: rerankHigherDemotesMore -- "
-		//     "score:%"INT32", value:%3.3f, maxValue:%3.3f, factor:%3.3f AWL",
+		//     "score:%" INT32 ", value:%3.3f, maxValue:%3.3f, factor:%3.3f AWL",
 		//     score, value, maxValue, factor );
 
 		rscore_t temp = score;
@@ -102,7 +102,7 @@ private:
 	rscore_t rerankAssignPenalty ( rscore_t score, float factor,
 				   char *method, char *reason ) {
 		//log( LOG_DEBUG, "query: rerankAssignPenalty -- "
-		//     "score:%"INT32", factor:%3.3f AWL",
+		//     "score:%" INT32 ", factor:%3.3f AWL",
 		//     score, factor );
 
 		rscore_t temp = score;

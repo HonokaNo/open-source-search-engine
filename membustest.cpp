@@ -46,7 +46,7 @@ int main ( int argc , char *argv[] ) {
 	char *bufStart = buf;
 	register char *bufEnd = buf + n;
 
-	//fprintf(stderr,"pre-reading %"INT32" NB \n",nb);
+	//fprintf(stderr,"pre-reading %" INT32 " NB \n",nb);
 	// pre-read it so sbrk() can do its thing
 	for ( int32_t i = 0 ; i < n ; i++ ) buf[i] = 1;
 
@@ -109,7 +109,7 @@ int main ( int argc , char *argv[] ) {
 	// multiply by 4 since these are int32_ts
 	char *op = "read";
 	if ( ! readf ) op = "wrote";
-	fprintf (stderr,"menbustest: %s %"INT32" bytes (x%"INT32") in %"UINT64" ms\n",
+	fprintf (stderr,"menbustest: %s %" INT32 " bytes (x%" INT32 ") in %" UINT64 " ms\n",
 		 op , n , loops , now - t );
 	// stats
 	if ( now - t == 0 ) now++;

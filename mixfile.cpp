@@ -51,7 +51,7 @@ main ( int argc , char *argv[] ) {
 
 	close ( fd );
 
-	fprintf(stderr,"read %"INT32" bytes\n",nr);
+	fprintf(stderr,"read %" INT32 " bytes\n",nr);
 
 	// store ptrs to each line
 	char *lines[100000];
@@ -71,7 +71,7 @@ main ( int argc , char *argv[] ) {
 			buf[i-1] = '\0';
 		}
 
-	fprintf(stderr,"read %"INT32" lines\n",n);
+	fprintf(stderr,"read %" INT32 " lines\n",n);
 
 	// mix the lines up
 	for ( int32_t i = 0 ; i < n ; i++ ) {

@@ -158,7 +158,7 @@ bool Ads::getAds ( char           *q         ,
         }
 	// bail if query too big
 	if ( qlen > MAX_AD_QUERY_LEN) {
-		log("query: Query length of %"INT32" is too long to get "
+		log("query: Query length of %" INT32 " is too long to get "
 		    "ads for.",qlen); 
 		return true;
 	}
@@ -272,7 +272,7 @@ bool Ads::getAd ( int32_t            index     ,
                 return true;
         // if string is greater than buffer, bail
         if(clen > 1024) {
-                log("query: Ad Feed CGI string %"INT32" is > 1024.", index);
+                log("query: Ad Feed CGI string %" INT32 " is > 1024.", index);
                 return true;
         }
 
@@ -296,11 +296,11 @@ bool Ads::getAd ( int32_t            index     ,
                                         break;
                                 // insert page number
                                 case 'p':
-                                        sb.safePrintf("%"INT32"", m_pageAds);
+                                        sb.safePrintf("%" INT32 "", m_pageAds);
                                         break;
                                 // insert number of ads to return
                                 case 'n':
-                                        sb.safePrintf("%"INT32"", numAds);
+                                        sb.safePrintf("%" INT32 "", numAds);
                                         break;
                                 // insert querying IP
                                 case 'i':
@@ -324,7 +324,7 @@ bool Ads::getAd ( int32_t            index     ,
                 }
         }
 
-        log(LOG_DEBUG, "query: Ad feed request[%"INT32"] url is: %s", 
+        log(LOG_DEBUG, "query: Ad feed request[%" INT32 "] url is: %s", 
             index, sb.getBufStart());
 	// make it a url
         //m_url[index].set(sb.getBufStart(), sb.length(), false /*addWWW?*/);
@@ -391,7 +391,7 @@ void Ads::gotDoc ( TcpSocket *ts, int32_t index ) {
 	mime.set(p, len, NULL);//&m_url[index]);
 	
         if(mime.getHttpStatus() != 200) {
-                log("query: Ad feed returned %"INT32" status, bailing.", 
+                log("query: Ad feed returned %" INT32 " status, bailing.", 
                     mime.getHttpStatus());
                 return;
         }
@@ -459,7 +459,7 @@ void Ads::gotDoc ( TcpSocket *ts, int32_t index ) {
 		// . increment number of ads found
                 numAds++;
 	}
-	log(LOG_DEBUG, "query: Ad feed[%"INT32"] returned %"INT32" ads on page %"INT32"",
+	log(LOG_DEBUG, "query: Ad feed[%" INT32 "] returned %" INT32 " ads on page %" INT32 "",
             index, numAds, m_pageAds); 
         // . let mem table know we stole the buffer as well
 	if( !relabel( p, plen, "Ads-sktXml" ) ) {

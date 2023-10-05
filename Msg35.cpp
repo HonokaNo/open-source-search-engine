@@ -1,7 +1,6 @@
 #include "gb-include.h"
 
 #include "Msg35.h"
-#include "Errno.h"
 #include "UdpServer.h"
 #include "Hostdb.h"
 
@@ -174,13 +173,13 @@ bool Msg35::callCallback ( int32_t n ) {
 	// ensure legit
 	if ( n > m_topUsedClient || n < 0 ) {
 		g_errno = EBADREQUEST;
-		return log(LOG_LOGIC,"merge: msg35: Bad client slot = %"INT32".",n);
+		return log(LOG_LOGIC,"merge: msg35: Bad client slot = %" INT32 ".",n);
 	}
 	// if we already got the token somewhere, that is a problem
 	if ( m_clientTokeni != -1 ) {
 		g_errno = EBADREQUEST;
 		return log(LOG_LOGIC,"merge: msg35: Manager tried to give "
-			   "token to client #%"INT32", but #%"INT32" has it now.",
+			   "token to client #%" INT32 ", but #%" INT32 " has it now.",
 			   n , m_clientTokeni );
 	}
 	// if we're empty, do not accept
@@ -485,7 +484,7 @@ void Msg35::handleRequest ( UdpSlot *slot ) {
 		// sanity check
 		if ( p != pend )
 			log(LOG_LOGIC,"merge: msg35: p != pend, bad engineer."
-			    "diff = %"INT32".",
+			    "diff = %" INT32 ".",
 			    (int32_t)(pend - p));
 			
 		// . what HOSTID do we think has the token? 
@@ -498,7 +497,7 @@ void Msg35::handleRequest ( UdpSlot *slot ) {
 		// . if this info is not accurate it will be corrected in
 		//   call to sync()
 		if  ( tokenHid != hid && newi >= 0 ) {
-			log("merge: HostId #%"INT32" claims he "
+			log("merge: HostId #%" INT32 " claims he "
 			    "has the merge token. Giving it to him.",hid);
 			m_serverTokeni = newi;
 			// always exit discrepancy mode on token re-assignment
@@ -520,10 +519,10 @@ void Msg35::handleRequest ( UdpSlot *slot ) {
 			if ( m_discrepancyHid >= 0 && 
 			     m_discrepancyHid != hid ) {
 				log(LOG_INFO,
-				    "merge: Host #%"INT32" says he "
+				    "merge: Host #%" INT32 " says he "
 				    "does not have the merge token, "
 				    "but already in "
-				    "discrepancy mode for host #%"INT32". "
+				    "discrepancy mode for host #%" INT32 ". "
 				    "Reassigning.", hid, m_discrepancyHid);
 				// we need to re-assign to prevent token lockup
 				m_discrepancyHid = hid;
@@ -531,7 +530,7 @@ void Msg35::handleRequest ( UdpSlot *slot ) {
 			// if we aren't already in discrepancy mode... enter it
 			else if ( m_discrepancyHid != hid ) {
 				log(LOG_INFO,"merge: Entering "
-				    "discrepancy mode for host #%"INT32"",hid);
+				    "discrepancy mode for host #%" INT32 "",hid);
 				// this is >= 0 when in discrepancy mode
 				m_discrepancyHid = hid;
 			}
@@ -565,13 +564,13 @@ void Msg35::handleRequest ( UdpSlot *slot ) {
 
 	// bitch and return if a bad request
 	log(LOG_LOGIC, "merge: Received bad merge token related request "
-	    "of %"INT32" bytes.",requestSize );
+	    "of %" INT32 " bytes.",requestSize );
 	g_udpServer.sendErrorReply ( slot , EBADREQUESTSIZE );
 }
 
 void Msg35::removeServerWait ( int32_t i ) {
 	if ( i < 0 || i >= 512 ) {
-		log(LOG_LOGIC,"merge: msg35: removeServerWait: i=%"INT32".",i);
+		log(LOG_LOGIC,"merge: msg35: removeServerWait: i=%" INT32 ".",i);
 		return;
 	}
 	ServerWait *s = &m_serverWaits [ i ];
@@ -630,7 +629,7 @@ void Msg35::giveToken ( ) {
 		if ( s->m_isEmpty ) continue;
 		// debug msg
 		log(LOG_INFO,"merge: Queued merge token request: "
-		    "slot #%"INT32" hid=%"INT32" p=%i t=%"INT32"",
+		    "slot #%" INT32 " hid=%" INT32 " p=%i t=%" INT32 "",
 		    i,s->m_hostId,s->m_priority,s->m_timestamp);
 		if ( s->m_priority <  maxPriority ) continue;
 		if ( s->m_priority == maxPriority &&
@@ -744,7 +743,7 @@ void Msg35::sync ( ) {
 		*p         = (char)i       ; p += 1;
 		// debug msg
 		log(LOG_INFO,"merge: queued merge token request "
-		    "#%"INT32" priority=%"INT32".", (int32_t)p[-1],(int32_t)p[-2]);
+		    "#%" INT32 " priority=%" INT32 ".", (int32_t)p[-1],(int32_t)p[-2]);
 	}
 	// . the priority of this msg is low, use g_udpServer
         // . returns false and sets g_errno on error

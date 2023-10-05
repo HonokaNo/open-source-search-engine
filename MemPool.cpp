@@ -2,7 +2,6 @@
 
 #include "MemPool.h"
 #include "Mem.h"
-#include "Errno.h"
 
 MemPool::MemPool() {
 	m_mem     = NULL;
@@ -12,7 +11,7 @@ MemPool::MemPool() {
 }
 
 MemPool::~MemPool ( ) {
-	log("MemPool::~MemPool: mem allocated now: %"INT32"\n", m_memUsedByData );
+	log("MemPool::~MemPool: mem allocated now: %" INT32 "\n", m_memUsedByData );
 	reset();
 }
 
@@ -143,11 +142,11 @@ void *MemPool::gbmalloc ( int32_t need ) {
 		}
 	}
 	// split node into 2 halves, each half has 2 nodes actually
-	//log("addOffset/Size ptr=%"INT32" size=%"INT32"",(int32_t)ptr,need);
+	//log("addOffset/Size ptr=%" INT32 " size=%" INT32 "",(int32_t)ptr,need);
 	MemNode *n0 = m_tree.addOffsetNode ( ptr  , need , true  );
 	MemNode *n1 = m_tree.addSizeNode   ( need , ptr  , true  );
 	// add upper, unused half
-	//log("addOffset/Size ptr=%"INT32" size=%"INT32"",(int32_t)ptr+need,size-need);
+	//log("addOffset/Size ptr=%" INT32 " size=%" INT32 "",(int32_t)ptr+need,size-need);
 	MemNode *n2 = m_tree.addOffsetNode ( ptr + need , size - need, false );
 	MemNode *n3 = m_tree.addSizeNode   ( size - need, ptr + need , false );
 	// remove all on any errors
@@ -169,7 +168,7 @@ void *MemPool::gbmalloc ( int32_t need ) {
 	// keep track
 	m_memUsedByData += need;
 	// remove old node from size-sorted tree
-	//log("removeSize/Offset ptr=%"INT32" size=%"INT32"",(int32_t)ptr, oldSize);
+	//log("removeSize/Offset ptr=%" INT32 " size=%" INT32 "",(int32_t)ptr, oldSize);
 	m_tree.deleteNode ( node );
 	// remove old node from offset-sorted tree
 	k.setOffsetKey ( ptr , oldSize , false );
@@ -230,7 +229,7 @@ bool MemPool::gbfree ( void *data ) {
 		size0     = n0->m_key.getSize    ( );
 		ptr0      = n0->m_key.getOffset  ( );
  		occupied0 = n0->m_key.inUse      ( );
-		//log("prev node ptr=%"INT32" size=%"INT32" occ=%"INT32"",
+		//log("prev node ptr=%" INT32 " size=%" INT32 " occ=%" INT32 "",
 		//    (int32_t)ptr0,size0,(int32_t)occupied0);
 	}
 
@@ -263,11 +262,11 @@ bool MemPool::gbfree ( void *data ) {
 		size1     = n1->m_key.getSize   ( );
 		ptr1      = n1->m_key.getOffset ( );
 		occupied1 = n1->m_key.inUse     ( );
-		//log("post node ptr=%"INT32" size=%"INT32" occ=%"INT32"",
+		//log("post node ptr=%" INT32 " size=%" INT32 " occ=%" INT32 "",
 		//    (int32_t)ptr1,size1,(int32_t)occupied1);
 	}
 	// debug msg
-	//log ("free rm ptr=%"INT32" size=%"INT32"", (int32_t)ptr , size );
+	//log ("free rm ptr=%" INT32 " size=%" INT32 "", (int32_t)ptr , size );
 
 	// remove node from both subtrees
 	m_tree.deleteNode     ( n );
@@ -312,7 +311,7 @@ bool MemPool::gbfree ( void *data ) {
 	if ( newPtr + newSize == m_top ) m_top = newPtr;
 
 	// debug msg
-	//log("combined node ptr=%"INT32" size=%"INT32"",(int32_t)newPtr,newSize);
+	//log("combined node ptr=%" INT32 " size=%" INT32 "",(int32_t)newPtr,newSize);
 
 	// add the new combined offset node
 	if ( ! m_tree.addOffsetNode ( newPtr , newSize , false ) )

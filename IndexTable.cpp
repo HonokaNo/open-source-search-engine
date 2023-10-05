@@ -279,7 +279,7 @@ void IndexTable::setScoreWeights ( Query *q , bool phrases ) {
 		// it can be multiplied by up to 256 (the term count)
 		int64_t max = 0x7fffffff / 256;
 		if ( w > max ) {
-		 log("query: Weight breech. Truncating to %"UINT64".",max);
+		 log("query: Weight breech. Truncating to %" UINT64 ".",max);
 			w = max;
 		}
 		m_scoreWeights[i] = w;
@@ -292,8 +292,8 @@ void IndexTable::setScoreWeights ( Query *q , bool phrases ) {
 			
 		// log it
 		if ( m_isDebug || g_conf.m_logDebugQuery )
-			logf(LOG_DEBUG,"query: [%"UINT32"] term #%"INT32" has freq=%"INT64" "
-			    "r1=%.3f r2=%.3f r3=%.3f r4=%.3f score weight=%"INT32"",
+			logf(LOG_DEBUG,"query: [%"U INT32 "] term #%" INT32 " has freq=%" INT64 " "
+			    "r1=%.3f r2=%.3f r3=%.3f r4=%.3f score weight=%" INT32 "",
 			     m_logstate,i,q->m_termFreqs[i],
 			     ratio1,ratio2,ratio3,ratio4,m_scoreWeights[i]);
 	}
@@ -362,7 +362,7 @@ void IndexTable::hashTopDocIds2 ( uint32_t  *maxDocId     ,
 		char *xx = NULL; *xx = 0; }
 	// debug msg
 	if ( m_isDebug || g_conf.m_logDebugQuery )
-		logf(LOG_DEBUG,"query: Hashing %"INT32" top docids2, [%"INT32", %"INT32")",
+		logf(LOG_DEBUG,"query: Hashing %" INT32 " top docids2, [%" INT32 ", %" INT32 ")",
 		     maxi-m_nexti,m_nexti,maxi);
 	int32_t nn;
 	// we use a score of 0 to denote docid blocks
@@ -482,7 +482,7 @@ bool IndexTable::alloc (IndexList lists[MAX_TIERS][MAX_QUERY_TERMS],
 		// set it
 		m_bigBufSize = need;
 		if ( ! m_bigBuf ) {
-			log("query: Could not allocate %"INT64" for query "
+			log("query: Could not allocate %" INT64 " for query "
 			    "resolution.",need);
 			return false;
 		}
@@ -494,7 +494,7 @@ bool IndexTable::alloc (IndexList lists[MAX_TIERS][MAX_QUERY_TERMS],
 		// do it
 		m_bufSize = need;
 		m_buf = (char *) mmalloc ( m_bufSize , "IndexTable" );
-		if ( ! m_buf ) return log("query: Table alloc(%"INT64")"
+		if ( ! m_buf ) return log("query: Table alloc(%" INT64 ")"
 					  ": %s",need,mstrerror(g_errno));
 		// save it for error checking
 		m_bufMiddle = m_buf + off;
@@ -534,7 +534,7 @@ bool IndexTable::alloc (IndexList lists[MAX_TIERS][MAX_QUERY_TERMS],
 			min += lists[j][m_imap[i]].getListSize() / 6 ;
 
 	// debug msg
-	//log("minSize = %"INT32" docids q=%s",min,m_q->m_orig);
+	//log("minSize = %" INT32 " docids q=%s",min,m_q->m_orig);
 
 	// now add in space for m_topDocIdPtrs2 (holds winners of a
 	// 2 list intersection (more than 2 lists if we have phrases) [imap]
@@ -548,7 +548,7 @@ bool IndexTable::alloc (IndexList lists[MAX_TIERS][MAX_QUERY_TERMS],
 	// do it
 	m_bufSize = need;
 	m_buf = (char *) mmalloc ( m_bufSize , "IndexTable" );
-	if ( ! m_buf ) return log("query: table alloc(%"INT64"): %s",
+	if ( ! m_buf ) return log("query: table alloc(%" INT64 "): %s",
 				  need,mstrerror(g_errno));
 
 	// save it for error checking
@@ -874,7 +874,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 	//   be the same as the previous call
 	if ( numTiers < m_numTiers  ||  numTiers > m_numTiers + 1 )
 		log(LOG_LOGIC,"query: indextable: Bad number of tiers."
-			      " %"INT32" vs. %"INT32"", numTiers, m_numTiers );
+			      " %" INT32 " vs. %" INT32 "", numTiers, m_numTiers );
 	else if ( numTiers == m_numTiers + 1 )
 		m_numTiers++;
 
@@ -1188,7 +1188,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 							log(LOG_LOGIC,
 							    "query: Got "
 							    "indextable "
-							    "breech. np=%"INT32"",
+							    "breech. np=%" INT32 "",
 							    numPtrs);
 						pflag = 1;
 						break;
@@ -1215,8 +1215,8 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 	// time the gbsorting for the datelists
 	if ( m_isDebug || g_conf.m_logDebugQuery ) {
 		int64_t t2 = gettimeofdayInMilliseconds();
-		logf(LOG_DEBUG,"query: Took %"INT64" ms to prepare list ptrs. "
-		     "numDocIds=%"UINT32" numSorts=%"INT32"",
+		logf(LOG_DEBUG,"query: Took %" INT64 " ms to prepare list ptrs. "
+		     "numDocIds=%"U INT32 " numSorts=%" INT32 "",
 		     t2 - t1 , numDocIds , numSorts );
 	}
 
@@ -1480,7 +1480,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 			unsigned char ss = (unsigned char)ptrs[i][5];
 			int32_t sss = scoreTablePtr[ss];
 			logf(LOG_DEBUG,
-			     "nt=%"INT32" i=%"INT32" max=%"UINT64" sc=%hhu sc2=%"UINT32" d=%"UINT64"",
+			     "nt=%" INT32 " i=%" INT32 " max=%" UINT64 " sc=%hhu sc2=%"U INT32 " d=%" UINT64 "",
 			    (int32_t)numTiers,
 			    (int32_t)i,
 			    (int64_t)(((int64_t)maxDocId)<<6) | 0x3fLL, 
@@ -1545,8 +1545,8 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 			}
 		advance:
 			// debug msg
-			//log("added score=%05"INT32" totalscore=%05"INT32" to "
-			//    "slotnum=%04"INT32" ptrList=%"INT32"",
+			//log("added score=%05" INT32 " totalscore=%05" INT32 " to "
+			//    "slotnum=%04" INT32 " ptrList=%" INT32 "",
 			//    scoreTablePtr[((unsigned char)ptrs[i][5])],
 			//    scores[nn],nn,i);
 			// advance ptr to point to next score/docid 6 bytes
@@ -1589,7 +1589,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 			//gbmemcpy ( &dd , ptrs[i] , 6 );
 			//dd >>= 2;
 			//dd &= DOCID_MASK;
-			//fprintf(stderr,"got dup score for docid=%"INT64"\n",dd);
+			//fprintf(stderr,"got dup score for docid=%" INT64 "\n",dd);
 			if ( ! useDateLists ) goto advance;
 			else if(sortByDate)   goto dateAdvance;
 			else                  goto dateAdvance1;			
@@ -1641,7 +1641,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 	// and then hack it for good measure
 	downStep >>= 1;
 	// sanity test, log if not sane
-	//log(LOG_LOGIC,"query: last=%"UINT32" downstep=%"UINT32" max=%"UINT32"",
+	//log(LOG_LOGIC,"query: last=%"U INT32 " downstep=%"U INT32 " max=%"U INT32 "",
 	//    lastMaxDocId,downStep,maxDocId);
 	// debug msg
 	//log("panicking");
@@ -1652,14 +1652,14 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 	// . TODO: look into this more
 	if ( downStep == 0 || downStep >= maxDocId ) {
 		log(LOG_LOGIC,"query: indextable: Major panic. "
-		    "downstep=%"UINT32" maxDocId=%"UINT32" numPanics=%"INT32"",
+		    "downstep=%"U INT32 " maxDocId=%"U INT32 " numPanics=%" INT32 "",
 		    downStep,maxDocId,m_numPanics);
 		goto done;
 	}
 	// why is this still maxed out after a panic?
 	if ( maxDocId == 0xffffffff && m_numPanics > 1 ) {
 		log(LOG_LOGIC,"query: indextable: Logic panic. "
-		    "downstep=%"UINT32" maxDocId=%"UINT32" numPanics=%"INT32"",
+		    "downstep=%"U INT32 " maxDocId=%"U INT32 " numPanics=%" INT32 "",
 		    downStep,maxDocId,m_numPanics);
 		goto done;
 	}
@@ -1718,7 +1718,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 	}
 	if ( m_isDebug || g_conf.m_logDebugQuery )
 		logf(LOG_DEBUG,"query: indextable: Rolled back over "
-		     "%"INT32" docids.",j);
+		     "%" INT32 " docids.",j);
 	// try to fit all docids into it from the beginning
 	goto top;
 
@@ -1817,7 +1817,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 			if ( hardCounts[i] < minHardCount ) {
 				docIdPtrs[i] = NULL; continue; }
 			// mark it
-			//log("adding %"INT32"",newTopDocIds2);
+			//log("adding %" INT32 "",newTopDocIds2);
 			// sanity check
 			if ( newTopDocIds2 >= m_maxTopDocIds2 ) {
 				log(LOG_LOGIC,"query: bad newTopDocIds2.");
@@ -1981,13 +1981,13 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 		// debug msg
 		/*
 		if ( weakest >= 0 ) 
-			log("bscore=%04"UINT32" score=%04"INT32" topp+1=%08"XINT32" "
+			log("bscore=%04"U INT32 " score=%04" INT32 " topp+1=%08"X INT32 " "
 			"replacing "
-			     "#%02"INT32" bscore=%04"UINT32" score=%04"INT32" topp+1=%08"XINT32"",
+			     "#%02" INT32 " bscore=%04"U INT32 " score=%04" INT32 " topp+1=%08"X INT32 "",
 			     bscore,scores[i],*(int32_t *)(docIdPtrs[i]+1),
 			     j,topb[j],tops[j],*(int32_t *)(topp[j]+1));
 		else
-		       log("bscore=%04"UINT32" score=%04"INT32" topp+1=%08"XINT32" adding #%"INT32"",
+		       log("bscore=%04"U INT32 " score=%04" INT32 " topp+1=%08"X INT32 " adding #%" INT32 "",
 			   bscore,scores[i],*(int32_t *)(docIdPtrs[i]+1),j);
 		*/
 		//  now we got in the top
@@ -2005,7 +2005,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 		docIdPtrs[i] = NULL;
 
 		// debug msg
-		//log("added #%"INT32" docid = %"UINT64"  minPtr=%"UINT32"",
+		//log("added #%" INT32 " docid = %" UINT64 "  minPtr=%"U INT32 "",
 		//j,topd[j],(int32_t)minPtr);
 		// don't get new weakest parms if we're still under limit
 		if ( numTopDocIds >= docsWanted ) 
@@ -2043,7 +2043,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 			// and replace him...
 			lastGuy = lastGuy2;
 		}
-		//log("adding marker %"INT32"",newTopDocIds2);
+		//log("adding marker %" INT32 "",newTopDocIds2);
 		// overwrite last entry if no actual docids were added since
 		// then, this allows us to save memory and fixes the seg fault
 		//if ( newTopDocIds2 > 0 && 
@@ -2069,8 +2069,8 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
                 // that because we have a lot of slots in the hash table
                 //char *qq = "";
                 //if ( m_q && m_q->m_orig && m_q->m_orig[0] ) qq = m_q->m_orig;
-                log(LOG_INFO,"query: Got %"INT32" panics. Using small steps of "
-                    "%"INT32"",m_numPanics,downStep);
+                log(LOG_INFO,"query: Got %" INT32 " panics. Using small steps of "
+                    "%" INT32 "",m_numPanics,downStep);
                 // set step to downStep, otherwise, maxDocId will not be
                 // able to be decreased close to within lastMaxDocId because
                 // it is only decremented by downStep above, but
@@ -2083,7 +2083,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 	//	printed = m_numPanics;
 	//	// only print every 20 panics
 	//	if ( (printed % 20) == 0 )
-	//		log(LOG_INFO,"query: Got %"INT32" panics.",m_numPanics);
+	//		log(LOG_INFO,"query: Got %" INT32 " panics.",m_numPanics);
 	//}
         //downStep = step;
 	//#endif
@@ -2211,7 +2211,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 			// bit score
 			topb[mini] = bscore ;
 			// debug msg
-			//log("d=%"INT64" takes slot #%"INT32" (score=%"INT32" bscore=%"UINT32")",
+			//log("d=%" INT64 " takes slot #%" INT32 " (score=%" INT32 " bscore=%"U INT32 ")",
 			//    topd[mini],mini,tops[mini],(int32_t)topb[mini]);
 			// . save number of terms we have EXplicitly
 			// . used 4 tier integration code in filterTopDocIds()
@@ -2240,7 +2240,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 				minp = topp[j];
 				mini = j; 
 			}
-			//log("mini=%"INT32" minb=%"INT32" mins=%"INT32" mind=%"INT64"",
+			//log("mini=%" INT32 " minb=%" INT32 " mins=%" INT32 " mind=%" INT64 "",
 			//    mini,(int32_t)minb,(int32_t)mins,(int64_t )mind);
 		}
 		// how many top docids do we have? don't exceed "docsWanted"
@@ -2439,7 +2439,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 		// TODO: move this alloc into the TopTree allocation?
 		buf = (char *)mmalloc ( bufSize , "Msg39" );
 		if ( ! buf ) {
-			log("query: Hash alloc of %"INT32" failed.",
+			log("query: Hash alloc of %" INT32 " failed.",
 			    bufSize);
 			return;
 		}
@@ -2456,7 +2456,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 		if ( ! dedup ) goto skip2;
 		// get his docid
 		d = t->getDocId();
-		//log("deduping d=%"UINT64"",d);
+		//log("deduping d=%" UINT64 "",d);
 		// dedup him in the hash table
 		h = (uint32_t)d % numBuckets;
 		while ( htable[h] && htable[h] != d )
@@ -2464,7 +2464,7 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 		// if got one, its a dup
 		if ( htable[h] ) {
 			// debug
-			//log("%"UINT64" is a dup",d);
+			//log("%" UINT64 " is a dup",d);
 			// give site/content hash info to it
 			// to save Msg38 a look up
 			if ( t->m_siteHash ) {
@@ -2508,15 +2508,15 @@ void IndexTable::addLists2_r ( IndexList  lists[MAX_TIERS][MAX_QUERY_TERMS] ,
 	//if ( ! m_isDebug && ! g_conf.m_logDebugQuery ) return;
 	if ( ! m_isDebug && ! g_conf.m_logDebugQuery ) return;
 	// force log it cuz m_isDebug might be true
-	logf(LOG_DEBUG,"query: indextable: Tier %"INT32" has %"INT32" deduped explicit "
-	     "matches. dedup=%"INT32"",  (int32_t)tier,  explicitCount, dedup);
-	logf(LOG_DEBUG,"query: indextable: Tier %"INT32" has %"INT32" deduped implicit "
+	logf(LOG_DEBUG,"query: indextable: Tier %" INT32 " has %" INT32 " deduped explicit "
+	     "matches. dedup=%" INT32 "",  (int32_t)tier,  explicitCount, dedup);
+	logf(LOG_DEBUG,"query: indextable: Tier %" INT32 " has %" INT32 " deduped implicit "
 	     "matches.",(int32_t)tier,implicitCount);
 	for ( int32_t ti = m_topTree->getHighNode() ; ti >= 0 ; 
 	      ti = m_topTree->getPrev(ti) ) {
 		TopNode *t = &m_topTree->m_nodes[ti];
-		logf(LOG_DEBUG,"query: indextable: [%"UINT32"] %03"INT32") docId=%012"UINT64" "
-		    "sum=%"INT32" tier=%"UINT32" bs=0x%hhx cl=%"INT32"",
+		logf(LOG_DEBUG,"query: indextable: [%"U INT32 "] %03" INT32 ") docId=%012" UINT64 " "
+		    "sum=%" INT32 " tier=%"U INT32 " bs=0x%hhx cl=%" INT32 "",
 		    m_logstate,
 		    count++ ,
 		    t->getDocId() ,
@@ -2533,8 +2533,8 @@ skip:
 	if ( m_isDebug || g_conf.m_logDebugQuery ) {
 		for ( int32_t j = m_numTiers-1 ; j < m_numTiers ; j++ ) {
 			// force log it even if debug turned off
-		       logf(LOG_DEBUG,"query: indextable: [%"UINT32"] tier #%"INT32" has "
-			    "%"INT32" top docIds and %"INT32" exact explicit matches. "
+		       logf(LOG_DEBUG,"query: indextable: [%"U INT32 "] tier #%" INT32 " has "
+			    "%" INT32 " top docIds and %" INT32 " exact explicit matches. "
 			    "Note: not all explicit matches may have scores "
 			    "high enough to be in this list of winners:",
 			    m_logstate,
@@ -2542,9 +2542,9 @@ skip:
 			    m_numTopDocIds[j], 
 			    m_numExactExplicitMatches[j]) ;
 			for ( int32_t i = 0 ; i < m_numTopDocIds[j]; i++) 
-				logf(LOG_DEBUG,"query: indextable: [%"UINT32"] "
-				     "%03"INT32") docId=%012"UINT64" "
-				    "sum=%"INT32" imb=%"UINT32" [%"UINT32"] exb=%"INT32"",
+				logf(LOG_DEBUG,"query: indextable: [%"U INT32 "] "
+				     "%03" INT32 ") docId=%012" UINT64 " "
+				    "sum=%" INT32 " imb=%"U INT32 " [%"U INT32 "] exb=%" INT32 "",
 				    m_logstate,
 				    i,
 				    m_topDocIds    [j][i] ,
@@ -2685,9 +2685,9 @@ skip:
 		     "is a bitmap. See Query.cpp::setBitScore to see where "
 		     "those bits are defined.");
 		for ( int32_t i = 0 ; i < nn ; i++) 
-			logf(LOG_DEBUG,"query: indextable: [%"UINT32"] %03"INT32") final "
-			     "docId=%012"UINT64" "
-			    "sum=%"INT32" imb=%"UINT32" [0x%"XINT32"] exb=%"INT32" tier=%"INT32"",
+			logf(LOG_DEBUG,"query: indextable: [%"U INT32 "] %03" INT32 ") final "
+			     "docId=%012" UINT64 " "
+			    "sum=%" INT32 " imb=%"U INT32 " [0x%"X INT32 "] exb=%" INT32 " tier=%" INT32 "",
 			    m_logstate,
 			    i,
 			    topd [i] ,
@@ -2735,9 +2735,9 @@ skip:
 	if ( nf < min ) {
 		//errno = EBADENGINEER;
 		//log("IndexTable::getTopDocIds: bad engineer. "
-		//     "nf=%"INT32" ntd[%"INT32"]=%"INT32"",
+		//     "nf=%" INT32 " ntd[%" INT32 "]=%" INT32 "",
 		//     nf,m_numTiers-1,m_numTopDocIds[m_numTiers-1]);
-		log("query: Got %"INT32" duplicate docids.",min - nf );
+		log("query: Got %" INT32 " duplicate docids.",min - nf );
 		//sleep(50000);
 		// just count as an error for now
 		//return NULL;

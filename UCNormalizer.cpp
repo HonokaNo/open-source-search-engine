@@ -37,7 +37,7 @@ int32_t ucNormalizeNFKC(UChar *outBuf, int32_t outBufSize,
 	//printf("new p: %d\n", p - inBuf);
 	int32_t plen = p - inBuf + inBufSize; 
 	int32_t ilen = i - outBuf + outBufSize; 
-	//log("UCNormalizer: Actually normalizing %"INT32" chars", inBufSize);
+	//log("UCNormalizer: Actually normalizing %" INT32 " chars", inBufSize);
 	int32_t decompLen = decompose(i, ilen, p, plen);
 #endif
 	int32_t decompLen = decompose(outBuf, outBufSize, inBuf, inBufSize, true);
@@ -152,7 +152,7 @@ bool initCompositionTable(){
 				//return
 				log(LOG_WARN, "conf: "
 				    "UCNormalizer: bad canonical "
-				    "decomposition for %04"XINT32" (count: %"INT32")", 
+				    "decomposition for %04" XINT32 " (count: %" INT32 ")", 
 				    i, mapCount);
 				continue;
 			}

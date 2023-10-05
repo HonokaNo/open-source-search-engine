@@ -238,7 +238,7 @@ bool Vector::setPairHashes ( Words *words, int32_t linkWordNum, int32_t niceness
 			ttt[len] = '\0';
 			uint32_t hh = h;
 			if ( lastHash && h != lastHash ) hh = h ^ lastHash;
-			log ("vec hash %"INT32" %s = %"UINT32" [%"UINT32"]",
+			log ("vec hash %" INT32 " %s = %"U INT32 " [%"U INT32 "]",
 			     nh-1,ttt,h,hh);
 		}
 		*/

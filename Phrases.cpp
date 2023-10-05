@@ -397,7 +397,7 @@ void Phrases::setPhrase ( int32_t i, int32_t niceness ) {
 	//int32_t  wlen = m_words->getWordLen(i) ; 
 	//for ( int32_t k = 0 ; k < wlen ; k++ )
 	//	fprintf(stderr,"%c",w[k]);
-	//fprintf(stderr,"--> hash=%"UINT64"\n",(uint64_t)h);
+	//fprintf(stderr,"--> hash=%" UINT64 "\n",(uint64_t)h);
 }
 
 // . store phrase that starts with word #i into "printBuf"

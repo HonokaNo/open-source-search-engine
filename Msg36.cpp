@@ -92,8 +92,8 @@ bool Msg36::getTermFreq ( collnum_t collnum , // char      *coll       ,
 	//groupId = g_indexdb.getNoSplitGroupId(&key);
 	uint32_t shardNum = getShardNum ( RDB_POSDB , &key );
 	
-	log(LOG_DEBUG,"quota: msg36 termid=%"INT64" inc=%"INT32" dec=%"INT32" "
-	    "sending to shard=%"INT32"\n",termId,(int32_t)incCount,(int32_t)decCount,
+	log(LOG_DEBUG,"quota: msg36 termid=%" INT64 " inc=%" INT32 " dec=%" INT32 " "
+	    "sending to shard=%" INT32 "\n",termId,(int32_t)incCount,(int32_t)decCount,
 	    (int32_t)shardNum);
 
 		//uint32_t groupId = g_indexdb.getBaseGroupId(&key);
@@ -289,7 +289,7 @@ void Msg36::gotReply ( ) {
 	// since we are now forcing, multiply
 	if ( semiExact && g_hostdb.m_indexSplits > 1 )
 		m_termFreq *= g_hostdb.m_indexSplits;
-	//log(LOG_WARN,"msg36: term freq is %"INT32"",m_termFreq);
+	//log(LOG_WARN,"msg36: term freq is %" INT32 "",m_termFreq);
 }
 
 class State36 {
@@ -324,7 +324,7 @@ void handleRequest36 ( UdpSlot *slot , int32_t netnice ) {
 
         // ensure it's size
         if ( requestSize <= 9 ) {
-		log("query: Got bad request size of %"INT32" for term frequency.",
+		log("query: Got bad request size of %" INT32 " for term frequency.",
 		    requestSize);
                 g_udpServer.sendErrorReply ( slot , EBADREQUESTSIZE ); 
 		return;
@@ -418,8 +418,8 @@ void handleRequest36 ( UdpSlot *slot , int32_t netnice ) {
 	// set to -1 if not in cache at all
 	else           count = -1;
 
-	log(LOG_DEBUG,"quota: msg36: got cached quota for termid=%"UINT64" "
-	    "count=%"INT64" collnum=%"INT32" inc=%"INT32" dec=%"INT32" in g_qtable.",
+	log(LOG_DEBUG,"quota: msg36: got cached quota for termid=%" UINT64 " "
+	    "count=%" INT64 " collnum=%" INT32 " inc=%" INT32 " dec=%" INT32 " in g_qtable.",
 	    (int64_t)termId,count,(int32_t)collnum,(int32_t)incCount,
 	    (int32_t)decCount);
 
@@ -433,7 +433,7 @@ void handleRequest36 ( UdpSlot *slot , int32_t netnice ) {
 		if ( decCount ) count--;
 		if ( incCount || decCount ) {
 			//log(LOG_DEBUG,"build: adding quota to table for "
-			//    "termId %"UINT64". newcount=%"INT64".",termId, count);
+			//    "termId %" UINT64 ". newcount=%" INT64 ".",termId, count);
 			//g_qtable.addLongLong(collnum,termId,count);
 			// to prevent cache churn, just set it directly now.
 			// because of a ton of "backoffs" from Msg13, we often
@@ -462,7 +462,7 @@ void handleRequest36 ( UdpSlot *slot , int32_t netnice ) {
 	//   will call gotReplyToSendFromRequestTable() for each person
 	//   waiting in line
 	if ( nr >= 2 ) {
-		log(LOG_DEBUG,"quota: Waiting in line for termid=%"UINT64"",termId);
+		log(LOG_DEBUG,"quota: Waiting in line for termid=%" UINT64 "",termId);
 		return;
 	}
 
@@ -471,7 +471,7 @@ void handleRequest36 ( UdpSlot *slot , int32_t netnice ) {
 	try { st = new (State36); }
 	catch ( ... ) {
 		g_errno = ENOMEM;
-		log("quota: msg36: could not allocate %"INT32" bytes for state. "
+		log("quota: msg36: could not allocate %" INT32 " bytes for state. "
 		    ,(int32_t)sizeof(State36));
 		// at this point we should not have anyone waiting in line
 		// because we are the first, so just send an error reply back
@@ -490,8 +490,8 @@ void handleRequest36 ( UdpSlot *slot , int32_t netnice ) {
 	st->m_recPtr      = NULL;
 	st->m_niceness    = niceness;
 
-	log(LOG_DEBUG,"quota: msg36: getting list for termid=%"UINT64" "//cnt=%"INT32" "
-	    "collnum=%"INT32" in g_qtable.",(int64_t)termId,//(int32_t)count,
+	log(LOG_DEBUG,"quota: msg36: getting list for termid=%" UINT64 " "//cnt=%" INT32 " "
+	    "collnum=%" INT32 " in g_qtable.",(int64_t)termId,//(int32_t)count,
 	    (int32_t)collnum);
 
 	// establish the list boundary keys
@@ -558,7 +558,7 @@ void gotListWrapper ( void *state , RdbList *list , Msg5 *msg5 ) {
 	//fixing the problem of the list being more than the MRS
 	if ( st->m_list.m_listSize >= MRS ) {
 		/*log(LOG_LOGIC,
-		    "build: Term List is greater than %"INT32", getting more from "
+		    "build: Term List is greater than %" INT32 ", getting more from "
 		    "disk.", MRS);*/
 		//no need to check for special case of list=0
 		char *lastKeyPtr = st->m_list.m_listEnd - 6;
@@ -616,7 +616,7 @@ void gotReplyRequestTableServerEnd ( char *reply  , int32_t replySize ,
 	// return on any error
 	if ( g_errno ) {
 		log(LOG_DEBUG,"quota: msg36: sending error reply for "
-		    "termid=%"UINT64" err=%s",st->m_termId,mstrerror(g_errno));
+		    "termid=%" UINT64 " err=%s",st->m_termId,mstrerror(g_errno));
 		g_udpServer.sendErrorReply ( slot , g_errno );
 		return;
 	}
@@ -640,7 +640,7 @@ void gotReplyRequestTableServerEnd ( char *reply  , int32_t replySize ,
 	// set the reply to this new value
 	*(int64_t *)reply = *countPtr;
 
-	log(LOG_DEBUG,"quota: msg36: sending reply for termid=%"UINT64" count=%"INT64"",
+	log(LOG_DEBUG,"quota: msg36: sending reply for termid=%" UINT64 " count=%" INT64 "",
 	    st->m_termId,(int64_t)*countPtr);
 
 	// send back the reply

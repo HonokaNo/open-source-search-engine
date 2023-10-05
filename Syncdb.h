@@ -129,7 +129,7 @@
 //   this. 
 // . use Msg55 to sync a host whose twins are actively spidering. copies
 //   the rdb files over. suspends all merging operations on files.
-// . get rid of gb replacehost ("replacehost=1&rhost=%"INT32"&rspare=%"INT32"")
+// . get rid of gb replacehost ("replacehost=1&rhost=%" INT32 "&rspare=%" INT32 "")
 //   and have a "replace dead hosts" blue link in master controls.
 //   and have an 'automatically replace dead hosts' link in master controls.
 

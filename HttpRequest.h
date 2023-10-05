@@ -183,9 +183,13 @@ class HttpRequest {
 	// get the ith cgi parameter name, return NULL if none
 	int32_t  getNumFields   ( ) { return m_numFields; };
 	char *getField    ( int32_t i ) {
-		if ( i >= m_numFields ) return NULL; return m_fields[i]; };
+		if ( i >= m_numFields ) return NULL;
+		return m_fields[i];
+	};
 	int32_t  getFieldLen ( int32_t i ) {
-		if ( i >= m_numFields ) return 0   ; return m_fieldLens[i]; };
+		if ( i >= m_numFields ) return 0;
+		return m_fieldLens[i];
+	};
 
 	// . s is a cgi string
 	// . either the stuff after the '?' in a url

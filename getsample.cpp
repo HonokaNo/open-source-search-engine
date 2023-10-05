@@ -74,7 +74,7 @@ bool hashinit () {
 	// bail if we already called this
 	if ( s_initialized ) return true;
 	// show RAND_MAX
-	//printf("RAND_MAX = %"UINT32"\n", RAND_MAX ); it's 0x7fffffff
+	//printf("RAND_MAX = %"U INT32 "\n", RAND_MAX ); it's 0x7fffffff
 	// seed with same value so we get same rand sequence for all
 	srand ( 1945687 );
 	for ( int32_t i = 0 ; i < 256 ; i++ )
@@ -360,10 +360,10 @@ usage:
 		int32_t year = timeInfo->tm_year;
 		if (year > 100 )
 			year -= 100;
-		sprintf(g_getSample.m_hour,"%02"INT32"",timeInfo->tm_hour);
-		sprintf(g_getSample.m_day,"%02"INT32"",timeInfo->tm_mday);
-		sprintf(g_getSample.m_month,"%02"INT32"",timeInfo->tm_mon+1);
-		sprintf(g_getSample.m_year,"%02"INT32"",year);
+		sprintf(g_getSample.m_hour,"%02" INT32 "",timeInfo->tm_hour);
+		sprintf(g_getSample.m_day,"%02" INT32 "",timeInfo->tm_mday);
+		sprintf(g_getSample.m_month,"%02" INT32 "",timeInfo->tm_mon+1);
+		sprintf(g_getSample.m_year,"%02" INT32 "",year);
 	}
 	else{
 		if (gbstrlen(argv[argc-1]) != 8){
