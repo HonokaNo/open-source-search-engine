@@ -228,6 +228,7 @@ bool Msg7::sendInjectionRequestToHost ( InjectionRequest *ir ,
 		g_errno = EURLTOOBIG;
 		return log("inject: url too big.");
 	}
+	log("ir->ptr_url:%s", ir->ptr_url);
 
 	// hack fix core
 	if ( ir->size_metadata == 0 ) ir->ptr_metadata = NULL;
@@ -241,6 +242,10 @@ bool Msg7::sendInjectionRequestToHost ( InjectionRequest *ir ,
 	// oom?
 	if ( ! sir ) 
 		return log("inject: failed to serialize request");
+
+	log("ir->ptr_url:%s", ir->ptr_url);
+	log("sir:%s", sir);
+	log("sirSize:%d", sirSize);
 
 	// free any old one if we are being reused
 	if ( m_sir ) {

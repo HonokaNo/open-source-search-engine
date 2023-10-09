@@ -5122,27 +5122,11 @@ bool printHtmlHeader ( SafeBuf &sb , char *title , bool printPrimaryDiv ,
 	char *spacer = "";
 	if ( title[0] ) spacer = " | ";
 
-	sb.safePrintf ( //"<html>"
-		       // without this msie goes into quirks mode and
-		       // does not like the div position:fixed; so
-		       // needLogin() is unable to popup the "you need to
-		       // login to facebook" msg. also without this msie
-		       // renders the thumbs up/down on the line below
-		       // the event title.
-		       // BUT with this we lose the radial halo gradient
-		       // on chrome for some reason... but ff works, and
-		       // msie does not work..
-		       //"<!doctype html>" // i guess this is html 5.0
+	sb.safePrintf ( 
 		       "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML "
 		       "4.01 Transitional//EN\" \"http://www.w3.org/"
 		       "TR/html4/loose.dtd\">"
 
-		        //"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML "
-		        //"1.0 Strict//EN\" \"http://www.w3.org/TR/"
-		        //"xhtml1/DTD/xhtml1-strict.dtd\">"
-
-		        //"<html xmlns=\"http://www.w3.org/1999/xhtml\" "
-		        //"lang=\"en\" int16_ttag=\"yes\">"
 		        "<html>"
 		       );
 
@@ -18083,8 +18067,6 @@ public:
 	HttpRequest m_hr;
 };
 
-static bool sendPageAbout2 ( State3 *st3 );
-
 static void gotUserInfoWrapper2 ( void *state ) {
 	State3 *st3 = (State3 *)state;
 	sendPageAbout2 ( st3 );
@@ -18102,56 +18084,6 @@ static void gotUserInfoWrapper2 ( void *state ) {
 #define PAGE_API      8
 #define PAGE_WIDGET   9
 #define PAGE_FRIENDS  10
-
-// path is /about.html or /blog.html
-bool sendPageAbout ( TcpSocket *s , HttpRequest *r , char *path ) {
-	// make a new state
-	State3 *st3;
-	try { st3 = new (State3); }
-	catch ( ... ) { 
-		g_errno = ENOMEM;
-		log("PageAbout: new(%i): %s", 
-		    sizeof(State3),mstrerror(g_errno));
-		return g_httpServer.sendErrorReply(s,500,mstrerror(g_errno)); }
-	mnew ( st3 , sizeof(State3) , "PageAbout" );
-
-	// hide it in here
-	st3->m_socket = s;
-
-	st3->m_hr.copy ( r );
-
-	int32_t pathLen = gbstrlen(path);
-	char page = 0;
-	if ( ! strncmp(path,"/blog.html",pathLen   ) ) page = PAGE_BLOG;
-	if ( ! strncmp(path,"/about.html",pathLen  ) ) page = PAGE_ABOUT;
-	if ( ! strncmp(path,"/privacy.html",pathLen) ) page = PAGE_PRIVACY;
-	if ( ! strncmp(path,"/terms.html",pathLen  ) ) page = PAGE_TERMS;
-	if ( ! strncmp(path,"/spider.html",pathLen ) ) page = PAGE_SPIDER;
-	if ( ! strncmp(path,"/widget.html",pathLen ) ) page = PAGE_WIDGET;
-	if ( ! strncmp(path,"/friends.html",pathLen) ) page = PAGE_FRIENDS;
-	if ( ! strncmp(path,"/bio.html",pathLen    ) ) page = PAGE_BIO;
-	if ( ! strncmp(path,"/help.html",pathLen   ) ) page = PAGE_HELP;
-	if ( ! strncmp(path,"/api.html",pathLen    ) ) page = PAGE_API;
-	if ( ! page ) page = PAGE_ABOUT;
-	st3->m_pageNum = page;
-
-
-	char *coll = r->getString("c",NULL);
-	if ( ! coll ) coll = g_conf.m_defaultColl;
-	// . what friend ids have liked/attended events
-	// . their facebook id should be in the cookie once they login
-	if ( ! st3->m_msgfb.getFacebookUserInfo ( &st3->m_hr ,
-						  st3->m_socket,
-						  coll,
-						  st3 ,
-						  "", // redirPath
-						  gotUserInfoWrapper2 ,
-						  0 )) // niceness
-		// return false if we blocked
-		return false;
-
-	return sendPageAbout2 ( st3 );
-}
 
 
 bool sendPageAbout2 ( State3 *st3 ) {

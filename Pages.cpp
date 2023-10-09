@@ -101,12 +101,14 @@ static WebPage s_pages[] = {
 	 sendPageLogin, 0 ,NULL,NULL,
 	  PG_NOAPI|PG_ACTIVE},
 
+	#if 0
 	{ PAGE_DIRECTORY , "dir"           , 0 , "directory" , 0 , 0 ,
 	  //USER_PUBLIC | USER_MASTER | USER_ADMIN | USER_CLIENT, 
 	  "directory",
 	  // until api is ready, take this out of the menu
 	  sendPageDirectory , 0 ,NULL,NULL,
 	  PG_NOAPI|PG_ACTIVE},
+	#endif
 
 	{ PAGE_REPORTSPAM , "reportspam"   , 0 , "report spam" , 0 , 0 ,
 	  //USER_PUBLIC | USER_MASTER | USER_ADMIN |  USER_PROXY | USER_CLIENT 
@@ -546,9 +548,9 @@ int32_t Pages::getDynamicPageNumber ( HttpRequest *r ) {
 	//
 	// dmoz - look it up for a category
 	//
-	if ( g_categories &&
-	     g_categories->getIndexFromPath(decodedPath, decodedPathLen) >= 0)
-		return PAGE_DIRECTORY;
+//	if ( g_categories &&
+//	     g_categories->getIndexFromPath(decodedPath, decodedPathLen) >= 0)
+//		return PAGE_DIRECTORY;
 	// just go to PAGE_DIRECTORY for other request
 	//return PAGE_DIRECTORY;
 	// not found in our list of dynamic page filenames
@@ -599,7 +601,7 @@ bool Pages::sendDynamicReply ( TcpSocket *s , HttpRequest *r , int32_t page ) {
 	if ( page == PAGE_ADDURL ) publicPage = true;
 	if ( page == PAGE_GET ) publicPage = true;
 	if ( page == PAGE_CRAWLBOT ) publicPage = true;
-	if ( page == PAGE_DIRECTORY ) publicPage = true;
+//	if ( page == PAGE_DIRECTORY ) publicPage = true;
 
 	// get our host
 	//Host *h = g_hostdb.m_myHost;

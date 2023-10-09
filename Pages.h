@@ -79,7 +79,7 @@ bool sendPageSearch2  ( TcpSocket *s , HttpRequest *r );
 bool sendPageAddUrl2  ( TcpSocket *s , HttpRequest *r );
 bool sendPageGeneric  ( TcpSocket *s , HttpRequest *r ); // in Parms.cpp
 bool sendPageCatdb    ( TcpSocket *s , HttpRequest *r );
-bool sendPageDirectory ( TcpSocket *s , HttpRequest *r );
+//bool sendPageDirectory ( TcpSocket *s , HttpRequest *r );
 bool sendPageSpamr     ( TcpSocket *s , HttpRequest *r );
 bool sendPageAutoban   ( TcpSocket *s , HttpRequest *r );
 //bool sendPageTopDocs   ( TcpSocket *s , HttpRequest *r );
@@ -330,7 +330,7 @@ enum {
 	PAGE_ADDURL      , // 5
 	PAGE_GET         ,
 	PAGE_LOGIN       ,
-	PAGE_DIRECTORY   ,
+//	PAGE_DIRECTORY   ,
 	PAGE_REPORTSPAM  ,
 	//PAGE_WORDVECTOR  ,
 

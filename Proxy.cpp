@@ -477,7 +477,7 @@ bool Proxy::handleRequest (TcpSocket *s){
 	//if ( n == PAGE_ROOT      ) handleIt = false;
 	if ( n == PAGE_GET       ) handleIt = false;
 	if ( n == PAGE_RESULTS   ) handleIt = false;
-	if ( n == PAGE_DIRECTORY ) handleIt = false;
+//	if ( n == PAGE_DIRECTORY ) handleIt = false;
 
 	// proxy now handles the shell addurl page, the actual request
 	// made by the ajax in the shell to add the url has a &id= in it
@@ -1277,7 +1277,7 @@ bool Proxy::forwardRequest ( StateControl *stC ) {
 	//
 	if ( //! stC->m_ch && 
 	     sendToNewEngine &&
-	     stC->m_pageNum != PAGE_DIRECTORY &&
+//	     stC->m_pageNum != PAGE_DIRECTORY &&
 	     ! g_isYippy ) {
 		dstIp = atoip("10.5.54.154",11);
 		dstPort = 9000; // udp (not dns)

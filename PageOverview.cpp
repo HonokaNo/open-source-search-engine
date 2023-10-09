@@ -16,14 +16,6 @@ bool sendPageOverview ( TcpSocket *s , HttpRequest *r ) {
 	SafeBuf sb;
 	g_pages.printAdminTop ( &sb , s , r );
 	//int32_t user = g_pages.getUserType ( s , r );
-	//sprintf ( p , 
-	//"<html> \n"
-	//"<title>Gigablast Admin Overview</title>\n"
-	//"\n"
-	//"<body text=#000000 bgcolor=#ffffff link=#000000 vlink=#000000 alink=#000000><style><!--body,td,a,p,.h{font-family:arial,sans-serif; font-size: 15px;}//--></style>\n"
-	//"\n" 
-	//		  );
-	//	p += gbstrlen ( p );
 	sb->safePrintf(
 		  //"<center><b><font color=red size=+3>Confidential</font></b></center>\n"
 "<center><b><font color=red>This Document is Confidential</font></b></center>\n"

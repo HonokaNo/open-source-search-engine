@@ -129,7 +129,7 @@ else
 # Use -Wpadded flag to indicate padded structures.
 #
 ## FIXME: update standards to "-std=c++11", see #164.
-CPPFLAGS = -g -Wall -pipe -fno-stack-protector -Wno-write-strings -Wstrict-aliasing=0 -Wno-uninitialized -DPTHREADS -Wno-unused-but-set-variable -std=c++11 -mtune=native -march=native -mfpmath=both $(STATIC)
+CPPFLAGS = -g -Wall -pipe -fno-stack-protector -Wno-write-strings -Wstrict-aliasing=0 -Wno-uninitialized -DPTHREADS -std=c++11 -mtune=native -march=native -mfpmath=both $(STATIC)
 #LIBS= -L. ./libssl.a ./libcrypto.a ./libiconv.a ./libm.a ./libstdc++.a -lpthread
 # apt-get install libssl-dev (to provide libssl and libcrypto)
 # to build static libiconv.a do a './configure --enable$(STATIC)' then 'make'
@@ -786,4 +786,3 @@ warcinjector:
 	-rm -r /home/zak/.pex/build/inject-*
 	-rm -r /home/zak/.pex/install/inject-*
 	cd script && pex -v . gevent gevent-socketio requests pyopenssl ndg-httpsclient pyasn1 multiprocessing -e inject -o warc-inject --inherit-path --no-wheel
-

@@ -10,6 +10,7 @@ bool printDirHomePage ( SafeBuf &sb , HttpRequest *r ) ;
 
 // . returns false if blocked, true otherwise
 // . sets g_errno on error
+#if 0
 bool sendPageDirectory ( TcpSocket *s , HttpRequest *r ) {
 	// get the collection
 	int32_t collLen = 0;
@@ -152,3 +153,4 @@ bool sendPageDirectory ( TcpSocket *s , HttpRequest *r ) {
 	// send the new request to PageResults
 	return sendPageResults(s, r);
 }
+#endif

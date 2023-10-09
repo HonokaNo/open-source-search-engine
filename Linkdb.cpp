@@ -1143,7 +1143,7 @@ bool Msg25::doReadLoop ( ) {
 		    ms,m_site,m_url,m_docId,KEYSTR(&startKey,LDBKS));
 	}
 
-        if ( g_process.m_mode == EXIT_MODE ) {
+    if ( g_process.m_mode == EXIT_MODE ) {
 		log("linkdb: shutting down. exiting link text loop.");
 		g_errno = ESHUTTINGDOWN;
 		return false;
@@ -4146,6 +4146,7 @@ Inlink *LinkInfo::getNextInlink ( Inlink *k ) {
 */
 
 Inlink *LinkInfo::getNextInlink ( Inlink *k ) {
+	if ( this == NULL ) return NULL;
 	// if none, return NULL
 	if ( m_numStoredInlinks == 0 ) return NULL;
 	// if k is NULL, return the first
@@ -7167,4 +7168,3 @@ int32_t getSiteRank ( int32_t sni ) {
 	//if ( sni <= 3120 ) return 15;
 	return 15;
 }
-
